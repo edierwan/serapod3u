@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { createSSRClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/client";
 import ListTab from "./components/tabs/ListTab";
 import DetailsTab from "./components/tabs/DetailsTab";
 import { Factory } from "lucide-react";
@@ -80,7 +80,7 @@ function ManufacturersPageClient({ manufacturers, currentUserRole }: Manufacture
 }
 
 export default async function ManufacturersPage() {
-  const supabase = createSSRClient();
+  const supabase = createClient();
 
   // Get current user role
   const { data: { user } } = await supabase.auth.getUser();

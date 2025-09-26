@@ -1,23 +1,54 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+// eslint.config.mjs
+import js from "@eslint/js";
+import tsPlugin from "@typescript-eslint/eslint-plugin";
+import tsParser from "@typescript-eslint/parser";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+export default [
+  js.configs.recommended,
   {
+    files: ["**/*.ts", "**/*.tsx"],
+    plugins: {
+      "@typescript-eslint": tsPlugin,
+    },
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: "latest",
+        sourceType: "module",
+      },
+      globals: {
+        // Browser globals
+        console: "readonly",
+        window: "readonly",
+        document: "readonly",
+        navigator: "readonly",
+        HTMLElement: "readonly",
+        HTMLInputElement: "readonly",
+        HTMLButtonElement: "readonly",
+        HTMLImageElement: "readonly",
+        FormData: "readonly",
+        File: "readonly",
+        confirm: "readonly",
+        // Node globals
+        process: "readonly",
+        Buffer: "readonly",
+        require: "readonly",
+        __dirname: "readonly",
+        // React globals
+        React: "readonly",
+        JSX: "readonly",
+      },
+    },
     rules: {
-      "@typescript-eslint/no-unused-vars": "error",
-      "@typescript-eslint/no-explicit-any": "warn",
-      "prefer-const": "error"
+      ...tsPlugin.configs.recommended.rules,
+      "@typescript-eslint/no-require-imports": "off",
     },
   },
+  {
+    files: ["next-env.d.ts"],
+    rules: {
+      "@typescript-eslint/triple-slash-reference": "off",
+    },
+  },
+  { ignores: ["node_modules/", ".next/", "dist/", "*.js", "*.mjs"] },
 ];
-
-export default eslintConfig;

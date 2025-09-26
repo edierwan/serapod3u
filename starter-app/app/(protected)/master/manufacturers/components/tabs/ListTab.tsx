@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { Search, Plus, Edit, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { createManufacturer, updateManufacturer, deleteManufacturer } from "../actions";
+import { createManufacturer, updateManufacturer, deleteManufacturer } from "../../actions";
 import { toast } from "sonner";
 
 interface Manufacturer {

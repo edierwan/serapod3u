@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 export type ActionResult = { ok: true } | { ok: false; message: string };
 
 async function checkPermission(): Promise<boolean> {
-  const supabase = createSSRClient();
+  const supabase = await createSSRClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return false;
 
@@ -38,7 +38,7 @@ export async function createDistributor(formData: FormData): Promise<ActionResul
       return { ok: false, message: "Name, Negeri, and Daerah are required." };
     }
 
-    const supabase = createSSRClient();
+    const supabase = await createSSRClient();
 
     const { error } = await supabase
       .from("distributors")
@@ -74,7 +74,7 @@ export async function updateDistributor(id: string, formData: FormData): Promise
       address: formData.get("address") as string || null,
     };
 
-    const supabase = createSSRClient();
+    const supabase = await createSSRClient();
 
     const { error } = await supabase
       .from("distributors")
@@ -102,7 +102,7 @@ export async function deleteDistributor(id: string): Promise<ActionResult> {
       return { ok: false, message: "You don't have permission to modify Master Data." };
     }
 
-    const supabase = createSSRClient();
+    const supabase = await createSSRClient();
 
     const { error } = await supabase
       .from("distributors")
@@ -130,7 +130,7 @@ export async function assignShopToDistributor(distributorId: string, shopId: str
       return { ok: false, message: "You don't have permission to modify Master Data." };
     }
 
-    const supabase = createSSRClient();
+    const supabase = await createSSRClient();
 
     const { error } = await supabase
       .from("shop_distributors")
@@ -157,7 +157,7 @@ export async function removeShopFromDistributor(distributorId: string, shopId: s
       return { ok: false, message: "You don't have permission to modify Master Data." };
     }
 
-    const supabase = createSSRClient();
+    const supabase = await createSSRClient();
 
     const { error } = await supabase
       .from("shop_distributors")

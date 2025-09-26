@@ -1,0 +1,46 @@
+app/(protected)/campaigns/lucky-draw/page.tsx(1,20): error TS2307: Cannot find module '@/components/layout/TabBar' or its corresponding type declarations.
+app/(protected)/campaigns/lucky-draw/page.tsx(2,29): error TS2307: Cannot find module '@/lib/tabs' or its corresponding type declarations.
+app/(protected)/layout.tsx(3,33): error TS2307: Cannot find module '@/lib/supabase/server' or its corresponding type declarations.
+app/(protected)/layout.tsx(5,20): error TS2307: Cannot find module '@/components/layout/Header' or its corresponding type declarations.
+app/(protected)/layout.tsx(6,21): error TS2307: Cannot find module '@/components/layout/Sidebar' or its corresponding type declarations.
+app/(protected)/layout.tsx(7,31): error TS2307: Cannot find module '@/lib/rbac' or its corresponding type declarations.
+app/(protected)/master/brands/page.tsx(1,33): error TS2307: Cannot find module '@/lib/supabase/server' or its corresponding type declarations.
+app/(protected)/master/brands/page.tsx(30,25): error TS7006: Parameter 'brand' implicitly has an 'any' type.
+app/(protected)/master/categories/page.tsx(1,33): error TS2307: Cannot find module '@/lib/supabase/server' or its corresponding type declarations.
+app/(protected)/master/categories/page.tsx(30,29): error TS7006: Parameter 'category' implicitly has an 'any' type.
+app/(protected)/master/distributors/actions.ts(3,33): error TS2307: Cannot find module '@/lib/supabase/server' or its corresponding type declarations.
+app/(protected)/master/manufacturers/actions.ts(3,33): error TS2307: Cannot find module '@/lib/supabase/server' or its corresponding type declarations.
+app/(protected)/master/manufacturers/components/tabs/DetailsTab.tsx(4,22): error TS2307: Cannot find module 'lucide-react' or its corresponding type declarations.
+app/(protected)/master/manufacturers/components/tabs/DetailsTab.tsx(5,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
+app/(protected)/master/manufacturers/components/tabs/DetailsTab.tsx(6,23): error TS2307: Cannot find module '@/components/ui/input' or its corresponding type declarations.
+app/(protected)/master/manufacturers/components/tabs/ListTab.tsx(4,44): error TS2307: Cannot find module 'lucide-react' or its corresponding type declarations.
+app/(protected)/master/manufacturers/components/tabs/ListTab.tsx(5,24): error TS2307: Cannot find module '@/components/ui/button' or its corresponding type declarations.
+app/(protected)/master/manufacturers/components/tabs/ListTab.tsx(6,23): error TS2307: Cannot find module '@/components/ui/input' or its corresponding type declarations.
+app/(protected)/master/manufacturers/page.tsx(4,58): error TS2307: Cannot find module '@/components/ui/tabs' or its corresponding type declarations.
+app/(protected)/master/manufacturers/page.tsx(5,30): error TS2307: Cannot find module '@/lib/supabase/client' or its corresponding type declarations.
+app/(protected)/master/manufacturers/page.tsx(8,25): error TS2307: Cannot find module 'lucide-react' or its corresponding type declarations.
+app/(protected)/master/products/groups/page.tsx(1,20): error TS2307: Cannot find module '@/components/layout/TabBar' or its corresponding type declarations.
+app/(protected)/master/products/groups/page.tsx(2,29): error TS2307: Cannot find module '@/lib/tabs' or its corresponding type declarations.
+app/(protected)/master/products/page.tsx(1,20): error TS2307: Cannot find module '@/components/layout/TabBar' or its corresponding type declarations.
+app/(protected)/master/products/page.tsx(2,29): error TS2307: Cannot find module '@/lib/tabs' or its corresponding type declarations.
+app/(protected)/master/products/variants/page.tsx(1,20): error TS2307: Cannot find module '@/components/layout/TabBar' or its corresponding type declarations.
+app/(protected)/master/products/variants/page.tsx(2,29): error TS2307: Cannot find module '@/lib/tabs' or its corresponding type declarations.
+app/(protected)/orders/approval/page.tsx(1,20): error TS2307: Cannot find module '@/components/layout/TabBar' or its corresponding type declarations.
+app/(protected)/orders/approval/page.tsx(2,29): error TS2307: Cannot find module '@/lib/tabs' or its corresponding type declarations.
+app/(protected)/orders/page.tsx(1,20): error TS2307: Cannot find module '@/components/layout/TabBar' or its corresponding type declarations.
+app/(protected)/orders/page.tsx(2,29): error TS2307: Cannot find module '@/lib/tabs' or its corresponding type declarations.
+app/(protected)/settings/page.tsx(2,24): error TS2307: Cannot find module 'lucide-react' or its corresponding type declarations.
+app/(public)/login/actions.ts(4,33): error TS2307: Cannot find module '@/lib/supabase/server' or its corresponding type declarations.
+app/(public)/login/actions.ts(5,37): error TS2307: Cannot find module '@/lib/supabase/service' or its corresponding type declarations.
+app/(public)/login/actions.ts(72,44): error TS7006: Parameter 'user' implicitly has an 'any' type.
+components/layout/Header.tsx(3,24): error TS2307: Cannot find module 'lucide-react' or its corresponding type declarations.
+components/layout/Sidebar.tsx(5,43): error TS2307: Cannot find module 'lucide-react' or its corresponding type declarations.
+components/layout/TabBar.tsx(3,45): error TS2307: Cannot find module '@/components/ui/tabs' or its corresponding type declarations.
+components/layout/TabBar.tsx(4,27): error TS2307: Cannot find module '@/lib/tabs' or its corresponding type declarations.
+components/layout/TabBar.tsx(23,8): error TS2307: Cannot find module 'lucide-react' or its corresponding type declarations.
+components/ui/button.tsx(5,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+components/ui/input.tsx(3,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+components/ui/tabs.tsx(6,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+lib/storage.ts(3,37): error TS2307: Cannot find module '@/lib/supabase/service' or its corresponding type declarations.
+lib/supabase/server.ts(13,30): error TS2339: Property 'getAll' does not exist on type 'Promise<ReadonlyRequestCookies>'.
+lib/supabase/server.ts(18,27): error TS2339: Property 'set' does not exist on type 'Promise<ReadonlyRequestCookies>'.

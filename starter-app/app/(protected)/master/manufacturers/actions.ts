@@ -15,7 +15,7 @@ const ManufacturerSchema = z.object({
 });
 
 async function checkPermission(): Promise<boolean> {
-  const supabase = createSSRClient();
+  const supabase = await createSSRClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return false;
 
@@ -43,7 +43,7 @@ export async function createManufacturer(formData: FormData): Promise<ActionResu
     };
 
     const validated = ManufacturerSchema.parse(data);
-    const supabase = createSSRClient();
+    const supabase = await createSSRClient();
 
     const { error } = await supabase
       .from("manufacturers")
@@ -79,7 +79,7 @@ export async function updateManufacturer(id: string, formData: FormData): Promis
     };
 
     const validated = ManufacturerSchema.parse(data);
-    const supabase = createSSRClient();
+    const supabase = await createSSRClient();
 
     const { error } = await supabase
       .from("manufacturers")
@@ -107,7 +107,7 @@ export async function deleteManufacturer(id: string): Promise<ActionResult> {
       return { ok: false, message: "You don't have permission to modify Master Data." };
     }
 
-    const supabase = createSSRClient();
+    const supabase = await createSSRClient();
 
     const { error } = await supabase
       .from("manufacturers")

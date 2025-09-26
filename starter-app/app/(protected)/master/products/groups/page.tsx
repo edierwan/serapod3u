@@ -13,7 +13,7 @@ export default function ProductGroups() {
         </p>
       </div>
       
-      <TabBar tabs={tabs} basePath="/master/products">
+      <TabBar tabs={tabs}>
         <div className="bg-white shadow rounded-lg p-6">
           <h2 className="text-lg font-medium text-gray-900 mb-4">Groups</h2>
           <p className="text-gray-600">
