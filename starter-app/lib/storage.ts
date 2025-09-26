@@ -1,7 +1,6 @@
 export const PRODUCT_IMAGES_BUCKET = "product-images";
 
 import { createServiceClient } from "@/lib/supabase/service";
-import { createSSRClient } from "@/lib/supabase/server";
 
 /** Server-only upload; returns the storage path */
 export async function uploadImage(entity: "product"|"manufacturer"|"distributor"|"shop"|"campaign"|"prize", id: string, file: File) {
