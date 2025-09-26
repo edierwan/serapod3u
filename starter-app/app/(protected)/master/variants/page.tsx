@@ -1,0 +1,1 @@
+export default function Variants(){return <div>Variants (Phase 1)</div>}

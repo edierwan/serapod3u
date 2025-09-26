@@ -1,0 +1,1 @@
+export default function Products(){return <div>Products (Phase 1)</div>}
