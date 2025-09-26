@@ -13,19 +13,19 @@ export default function ProductVariants() {
         </p>
       </div>
       
-      <TabBar tabs={tabs} basePath="/master/products" />
-      
-      <div className="bg-white shadow rounded-lg p-6">
-        <h2 className="text-lg font-medium text-gray-900 mb-4">Variants</h2>
-        <p className="text-gray-600">
-          This is the Variants tab content. Manage product variants here.
-        </p>
-        <div className="mt-4 p-4 bg-blue-50 rounded-md">
-          <p className="text-blue-800 text-sm">
-            <strong>Navigation:</strong> Click on different tabs above to switch between Categories, Groups, Sub‑Types, Items, and Variants.
+      <TabBar tabs={tabs} basePath="/master/products">
+        <div className="bg-white shadow rounded-lg p-6">
+          <h2 className="text-lg font-medium text-gray-900 mb-4">Variants</h2>
+          <p className="text-gray-600">
+            This is the Variants tab content. Manage product variants here.
           </p>
+          <div className="mt-4 p-4 bg-purple-50 rounded-md">
+            <p className="text-purple-800 text-sm">
+              <strong>Active Tab:</strong> Variants - Configure product variations, sizes, colors, and other attributes.
+            </p>
+          </div>
         </div>
-      </div>
+      </TabBar>
     </div>
   );
 }

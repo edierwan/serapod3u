@@ -18,11 +18,11 @@ export default async function ProtectedLayout({ children }: { children: ReactNod
   const items = SidebarByRole[role];
 
   return (
-    <div className="min-h-screen grid grid-rows-[auto_1fr]">
+    <div className="min-h-screen grid grid-rows-[auto_1fr] bg-white">
       <Header onSignOut={async () => { "use server"; await logoutAction(); }} />
-      <div className="grid grid-cols-[16rem_1fr]">
+      <div className="grid grid-cols-[16rem_1fr] bg-white">
         <Sidebar items={items} />
-        <main className="p-4">{children}</main>
+        <main className="p-4 bg-white">{children}</main>
       </div>
     </div>
   );
