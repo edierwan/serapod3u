@@ -1,14 +1,14 @@
 
 "use server";
 
-import { createSSRClient } from "@/lib/supabase/server";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { redirect } from "next/navigation";
 
 export async function loginAction(formData: FormData) {
   const email = String(formData.get("email") || "");
   const password = String(formData.get("password") || "");
-  const supabase = createSSRClient();
+  const supabase = await createSupabaseServerClient();
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) {
     // avoid leaking exact reason to UI
@@ -48,7 +48,7 @@ export async function devFastLogin(role_code: string) {
   }
 
   const svc = createServiceClient();
-  const ssr = createSSRClient();
+  const ssr = await createSupabaseServerClient();
 
   try {
     // Find matching dev email from table
@@ -129,7 +129,7 @@ export async function devFastLogin(role_code: string) {
 }
 
 export async function logoutAction() {
-  const supabase = createSSRClient();
+  const supabase = await createSupabaseServerClient();
   await supabase.auth.signOut();
   redirect("/login");
 }

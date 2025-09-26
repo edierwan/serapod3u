@@ -1,31 +1,54 @@
-import TabBar from "@/components/layout/TabBar";
-import { getPageTabs } from "@/lib/tabs";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+import Client from "./client";
 
-export default function ProductVariants() {
-  const tabs = getPageTabs("/master/products");
-  
+interface SearchParams {
+  product_id?: string;
+}
+
+interface Props {
+  searchParams: Promise<SearchParams>;
+}
+
+export default async function VariantsPage({ searchParams }: Props) {
+  const { product_id } = await searchParams;
+  const supabase = await createSupabaseServerClient();
+
+  // Fetch variants with product relations
+  let variantsQuery = supabase
+    .from("product_variants")
+    .select(`
+      *,
+      products(name, sku)
+    `)
+    .order("created_at", { ascending: false });
+
+  // Filter by product_id if provided
+  if (product_id) {
+    variantsQuery = variantsQuery.eq("product_id", product_id);
+  }
+
+  const { data: variants, error: variantsError } = await variantsQuery;
+
+  if (variantsError) {
+    console.error("Error fetching variants:", variantsError);
+  }
+
+  // Fetch all products for the dropdown
+  const { data: products, error: productsError } = await supabase
+    .from("products")
+    .select("id, name")
+    .eq("is_active", true)
+    .order("name");
+
+  if (productsError) {
+    console.error("Error fetching products:", productsError);
+  }
+
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900">Products</h1>
-        <p className="mt-1 text-sm text-gray-500">
-          Manage product categories, groups, sub-types, items, and variants
-        </p>
-      </div>
-      
-      <TabBar tabs={tabs} basePath="/master/products">
-        <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-lg font-medium text-gray-900 mb-4">Variants</h2>
-          <p className="text-gray-600">
-            This is the Variants tab content. Manage product variants here.
-          </p>
-          <div className="mt-4 p-4 bg-purple-50 rounded-md">
-            <p className="text-purple-800 text-sm">
-              <strong>Active Tab:</strong> Variants - Configure product variations, sizes, colors, and other attributes.
-            </p>
-          </div>
-        </div>
-      </TabBar>
-    </div>
+    <Client
+      variants={variants || []}
+      products={products || []}
+      productId={product_id || null}
+    />
   );
 }

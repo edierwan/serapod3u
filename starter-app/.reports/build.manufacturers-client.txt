@@ -1,0 +1,30 @@
+
+> build
+> next build
+
+   ▲ Next.js 15.5.4
+   - Environments: .env.local
+   - Experiments (use with caution):
+     · serverActions
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./app/(protected)/master/manufacturers/components/tabs/DetailsTab.tsx
+Module not found: Can't resolve '../actions'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./app/(protected)/master/manufacturers/client.tsx
+
+./app/(protected)/master/manufacturers/components/tabs/ListTab.tsx
+Module not found: Can't resolve '../actions'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./app/(protected)/master/manufacturers/client.tsx
+
+
+> Build failed because of webpack errors

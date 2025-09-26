@@ -1,0 +1,15 @@
+app/(protected)/layout.tsx(12,45): error TS2339: Property 'auth' does not exist on type 'Promise<SupabaseClient<any, "public", any, any, any>>'.
+app/(protected)/layout.tsx(16,44): error TS2339: Property 'from' does not exist on type 'Promise<SupabaseClient<any, "public", any, any, any>>'.
+app/(protected)/master/brands/page.tsx(7,45): error TS2339: Property 'auth' does not exist on type 'Promise<SupabaseClient<any, "public", any, any, any>>'.
+app/(protected)/master/brands/page.tsx(12,6): error TS2339: Property 'from' does not exist on type 'Promise<SupabaseClient<any, "public", any, any, any>>'.
+app/(protected)/master/brands/page.tsx(30,25): error TS7006: Parameter 'brand' implicitly has an 'any' type.
+app/(protected)/master/distributors/actions.ts(10,45): error TS2339: Property 'auth' does not exist on type 'Promise<SupabaseClient<any, "public", any, any, any>>'.
+app/(protected)/master/distributors/actions.ts(14,6): error TS2339: Property 'from' does not exist on type 'Promise<SupabaseClient<any, "public", any, any, any>>'.
+app/(protected)/master/distributors/actions.ts(44,8): error TS2339: Property 'from' does not exist on type 'Promise<SupabaseClient<any, "public", any, any, any>>'.
+app/(protected)/master/distributors/actions.ts(80,8): error TS2339: Property 'from' does not exist on type 'Promise<SupabaseClient<any, "public", any, any, any>>'.
+app/(protected)/master/distributors/actions.ts(108,8): error TS2339: Property 'from' does not exist on type 'Promise<SupabaseClient<any, "public", any, any, any>>'.
+app/(protected)/master/distributors/actions.ts(136,8): error TS2339: Property 'from' does not exist on type 'Promise<SupabaseClient<any, "public", any, any, any>>'.
+app/(protected)/master/distributors/actions.ts(163,8): error TS2339: Property 'from' does not exist on type 'Promise<SupabaseClient<any, "public", any, any, any>>'.
+app/(public)/login/actions.ts(12,36): error TS2339: Property 'auth' does not exist on type 'Promise<SupabaseClient<any, "public", any, any, any>>'.
+app/(public)/login/actions.ts(112,66): error TS2339: Property 'auth' does not exist on type 'Promise<SupabaseClient<any, "public", any, any, any>>'.
+app/(public)/login/actions.ts(133,18): error TS2339: Property 'auth' does not exist on type 'Promise<SupabaseClient<any, "public", any, any, any>>'.

@@ -1,0 +1,14 @@
+app/(protected)/layout.tsx(3,10): error TS2305: Module '"@/lib/supabase/server"' has no exported member 'createSSRClient'.
+app/(protected)/master/brands/page.tsx(1,10): error TS2305: Module '"@/lib/supabase/server"' has no exported member 'createSSRClient'.
+app/(protected)/master/brands/page.tsx(30,25): error TS7006: Parameter 'brand' implicitly has an 'any' type.
+app/(protected)/master/categories/[id]/page.tsx(1,10): error TS2305: Module '"@/lib/supabase/server"' has no exported member 'createSSRClient'.
+app/(protected)/master/categories/actions.ts(3,10): error TS2305: Module '"@/lib/supabase/server"' has no exported member 'createSSRClient'.
+app/(protected)/master/categories/page.tsx(1,10): error TS2305: Module '"@/lib/supabase/server"' has no exported member 'createSSRClient'.
+app/(protected)/master/categories/page.tsx(65,36): error TS7006: Parameter 'category' implicitly has an 'any' type.
+app/(protected)/master/distributors/actions.ts(3,10): error TS2305: Module '"@/lib/supabase/server"' has no exported member 'createSSRClient'.
+app/(protected)/master/manufacturers/components/tabs/DetailsTab.tsx(7,36): error TS2307: Cannot find module '../actions' or its corresponding type declarations.
+app/(protected)/master/manufacturers/components/tabs/ListTab.tsx(7,76): error TS2307: Cannot find module '../actions' or its corresponding type declarations.
+app/(protected)/master/product-groups/actions.ts(3,10): error TS2305: Module '"@/lib/supabase/server"' has no exported member 'createSSRClient'.
+app/(protected)/master/product-groups/page.tsx(1,10): error TS2305: Module '"@/lib/supabase/server"' has no exported member 'createSSRClient'.
+app/(protected)/master/product-groups/page.tsx(73,39): error TS7006: Parameter 'group' implicitly has an 'any' type.
+app/(public)/login/actions.ts(4,10): error TS2305: Module '"@/lib/supabase/server"' has no exported member 'createSSRClient'.
