@@ -1,0 +1,10 @@
+
+> lint
+> eslint . --max-warnings=5
+
+
+/Users/macbook/serapod3u/starter-app/next-env.d.ts
+  3:1  error  Do not use a triple slash reference for ./.next/types/routes.d.ts, use `import` style instead  @typescript-eslint/triple-slash-reference
+
+✖ 1 problem (1 error, 0 warnings)
+

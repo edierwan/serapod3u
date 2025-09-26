@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 
 export default async function BrandsPage() {
-  const supabase = createSSRClient();
+  const supabase = await createSSRClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 

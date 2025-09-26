@@ -13,7 +13,7 @@ export default function LuckyDrawCampaigns() {
         </p>
       </div>
       
-      <TabBar tabs={tabs} basePath="/campaigns/lucky-draw">
+      <TabBar tabs={tabs}>
         <div className="space-y-6">
           {/* Campaign Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

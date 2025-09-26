@@ -1,8 +1,7 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TabConfig } from "@/lib/tabs";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { 
   Plus, 
@@ -25,7 +24,6 @@ import {
 
 interface TabBarProps {
   tabs: TabConfig[];
-  basePath: string;
   children?: React.ReactNode;
 }
 
@@ -86,7 +84,7 @@ const getIconForTab = (tabId: string, label: string) => {
   }
 };
 
-export default function TabBar({ tabs, basePath, children }: TabBarProps) {
+export default function TabBar({ tabs, children }: TabBarProps) {
   const pathname = usePathname();
   const router = useRouter();
   

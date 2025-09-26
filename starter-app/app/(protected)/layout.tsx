@@ -8,7 +8,7 @@ import { SidebarByRole } from "@/lib/rbac";
 import { logoutAction } from "../(public)/login/actions";
 
 export default async function ProtectedLayout({ children }: { children: ReactNode }) {
-  const supabase = createSSRClient();
+  const supabase = await createSSRClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
