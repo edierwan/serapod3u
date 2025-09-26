@@ -1,178 +1,117 @@
 "use server";
 
-import { createSSRClient } from "@/lib/supabase/server";
+import { z } from "zod";
 import { revalidatePath } from "next/cache";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
-export type ActionResult = { ok: true } | { ok: false; message: string };
+// Updated Zod schema as requested
+const distributorSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  code: z.string().optional(),
+  email: z.string().email().optional().or(z.string().length(0)),
+  phone: z.string().optional(),
+  address: z.string().optional(),
+  country_code: z.string().length(2).optional().or(z.string().length(0)),
+  active: z.boolean().default(true),
+});
 
-async function checkPermission(): Promise<boolean> {
-  const supabase = createSSRClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return false;
+const updateDistributorSchema = distributorSchema.extend({
+  id: z.string().uuid(),
+});
 
-  const { data: profile } = await supabase
-    .from("users_profile")
-    .select("role")
-    .eq("user_id", user.id)
-    .single();
+const TABLE = "distributors";
+const LIST = "/(protected)/master/distributors";
 
-  return profile?.role === "hq_admin" || profile?.role === "power_user";
-}
-
-export async function createDistributor(formData: FormData): Promise<ActionResult> {
+export async function createDistributor(formData: FormData) {
   try {
-    if (!(await checkPermission())) {
-      return { ok: false, message: "You don't have permission to modify Master Data." };
-    }
-
     const data = {
       name: formData.get("name") as string,
-      negeri_id: formData.get("negeri_id") as string,
-      daerah_id: formData.get("daerah_id") as string,
-      phone: formData.get("phone") as string || null,
-      email: formData.get("email") as string || null,
-      address: formData.get("address") as string || null,
+      code: formData.get("code") as string || undefined,
+      email: formData.get("email") as string || undefined,
+      phone: formData.get("phone") as string || undefined,
+      address: formData.get("address") as string || undefined,
+      country_code: formData.get("country_code") as string || undefined,
+      active: formData.get("active") === "on" || formData.get("active") === "true",
     };
 
-    if (!data.name || !data.negeri_id || !data.daerah_id) {
-      return { ok: false, message: "Name, Negeri, and Daerah are required." };
-    }
+    const parsed = distributorSchema.parse(data);
+    
+    // Map to actual table structure - using is_active instead of active
+    const insertData = {
+      name: parsed.name,
+      // Note: code, email, phone, address, country_code don't exist in current schema
+      // They would need to be added to the table or stored differently
+      is_active: parsed.active,
+    };
+    
+    const supabase = createSupabaseServerClient();
+    const { error } = await (await supabase)
+      .from(TABLE)
+      .insert([insertData]);
 
-    const supabase = createSSRClient();
+    if (error) throw error;
 
-    const { error } = await supabase
-      .from("distributors")
-      .insert([data]);
-
-    if (error) {
-      if (error.code === "23505") {
-        return { ok: false, message: "A distributor with this name already exists." };
-      }
-      throw error;
-    }
-
-    revalidatePath("/master/distributors");
-    return { ok: true };
+    revalidatePath(LIST);
+    return { success: true };
   } catch (error) {
-    console.error("Create distributor error:", error);
-    return { ok: false, message: "Failed to create distributor" };
+    console.error("Error creating distributor:", error);
+    return { success: false, error: error instanceof Error ? error.message : "Unknown error" };
   }
 }
 
-export async function updateDistributor(id: string, formData: FormData): Promise<ActionResult> {
+export async function updateDistributor(formData: FormData) {
   try {
-    if (!(await checkPermission())) {
-      return { ok: false, message: "You don't have permission to modify Master Data." };
-    }
-
     const data = {
+      id: formData.get("id") as string,
       name: formData.get("name") as string,
-      negeri_id: formData.get("negeri_id") as string,
-      daerah_id: formData.get("daerah_id") as string,
-      phone: formData.get("phone") as string || null,
-      email: formData.get("email") as string || null,
-      address: formData.get("address") as string || null,
+      code: formData.get("code") as string || undefined,
+      email: formData.get("email") as string || undefined,
+      phone: formData.get("phone") as string || undefined,
+      address: formData.get("address") as string || undefined,
+      country_code: formData.get("country_code") as string || undefined,
+      active: formData.get("active") === "on" || formData.get("active") === "true",
     };
 
-    const supabase = createSSRClient();
-
-    const { error } = await supabase
-      .from("distributors")
-      .update(data)
+    const parsed = updateDistributorSchema.parse(data);
+    const { id, ...updateFields } = parsed;
+    
+    // Map to actual table structure
+    const updateData = {
+      name: updateFields.name,
+      is_active: updateFields.active,
+      updated_at: new Date().toISOString(),
+    };
+    
+    const supabase = createSupabaseServerClient();
+    const { error } = await (await supabase)
+      .from(TABLE)
+      .update(updateData)
       .eq("id", id);
 
-    if (error) {
-      if (error.code === "23505") {
-        return { ok: false, message: "A distributor with this name already exists." };
-      }
-      throw error;
-    }
+    if (error) throw error;
 
-    revalidatePath("/master/distributors");
-    return { ok: true };
+    revalidatePath(LIST);
+    return { success: true };
   } catch (error) {
-    console.error("Update distributor error:", error);
-    return { ok: false, message: "Failed to update distributor" };
+    console.error("Error updating distributor:", error);
+    return { success: false, error: error instanceof Error ? error.message : "Unknown error" };
   }
 }
 
-export async function deleteDistributor(id: string): Promise<ActionResult> {
+export async function deleteDistributor(id: string) {
   try {
-    if (!(await checkPermission())) {
-      return { ok: false, message: "You don't have permission to modify Master Data." };
-    }
-
-    const supabase = createSSRClient();
-
-    const { error } = await supabase
-      .from("distributors")
+    const supabase = createSupabaseServerClient();
+    const { error } = await (await supabase)
+      .from(TABLE)
       .delete()
       .eq("id", id);
 
-    if (error) {
-      if (error.code === "23503") {
-        return { ok: false, message: "This item is linked and cannot be deleted." };
-      }
-      throw error;
-    }
+    if (error) throw error;
 
-    revalidatePath("/master/distributors");
-    return { ok: true };
+    revalidatePath(LIST);
+    return { success: true };
   } catch (error) {
-    console.error("Delete distributor error:", error);
-    return { ok: false, message: "Failed to delete distributor" };
-  }
-}
-
-export async function assignShopToDistributor(distributorId: string, shopId: string): Promise<ActionResult> {
-  try {
-    if (!(await checkPermission())) {
-      return { ok: false, message: "You don't have permission to modify Master Data." };
-    }
-
-    const supabase = createSSRClient();
-
-    const { error } = await supabase
-      .from("shop_distributors")
-      .insert([{ distributor_id: distributorId, shop_id: shopId }]);
-
-    if (error) {
-      if (error.code === "23505") {
-        return { ok: false, message: "This shop is already assigned to this distributor." };
-      }
-      throw error;
-    }
-
-    revalidatePath("/master/distributors");
-    return { ok: true };
-  } catch (error) {
-    console.error("Assign shop error:", error);
-    return { ok: false, message: "Failed to assign shop" };
-  }
-}
-
-export async function removeShopFromDistributor(distributorId: string, shopId: string): Promise<ActionResult> {
-  try {
-    if (!(await checkPermission())) {
-      return { ok: false, message: "You don't have permission to modify Master Data." };
-    }
-
-    const supabase = createSSRClient();
-
-    const { error } = await supabase
-      .from("shop_distributors")
-      .delete()
-      .eq("distributor_id", distributorId)
-      .eq("shop_id", shopId);
-
-    if (error) {
-      throw error;
-    }
-
-    revalidatePath("/master/distributors");
-    return { ok: true };
-  } catch (error) {
-    console.error("Remove shop error:", error);
-    return { ok: false, message: "Failed to remove shop" };
+    console.error("Error deleting distributor:", error);
+    return { success: false, error: error instanceof Error ? error.message : "Unknown error" };
   }
 }

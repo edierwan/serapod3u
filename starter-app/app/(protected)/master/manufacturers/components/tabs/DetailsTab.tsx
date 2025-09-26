@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { Edit } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { updateManufacturer } from "../actions";
+import { updateManufacturer } from "../../actions";
 import { toast } from "sonner";
 
 interface Manufacturer {
@@ -39,12 +39,12 @@ export default function DetailsTab({ manufacturer, canEdit }: DetailsTabProps) {
 
   const handleUpdate = (formData: FormData) => {
     startTransition(async () => {
-      const result = await updateManufacturer(manufacturer.id, formData);
-      if (result.ok) {
+      const result = await updateManufacturer(formData);
+      if (result.success) {
         toast.success("Changes saved.");
         setIsEditing(false);
       } else {
-        toast.error(result.message);
+        toast.error(result.error || "Failed to update manufacturer");
       }
     });
   };
@@ -57,6 +57,7 @@ export default function DetailsTab({ manufacturer, canEdit }: DetailsTabProps) {
         </div>
         
         <form action={handleUpdate} className="space-y-6 max-w-md">
+          <input type="hidden" name="id" value={manufacturer.id} />
           <div>
             <label className="block text-sm font-medium mb-2">Name *</label>
             <Input

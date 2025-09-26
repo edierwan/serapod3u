@@ -1,6 +1,6 @@
 
 import { ReactNode } from "react";
-import { createSSRClient } from "@/lib/supabase/server";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Header from "@/components/layout/Header";
 import Sidebar from "@/components/layout/Sidebar";
@@ -8,7 +8,7 @@ import { SidebarByRole } from "@/lib/rbac";
 import { logoutAction } from "../(public)/login/actions";
 
 export default async function ProtectedLayout({ children }: { children: ReactNode }) {
-  const supabase = createSSRClient();
+  const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 

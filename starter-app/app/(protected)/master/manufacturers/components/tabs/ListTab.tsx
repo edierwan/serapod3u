@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { Search, Plus, Edit, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { createManufacturer, updateManufacturer, deleteManufacturer } from "../actions";
+import { createManufacturer, updateManufacturer, deleteManufacturer } from "../../actions";
 import { toast } from "sonner";
 
 interface Manufacturer {
@@ -36,11 +36,11 @@ export default function ListTab({ manufacturers, onSelectManufacturer }: ListTab
   const handleCreate = (formData: FormData) => {
     startTransition(async () => {
       const result = await createManufacturer(formData);
-      if (result.ok) {
+      if (result.success) {
         toast.success("Saved successfully.");
         setShowCreateDialog(false);
       } else {
-        toast.error(result.message);
+        toast.error(result.error || "Failed to create manufacturer");
       }
     });
   };
@@ -48,12 +48,12 @@ export default function ListTab({ manufacturers, onSelectManufacturer }: ListTab
   const handleUpdate = (formData: FormData) => {
     if (!editingManufacturer) return;
     startTransition(async () => {
-      const result = await updateManufacturer(editingManufacturer.id, formData);
-      if (result.ok) {
+      const result = await updateManufacturer(formData);
+      if (result.success) {
         toast.success("Changes saved.");
         setEditingManufacturer(null);
       } else {
-        toast.error(result.message);
+        toast.error(result.error || "Failed to update manufacturer");
       }
     });
   };
@@ -62,10 +62,10 @@ export default function ListTab({ manufacturers, onSelectManufacturer }: ListTab
     if (!confirm("Are you sure you want to delete this manufacturer?")) return;
     startTransition(async () => {
       const result = await deleteManufacturer(id);
-      if (result.ok) {
+      if (result.success) {
         toast.success("Deleted.");
       } else {
-        toast.error(result.message);
+        toast.error(result.error || "Failed to delete manufacturer");
       }
     });
   };
@@ -160,6 +160,9 @@ export default function ListTab({ manufacturers, onSelectManufacturer }: ListTab
               action={editingManufacturer ? handleUpdate : handleCreate}
               className="space-y-4"
             >
+              {editingManufacturer && (
+                <input type="hidden" name="id" value={editingManufacturer.id} />
+              )}
               <div>
                 <label className="block text-sm font-medium mb-1">Name *</label>
                 <Input

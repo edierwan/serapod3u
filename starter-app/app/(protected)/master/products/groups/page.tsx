@@ -1,31 +1,23 @@
-import TabBar from "@/components/layout/TabBar";
-import { getPageTabs } from "@/lib/tabs";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+import Client from "./client";
 
-export default function ProductGroups() {
-  const tabs = getPageTabs("/master/products");
+export default async function GroupsPage() {
+  const supabase = await createSupabaseServerClient();
   
-  return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900">Products</h1>
-        <p className="mt-1 text-sm text-gray-500">
-          Manage product categories, groups, sub-types, items, and variants
-        </p>
-      </div>
-      
-      <TabBar tabs={tabs} basePath="/master/products">
-        <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-lg font-medium text-gray-900 mb-4">Groups</h2>
-          <p className="text-gray-600">
-            This is the Groups tab content. Organize products into logical groups for better management.
-          </p>
-          <div className="mt-4 p-4 bg-indigo-50 rounded-md">
-            <p className="text-indigo-800 text-sm">
-              <strong>Active Tab:</strong> Groups - Define product groupings and hierarchical structures.
-            </p>
-          </div>
-        </div>
-      </TabBar>
-    </div>
-  );
+  const [
+    { data: groups = [] },
+    { data: categories = [] }
+  ] = await Promise.all([
+    supabase
+      .from("product_groups")
+      .select("*, product_categories(id, name)")
+      .order("updated_at", { ascending: false }),
+    supabase
+      .from("product_categories")
+      .select("id, name")
+      .eq("active", true)
+      .order("name")
+  ]);
+
+  return <Client groups={groups || []} categories={categories || []} />;
 }
