@@ -66,7 +66,7 @@ export default function DetailsTab({ manufacturer, canEdit, onRefresh }: Details
         <ManufacturerFormModal
           open={isCreateOpen}
           onOpenChange={setIsCreateOpen}
-          manufacturer={null}
+          manufacturer={undefined}
         />
       </div>
     );
@@ -250,21 +250,20 @@ export default function DetailsTab({ manufacturer, canEdit, onRefresh }: Details
         </div>
       </div>
 
-      {/* Create Modal */}
-      <ManufacturerFormModal
-        open={isCreateOpen}
-        onOpenChange={setIsCreateOpen}
-        manufacturer={null}
-        onSuccess={onRefresh}
-      />
+        <ManufacturerFormModal
+          open={isCreateOpen}
+          onOpenChange={setIsCreateOpen}
+          manufacturer={undefined}
+          onSuccess={onRefresh}
+        />
 
-      {/* Edit Modal */}
-      <ManufacturerFormModal
-        open={isEditOpen}
-        onOpenChange={setIsEditOpen}
-        manufacturer={manufacturer}
-        onSuccess={onRefresh}
-      />
+        {/* Edit Modal */}
+        <ManufacturerFormModal
+          open={isEditOpen}
+          onOpenChange={setIsEditOpen}
+          manufacturer={manufacturer}
+          onSuccess={onRefresh}
+        />
     </div>
   );
 }

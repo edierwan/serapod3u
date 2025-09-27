@@ -12,15 +12,46 @@ export default async function ManufacturersPage() {
     .eq("user_id", user?.id)
     .single();
 
-  // Fetch manufacturers
-  const { data: manufacturers = [] } = await supabase
+  // Fetch manufacturers with metrics
+  const { data: manufacturersData } = await supabase
     .from("manufacturers")
-    .select("id, name, is_active, logo_url, contact_person, phone, email, website_url, address_line1, address_line2, city, postal_code, country_code, language_code, currency_code, tax_id, registration_number, support_email, support_phone, timezone, notes, created_at, updated_at")
+    .select(`
+      id, name, is_active, logo_url, contact_person, phone, email, website_url, 
+      address_line1, address_line2, city, postal_code, country_code, 
+      language_code, currency_code, tax_id, registration_number, 
+      support_email, support_phone, timezone, notes, created_at, updated_at
+    `)
     .order("name", { ascending: true });
+
+  const manufacturers = manufacturersData || [];
+
+  // Get product counts for each manufacturer
+  const manufacturerIds = manufacturers.map(m => m.id);
+  const { data: productCountsData } = await supabase
+    .from("products")
+    .select("manufacturer_id")
+    .in("manufacturer_id", manufacturerIds);
+
+  const productCounts = productCountsData || [];
+
+  // Count products per manufacturer
+  const productCountsMap = productCounts.reduce((acc, product) => {
+    if (product.manufacturer_id) {
+      acc[product.manufacturer_id] = (acc[product.manufacturer_id] || 0) + 1;
+    }
+    return acc;
+  }, {} as Record<string, number>);
+
+  // Add metrics to manufacturers
+  const manufacturersWithMetrics = manufacturers.map(manufacturer => ({
+    ...manufacturer,
+    products_count: productCountsMap[manufacturer.id] || 0,
+    orders_count: 0 // Placeholder for now since orders aren't directly linked to manufacturers
+  }));
 
   return (
     <ManufacturersPageClient
-      manufacturers={manufacturers || []}
+      manufacturers={manufacturersWithMetrics || []}
       currentUserRole={profile?.role || "shop"}
     />
   );

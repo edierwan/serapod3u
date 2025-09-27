@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ListTab from "./components/tabs/ListTab";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import ManufacturerCardView from "@/components/manufacturers/ManufacturerCardView";
+import ManufacturerFormModal from "@/components/products/ManufacturerFormModal";
 import DetailsTab from "./components/tabs/DetailsTab";
-import { Factory } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 interface Manufacturer {
@@ -12,8 +12,16 @@ interface Manufacturer {
   name: string;
   email?: string;
   phone?: string;
-  address?: string;
+  contact_person?: string;
+  address_line1?: string;
+  address_line2?: string;
+  city?: string;
+  postal_code?: string;
+  country_code?: string;
   logo_url?: string;
+  is_active?: boolean;
+  products_count?: number;
+  orders_count?: number;
   created_at: string;
   updated_at?: string;
 }
@@ -23,11 +31,15 @@ interface ManufacturersPageClientProps {
   currentUserRole: string;
 }
 
-export default function ManufacturersPageClient({ manufacturers: initialManufacturers, currentUserRole }: ManufacturersPageClientProps) {
+export default function ManufacturersPageClient({ 
+  manufacturers: initialManufacturers, 
+  currentUserRole 
+}: ManufacturersPageClientProps) {
   const [manufacturers, setManufacturers] = useState(initialManufacturers);
-  const [selectedManufacturerId, setSelectedManufacturerId] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState("list");
   const [selectedManufacturer, setSelectedManufacturer] = useState<Manufacturer | null>(null);
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const [editingManufacturer, setEditingManufacturer] = useState<Manufacturer | null>(null);
 
   const canEdit = currentUserRole === "hq_admin" || currentUserRole === "power_user";
 
@@ -36,21 +48,39 @@ export default function ManufacturersPageClient({ manufacturers: initialManufact
     const supabase = createClient();
     const { data } = await supabase
       .from("manufacturers")
-      .select("*")
-      .order("updated_at", { ascending: false });
+      .select(`
+        id, name, is_active, logo_url, contact_person, phone, email, website_url, 
+        address_line1, address_line2, city, postal_code, country_code, 
+        language_code, currency_code, tax_id, registration_number, 
+        support_email, support_phone, timezone, notes, created_at, updated_at
+      `)
+      .order("name", { ascending: true });
     
     if (data) {
-      setManufacturers(data);
+      // Get product counts for each manufacturer
+      const manufacturerIds = data.map(m => m.id);
+      const { data: productCountsData } = await supabase
+        .from("products")
+        .select("manufacturer_id")
+        .in("manufacturer_id", manufacturerIds);
+
+      const productCounts = productCountsData || [];
+      const productCountsMap = productCounts.reduce((acc, product) => {
+        if (product.manufacturer_id) {
+          acc[product.manufacturer_id] = (acc[product.manufacturer_id] || 0) + 1;
+        }
+        return acc;
+      }, {} as Record<string, number>);
+
+      const manufacturersWithMetrics = data.map(manufacturer => ({
+        ...manufacturer,
+        products_count: productCountsMap[manufacturer.id] || 0,
+        orders_count: 0 // Placeholder
+      }));
+
+      setManufacturers(manufacturersWithMetrics);
     }
   };
-
-  useEffect(() => {
-    if (selectedManufacturerId) {
-      const manufacturer = manufacturers.find(m => m.id === selectedManufacturerId);
-      setSelectedManufacturer(manufacturer || null);
-      setActiveTab("details");
-    }
-  }, [selectedManufacturerId, manufacturers]);
 
   // Listen for manufacturer updates
   useEffect(() => {
@@ -72,43 +102,68 @@ export default function ManufacturersPageClient({ manufacturers: initialManufact
     };
   }, []);
 
+  const handleAdd = () => {
+    console.log("Add button clicked");
+    setEditingManufacturer(null);
+    setIsFormModalOpen(true);
+  };
+
+  const handleEdit = (manufacturer: Manufacturer) => {
+    setEditingManufacturer(manufacturer);
+    setIsFormModalOpen(true);
+  };
+
+  const handleView = (manufacturer: Manufacturer) => {
+    setSelectedManufacturer(manufacturer);
+    setIsDetailsModalOpen(true);
+  };
+
+  const handleFormClose = () => {
+    setIsFormModalOpen(false);
+    setEditingManufacturer(null);
+    refreshManufacturers();
+  };
+
+  console.log("Modal open state:", isFormModalOpen);
+
   return (
-    <div className="min-h-screen bg-white">
-      <div className="mx-auto max-w-7xl space-y-8 py-6 px-4">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Manufacturers</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Manage manufacturer information and details
-          </p>
-        </div>
+    <div className="min-h-screen bg-gray-50">
+      <div className="mx-auto max-w-7xl py-6 px-4">
+        <ManufacturerCardView
+          manufacturers={manufacturers}
+          onAdd={handleAdd}
+          onEdit={handleEdit}
+          onView={handleView}
+        />
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 bg-white border border-gray-200">
-            <TabsTrigger value="list" className="flex items-center space-x-2 data-[state=active]:bg-white data-[state=active]:border data-[state=active]:border-gray-300 data-[state=active]:shadow-sm">
-              <Factory className="h-4 w-4" />
-              <span>List</span>
-            </TabsTrigger>
-            <TabsTrigger value="details" className="flex items-center space-x-2 data-[state=active]:bg-white data-[state=active]:border data-[state=active]:border-gray-300 data-[state=active]:shadow-sm">
-              <Factory className="h-4 w-4" />
-              <span>Details</span>
-            </TabsTrigger>
-          </TabsList>
+        {/* Add/Edit Modal */}
+        <ManufacturerFormModal
+          open={isFormModalOpen}
+          onOpenChange={(open) => {
+            console.log("Modal onOpenChange:", open);
+            setIsFormModalOpen(open);
+          }}
+          manufacturer={editingManufacturer || undefined}
+          onSuccess={handleFormClose}
+        />
 
-          <TabsContent value="list">
-            <ListTab
-              manufacturers={manufacturers}
-              onSelectManufacturer={setSelectedManufacturerId}
-            />
-          </TabsContent>
-
-          <TabsContent value="details">
-            <DetailsTab
-              manufacturer={selectedManufacturer}
-              canEdit={canEdit}
-              onRefresh={refreshManufacturers}
-            />
-          </TabsContent>
-        </Tabs>
+        {/* Details Modal */}
+        <Dialog open={isDetailsModalOpen} onOpenChange={setIsDetailsModalOpen}>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>
+                Manufacturer Details - {selectedManufacturer?.name}
+              </DialogTitle>
+            </DialogHeader>
+            {selectedManufacturer && (
+              <DetailsTab
+                manufacturer={selectedManufacturer}
+                canEdit={canEdit}
+                onRefresh={refreshManufacturers}
+              />
+            )}
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );

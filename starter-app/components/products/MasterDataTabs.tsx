@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useTransition } from "react";
-import { Plus, Edit, Trash2, Loader2 } from "lucide-react";
+import { Plus, Edit, Trash2, Loader2, Building2, ShoppingBag, Mail, Phone, Eye } from "lucide-react";
 import { Tabs } from "@/components/ui/tabs";
 import { OvalTabsList, OvalTab } from "@/components/ui/oval-tabs";
 import { Button } from "@/components/ui/button";
@@ -75,7 +75,7 @@ export default function MasterDataTabs() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // Modal states
+  // Modal states for manufacturers
   const [manufacturerModalOpen, setManufacturerModalOpen] = useState(false);
   const [editingManufacturer, setEditingManufacturer] = useState<any>(null);
 
@@ -514,13 +514,13 @@ export default function MasterDataTabs() {
                             variant="outline"
                             onClick={() => {
                               if (activeTab === "manufacturers") {
-                                setEditingManufacturer(item);
-                                setManufacturerModalOpen(true);
+                                // Manufacturers are edited on separate page
+                                return;
                               } else {
                                 setEditingId(item.id);
                               }
                             }}
-                            disabled={isPending}
+                            disabled={isPending || activeTab === "manufacturers"}
                           >
                             <Edit className="h-4 w-4" />
                           </Button>
@@ -545,6 +545,159 @@ export default function MasterDataTabs() {
     );
   };
 
+  const renderContent = () => {
+    // Manufacturers use card view instead of table
+    if (activeTab === "manufacturers") {
+      return (
+        <div className="space-y-6">
+          <div className="flex justify-between items-center">
+            <div>
+              <h3 className="text-lg font-medium text-gray-900">Manufacturers</h3>
+              <p className="text-sm text-gray-600">Manage manufacturer information and details</p>
+            </div>
+            <Button 
+              onClick={() => {
+                setEditingManufacturer(null);
+                setManufacturerModalOpen(true);
+              }}
+              className="bg-black hover:bg-gray-800 text-white flex items-center gap-2"
+            >
+              <Plus className="h-4 w-4" />
+              Add Manufacturer
+            </Button>
+          </div>
+
+          {/* Manufacturers Card Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {manufacturers.map((manufacturer: any) => (
+              <div
+                key={manufacturer.id}
+                className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow"
+              >
+                {/* Header with Logo and Actions */}
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="relative">
+                      <Building2 className="h-8 w-8 text-gray-600" />
+                      {manufacturer.logo_url && (
+                        <div className="h-8 w-8 absolute inset-0 bg-gray-200 rounded-full flex items-center justify-center">
+                          <span className="text-xs text-gray-600">Logo</span>
+                        </div>
+                      )}
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-lg text-gray-900">{manufacturer.name}</h4>
+                      <p className="text-gray-600 text-sm">Unknown Region</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setEditingManufacturer(manufacturer);
+                        setManufacturerModalOpen(true);
+                      }}
+                      className="p-2"
+                    >
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        // Handle view - could open details modal
+                        console.log("View manufacturer:", manufacturer.id);
+                      }}
+                      className="p-2"
+                    >
+                      <Eye className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Contact Information */}
+                <div className="space-y-3 mb-4">
+                  {manufacturer.contact_person && (
+                    <div className="flex items-center gap-2 text-gray-600 text-sm">
+                      <span className="font-medium">Contact:</span>
+                      <span>{manufacturer.contact_person}</span>
+                    </div>
+                  )}
+                  
+                  {manufacturer.email && (
+                    <div className="flex items-center gap-2 text-gray-600 text-sm">
+                      <Mail className="h-4 w-4" />
+                      <span className="truncate">{manufacturer.email}</span>
+                    </div>
+                  )}
+                  
+                  {manufacturer.phone && (
+                    <div className="flex items-center gap-2 text-gray-600 text-sm">
+                      <Phone className="h-4 w-4" />
+                      <span>{manufacturer.phone}</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Footer Stats */}
+                <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                  <div className="flex gap-6">
+                    <div className="flex items-center gap-2">
+                      <ShoppingBag className="h-4 w-4 text-gray-500" />
+                      <div className="text-center">
+                        <div className="font-semibold text-lg">0</div>
+                        <div className="text-xs text-gray-500">Orders</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Building2 className="h-4 w-4 text-gray-500" />
+                      <div className="text-center">
+                        <div className="font-semibold text-lg">0</div>
+                        <div className="text-xs text-gray-500">Products</div>
+                      </div>
+                    </div>
+                  </div>
+                  <span
+                    className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                      manufacturer.is_active
+                        ? "bg-green-100 text-green-800"
+                        : "bg-red-100 text-red-800"
+                    }`}
+                  >
+                    {manufacturer.is_active ? "Active" : "Inactive"}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Empty State */}
+          {manufacturers.length === 0 && (
+            <div className="text-center py-12">
+              <Building2 className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-gray-900 mb-2">No manufacturers found</h3>
+              <p className="text-gray-600 mb-4">Get started by adding your first manufacturer</p>
+              <Button 
+                onClick={() => {
+                  setEditingManufacturer(null);
+                  setManufacturerModalOpen(true);
+                }}
+                className="bg-black hover:bg-gray-800 text-white"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Add Manufacturer
+              </Button>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // Other tabs use table view
+    return renderTable();
+  };
+
   return (
     <div className="bg-white shadow rounded-lg p-6">
       <div className="flex items-center justify-between mb-6">
@@ -558,12 +711,12 @@ export default function MasterDataTabs() {
               setShowAddForm(true);
             }
           }}
-          disabled={activeTab !== "manufacturers" && showAddForm}
+          disabled={(activeTab !== "manufacturers" && showAddForm)}
           size="default"
           className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm border-0 px-4 py-2 h-9 font-medium"
         >
           <Plus className="h-4 w-4 mr-2" />
-          Add {activeTab.slice(0, -1)}
+          Add {activeTab === "manufacturers" ? "Manufacturer" : activeTab.slice(0, -1)}
         </Button>
       </div>
       
@@ -595,20 +748,15 @@ export default function MasterDataTabs() {
           </OvalTabsList>
         </div>
         
-        <div className="space-y-4">
-          {showAddForm && renderAddForm()}
-          {renderTable()}
-        </div>
+      {/* Manufacturers use modal, so no inline form */}
+      {activeTab !== "manufacturers" && showAddForm && renderAddForm()}
+      {renderContent()}
       </Tabs>
 
+      {/* Remove the inline ManufacturerFormModal - modal functionality should be handled by the "Add Manufacturer" button */}
       <ManufacturerFormModal
         open={manufacturerModalOpen}
-        onOpenChange={(open) => {
-          setManufacturerModalOpen(open);
-          if (!open) {
-            setEditingManufacturer(null);
-          }
-        }}
+        onOpenChange={setManufacturerModalOpen}
         manufacturer={editingManufacturer}
         onSuccess={() => {
           setManufacturerModalOpen(false);
