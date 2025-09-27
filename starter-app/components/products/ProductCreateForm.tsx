@@ -1,333 +1,363 @@
+// Product creation form component with hierarchical data selection
 "use client";
 
-import { useState, useEffect, useTransition } from "react";
+// Product creation form with hierarchical data selection
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Upload, Loader2, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { 
-  createProduct, 
-  getCategories, 
-  getBrands, 
-  getProductGroups, 
-  getProductSubGroups, 
-  getManufacturers 
-} from "@/app/(protected)/master/products/actions";
-import { toast } from "sonner";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Loader2, Package, ArrowLeft } from "lucide-react";
+import {
+  getCategories,
+  getBrands,
+  getProductGroups,
+  getProductSubGroups,
+  getManufacturers,
+  createProduct,
+} from "../../app/(protected)/master/products/actions";
+import type { Category, BrandWithCategory, ProductGroupWithCategory, ProductSubGroupWithGroup, Manufacturer } from "@/lib/types/master";
 
-const CreateProductSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  price: z.number().nonnegative().optional(),
-  status: z.enum(["active", "inactive"]),
+const productSchema = z.object({
+  name: z.string().min(1, "Product name is required"),
   category_id: z.string().min(1, "Category is required"),
   brand_id: z.string().min(1, "Brand is required"),
   group_id: z.string().min(1, "Group is required"),
   sub_group_id: z.string().min(1, "Sub-group is required"),
   manufacturer_id: z.string().min(1, "Manufacturer is required"),
+  price: z.string().optional(),
+  status: z.enum(["active", "inactive"]),
 });
 
-type FormData = z.infer<typeof CreateProductSchema>;
+type ProductFormData = z.infer<typeof productSchema>;
 
-interface Option {
-  id: string;
-  name: string;
-  category_id?: string;
-  group_id?: string;
+interface ProductCreateFormProps {
+  onSuccess?: () => void;
+  onCancel?: () => void;
 }
 
-export default function ProductCreateForm() {
-  const [categories, setCategories] = useState<Option[]>([]);
-  const [brands, setBrands] = useState<Option[]>([]);
-  const [groups, setGroups] = useState<Option[]>([]);
-  const [subGroups, setSubGroups] = useState<Option[]>([]);
-  const [manufacturers, setManufacturers] = useState<Option[]>([]);
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [isPending, startTransition] = useTransition();
+export function ProductCreateForm({ onSuccess, onCancel }: ProductCreateFormProps) {
+  const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [brands, setBrands] = useState<BrandWithCategory[]>([]);
+  const [groups, setGroups] = useState<ProductGroupWithCategory[]>([]);
+  const [subGroups, setSubGroups] = useState<ProductSubGroupWithGroup[]>([]);
+  const [manufacturers, setManufacturers] = useState<Manufacturer[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [selectedBrand, setSelectedBrand] = useState<string>("");
+  const [selectedGroup, setSelectedGroup] = useState<string>("");
 
-  const form = useForm<FormData>({
-    resolver: zodResolver(CreateProductSchema),
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<ProductFormData>({
+    resolver: zodResolver(productSchema),
     defaultValues: {
       status: "active",
-      name: "",
-      category_id: "",
-      brand_id: "",
-      group_id: "",
-      sub_group_id: "",
-      manufacturer_id: "",
     },
   });
 
-  const watchedCategory = form.watch("category_id");
-  const watchedGroup = form.watch("group_id");
+  const watchedCategory = watch("category_id");
+  const watchedBrand = watch("brand_id");
+  const watchedGroup = watch("group_id");
 
   useEffect(() => {
     loadInitialData();
   }, []);
 
   useEffect(() => {
-    if (watchedCategory) {
-      loadGroups(watchedCategory);
-      // Clear dependent fields
-      form.setValue("group_id", "");
-      form.setValue("sub_group_id", "");
+    if (watchedCategory && watchedCategory !== selectedCategory) {
+      setSelectedCategory(watchedCategory);
+      loadBrands(watchedCategory);
+      // Reset dependent fields
+      setValue("brand_id", "");
+      setValue("group_id", "");
+      setValue("sub_group_id", "");
+      setBrands([]);
+      setGroups([]);
       setSubGroups([]);
     }
-  }, [watchedCategory, form]);
+  }, [watchedCategory, selectedCategory, setValue]);
 
   useEffect(() => {
-    if (watchedGroup) {
-      loadSubGroups(watchedGroup);
-      // Clear dependent field
-      form.setValue("sub_group_id", "");
+    if (watchedBrand && watchedBrand !== selectedBrand) {
+      setSelectedBrand(watchedBrand);
+      loadGroups(watchedBrand);
+      // Reset dependent fields
+      setValue("group_id", "");
+      setValue("sub_group_id", "");
+      setGroups([]);
+      setSubGroups([]);
     }
-  }, [watchedGroup, form]);
+  }, [watchedBrand, selectedBrand, setValue]);
+
+  useEffect(() => {
+    if (watchedGroup && watchedGroup !== selectedGroup) {
+      setSelectedGroup(watchedGroup);
+      loadSubGroups(watchedGroup);
+      // Reset dependent field
+      setValue("sub_group_id", "");
+      setSubGroups([]);
+    }
+  }, [watchedGroup, selectedGroup, setValue]);
 
   const loadInitialData = async () => {
     try {
-      const [categoriesData, brandsData, manufacturersData] = await Promise.all([
+      const [categoriesData, manufacturersData] = await Promise.all([
         getCategories(),
-        getBrands(),
         getManufacturers(),
       ]);
-      
       setCategories(categoriesData);
-      setBrands(brandsData);
       setManufacturers(manufacturersData);
-    } catch {
-      toast.error("Failed to load form data");
+    } catch (error) {
+      console.error("Failed to load initial data:", error);
     }
   };
 
-  const loadGroups = async (categoryId: string) => {
+  const loadBrands = async (categoryId: string) => {
     try {
-      const groupsData = await getProductGroups(categoryId);
+      const brandsData = await getBrands(categoryId);
+      // Transform the data to match the expected interface
+      const transformedData = brandsData.map(brand => ({
+        ...brand,
+        category: Array.isArray(brand.category) ? brand.category[0] : brand.category,
+      }));
+      setBrands(transformedData);
+    } catch (error) {
+      console.error("Failed to load brands:", error);
+    }
+  };
+
+  const loadGroups = async (brandId: string) => {
+    try {
+      const groupsData = await getProductGroups(brandId);
       setGroups(groupsData);
-    } catch {
-      toast.error("Failed to load product groups");
+    } catch (error) {
+      console.error("Failed to load groups:", error);
     }
   };
 
   const loadSubGroups = async (groupId: string) => {
     try {
       const subGroupsData = await getProductSubGroups(groupId);
-      setSubGroups(subGroupsData);
-    } catch {
-      toast.error("Failed to load sub-groups");
+      // Transform the data to match the expected interface
+      const transformedData = subGroupsData.map(subGroup => ({
+        ...subGroup,
+        group: Array.isArray(subGroup.group) ? subGroup.group[0] : subGroup.group,
+      }));
+      setSubGroups(transformedData);
+    } catch (error) {
+      console.error("Failed to load sub-groups:", error);
     }
   };
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setSelectedImage(file);
-      
-      // Create preview
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const onSubmit = async (data: FormData) => {
-    startTransition(async () => {
-      try {
-        const formData = new FormData();
-        Object.entries(data).forEach(([key, value]) => {
-          if (value !== undefined) {
-            formData.append(key, value.toString());
-          }
-        });
-
-        const result = await createProduct(formData);
-        
-        if (result.ok) {
-          toast.success("Product created successfully");
-          form.reset();
-          setSelectedImage(null);
-          setImagePreview(null);
-          setGroups([]);
-          setSubGroups([]);
-        } else {
-          toast.error(result.message || "Failed to create product");
+  const onSubmit = async (data: ProductFormData) => {
+    try {
+      setLoading(true);
+      const formData = new FormData();
+      Object.entries(data).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          formData.append(key, value.toString());
         }
-      } catch {
-        toast.error("Failed to create product");
+      });
+
+      const result = await createProduct(formData);
+      if (result.ok) {
+        onSuccess?.();
+      } else {
+        alert(result.message || "Failed to create product");
       }
-    });
+    } catch (error) {
+      console.error("Create product error:", error);
+      alert("Failed to create product");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/20 border-0 shadow-xl shadow-blue-500/5 rounded-lg">
-      <div className="p-6 pb-4">
-        <h2 className="text-xl font-bold text-slate-800 flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg">
-            <Plus className="h-5 w-5 text-white" />
-          </div>
-          Create New Product
-        </h2>
+    <div className="space-y-6">
+      <div className="flex items-center space-x-4">
+        <Button variant="ghost" onClick={onCancel}>
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back
+        </Button>
+        <div>
+          <h2 className="text-xl font-semibold">Create New Product</h2>
+          <p className="text-sm text-gray-500">Fill in the details to create a new product</p>
+        </div>
       </div>
 
-      <div className="px-6 pb-6">
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Product Name */}
-            <div>
-              <label htmlFor="name" className="block text-sm font-semibold text-slate-700 mb-2">
-                Product Name *
-              </label>
-              <Input
-                id="name"
-                {...form.register("name")}
-                placeholder="Enter product name"
-                className={`bg-white/80 backdrop-blur-sm border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-colors ${
-                  form.formState.errors.name ? "border-red-400 focus:border-red-400 focus:ring-red-400/20" : ""
-                }`}
-              />
-              {form.formState.errors.name && (
-                <p className="mt-1 text-sm text-red-600 font-medium">{form.formState.errors.name.message}</p>
-              )}
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <Package className="h-5 w-5 mr-2" />
+              Product Information
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="name">Product Name *</Label>
+                <Input
+                  id="name"
+                  {...register("name")}
+                  placeholder="Enter product name"
+                />
+                {errors.name && (
+                  <p className="text-sm text-red-600">{errors.name.message}</p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="price">Price</Label>
+                <Input
+                  id="price"
+                  type="number"
+                  step="0.01"
+                  {...register("price")}
+                  placeholder="0.00"
+                />
+                {errors.price && (
+                  <p className="text-sm text-red-600">{errors.price.message}</p>
+                )}
+              </div>
             </div>
 
-            {/* Price */}
-            <div>
-              <label htmlFor="price" className="block text-sm font-semibold text-slate-700 mb-2">
-                Price
-              </label>
-              <Input
-                id="price"
-                type="number"
-                step="0.01"
-                min="0"
-                {...form.register("price", { valueAsNumber: true })}
-                placeholder="0.00"
-                className={`bg-white/80 backdrop-blur-sm border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-colors ${
-                  form.formState.errors.price ? "border-red-400 focus:border-red-400 focus:ring-red-400/20" : ""
-                }`}
-              />
-              {form.formState.errors.price && (
-                <p className="mt-1 text-sm text-red-600 font-medium">{form.formState.errors.price.message}</p>
-              )}
-            </div>
-
-            {/* Category */}
-            <div>
-              <label htmlFor="category_id" className="block text-sm font-semibold text-slate-700 mb-2">
-                Category *
-              </label>
-              <Select value={form.watch("category_id")} onValueChange={(value) => form.setValue("category_id", value)}>
-                <SelectTrigger className={`bg-white/80 backdrop-blur-sm border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-colors ${
-                  form.formState.errors.category_id ? "border-red-400 focus:border-red-400 focus:ring-red-400/20" : ""
-                }`}>
-                  <SelectValue placeholder="Select category" />
+            <div className="space-y-2">
+              <Label htmlFor="status">Status</Label>
+              <Select onValueChange={(value) => setValue("status", value as "active" | "inactive")}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select status" />
                 </SelectTrigger>
                 <SelectContent>
-                  {categories.map((category) => (
-                    <SelectItem key={category.id} value={category.id}>
-                      {category.name}
-                    </SelectItem>
-                  ))}
+                  <SelectItem value="active">
+                    <Badge variant="default">Active</Badge>
+                  </SelectItem>
+                  <SelectItem value="inactive">
+                    <Badge variant="secondary">Inactive</Badge>
+                  </SelectItem>
                 </SelectContent>
               </Select>
-              {form.formState.errors.category_id && (
-                <p className="mt-1 text-sm text-red-600 font-medium">{form.formState.errors.category_id.message}</p>
-              )}
             </div>
+          </CardContent>
+        </Card>
 
-            {/* Brand */}
-            <div>
-              <label htmlFor="brand_id" className="block text-sm font-semibold text-slate-700 mb-2">
-                Brand *
-              </label>
-              <Select value={form.watch("brand_id")} onValueChange={(value) => form.setValue("brand_id", value)}>
-                <SelectTrigger className={`bg-white/80 backdrop-blur-sm border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-colors ${
-                  form.formState.errors.brand_id ? "border-red-400 focus:border-red-400 focus:ring-red-400/20" : ""
-                }`}>
-                  <SelectValue placeholder="Select brand" />
-                </SelectTrigger>
-                <SelectContent>
-                  {brands.map((brand) => (
-                    <SelectItem key={brand.id} value={brand.id}>
-                      {brand.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {form.formState.errors.brand_id && (
-                <p className="mt-1 text-sm text-red-600 font-medium">{form.formState.errors.brand_id.message}</p>
-              )}
+        <Card>
+          <CardHeader>
+            <CardTitle>Hierarchy Selection</CardTitle>
+            <p className="text-sm text-gray-500">
+              Select the hierarchical structure for this product
+            </p>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="category_id">Category *</Label>
+                <Select onValueChange={(value) => setValue("category_id", value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map((category) => (
+                      <SelectItem key={category.id} value={category.id}>
+                        {category.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {errors.category_id && (
+                  <p className="text-sm text-red-600">{errors.category_id.message}</p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="brand_id">Brand *</Label>
+                <Select
+                  onValueChange={(value) => setValue("brand_id", value)}
+                  disabled={!watchedCategory}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={watchedCategory ? "Select brand" : "Select category first"} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {brands.map((brand) => (
+                      <SelectItem key={brand.id} value={brand.id}>
+                        {brand.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {errors.brand_id && (
+                  <p className="text-sm text-red-600">{errors.brand_id.message}</p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="group_id">Group *</Label>
+                <Select
+                  onValueChange={(value) => setValue("group_id", value)}
+                  disabled={!watchedBrand}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={watchedBrand ? "Select group" : "Select brand first"} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {groups.map((group) => (
+                      <SelectItem key={group.id} value={group.id}>
+                        {group.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {errors.group_id && (
+                  <p className="text-sm text-red-600">{errors.group_id.message}</p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="sub_group_id">Sub-Group *</Label>
+                <Select
+                  onValueChange={(value) => setValue("sub_group_id", value)}
+                  disabled={!watchedGroup}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={watchedGroup ? "Select sub-group" : "Select group first"} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {subGroups.map((subGroup) => (
+                      <SelectItem key={subGroup.id} value={subGroup.id}>
+                        {subGroup.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {errors.sub_group_id && (
+                  <p className="text-sm text-red-600">{errors.sub_group_id.message}</p>
+                )}
+              </div>
             </div>
+          </CardContent>
+        </Card>
 
-            {/* Product Group */}
-            <div>
-              <label htmlFor="group_id" className="block text-sm font-semibold text-slate-700 mb-2">
-                Product Group *
-              </label>
-              <Select
-                value={form.watch("group_id")}
-                onValueChange={(value) => form.setValue("group_id", value)}
-                disabled={!watchedCategory}
-              >
-                <SelectTrigger className={`bg-white/80 backdrop-blur-sm border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-colors ${
-                  form.formState.errors.group_id ? "border-red-400 focus:border-red-400 focus:ring-red-400/20" : ""
-                }`}>
-                  <SelectValue placeholder={watchedCategory ? "Select group" : "Select category first"} />
-                </SelectTrigger>
-                <SelectContent>
-                  {groups.map((group) => (
-                    <SelectItem key={group.id} value={group.id}>
-                      {group.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {form.formState.errors.group_id && (
-                <p className="mt-1 text-sm text-red-600 font-medium">{form.formState.errors.group_id.message}</p>
-              )}
-            </div>
-
-            {/* Sub Group */}
-            <div>
-              <label htmlFor="sub_group_id" className="block text-sm font-semibold text-slate-700 mb-2">
-                Sub Group *
-              </label>
-              <Select
-                value={form.watch("sub_group_id")}
-                onValueChange={(value) => form.setValue("sub_group_id", value)}
-                disabled={!watchedGroup}
-              >
-                <SelectTrigger className={`bg-white/80 backdrop-blur-sm border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-colors ${
-                  form.formState.errors.sub_group_id ? "border-red-400 focus:border-red-400 focus:ring-red-400/20" : ""
-                }`}>
-                  <SelectValue placeholder={watchedGroup ? "Select sub-group" : "Select group first"} />
-                </SelectTrigger>
-                <SelectContent>
-                  {subGroups.map((subGroup) => (
-                    <SelectItem key={subGroup.id} value={subGroup.id}>
-                      {subGroup.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {form.formState.errors.sub_group_id && (
-                <p className="mt-1 text-sm text-red-600 font-medium">{form.formState.errors.sub_group_id.message}</p>
-              )}
-            </div>
-
-            {/* Manufacturer */}
-            <div>
-              <label htmlFor="manufacturer_id" className="block text-sm font-semibold text-slate-700 mb-2">
-                Manufacturer *
-              </label>
-              <Select value={form.watch("manufacturer_id")} onValueChange={(value) => form.setValue("manufacturer_id", value)}>
-                <SelectTrigger className={`bg-white/80 backdrop-blur-sm border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-colors ${
-                  form.formState.errors.manufacturer_id ? "border-red-400 focus:border-red-400 focus:ring-red-400/20" : ""
-                }`}>
+        <Card>
+          <CardHeader>
+            <CardTitle>Manufacturer</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              <Label htmlFor="manufacturer_id">Manufacturer *</Label>
+              <Select onValueChange={(value) => setValue("manufacturer_id", value)}>
+                <SelectTrigger>
                   <SelectValue placeholder="Select manufacturer" />
                 </SelectTrigger>
                 <SelectContent>
@@ -338,90 +368,23 @@ export default function ProductCreateForm() {
                   ))}
                 </SelectContent>
               </Select>
-              {form.formState.errors.manufacturer_id && (
-                <p className="mt-1 text-sm text-red-600 font-medium">{form.formState.errors.manufacturer_id.message}</p>
+              {errors.manufacturer_id && (
+                <p className="text-sm text-red-600">{errors.manufacturer_id.message}</p>
               )}
             </div>
+          </CardContent>
+        </Card>
 
-            {/* Status */}
-            <div>
-              <label htmlFor="status" className="block text-sm font-semibold text-slate-700 mb-2">
-                Status
-              </label>
-              <Select value={form.watch("status")} onValueChange={(value: "active" | "inactive") => form.setValue("status", value)}>
-                <SelectTrigger className="bg-white/80 backdrop-blur-sm border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-colors">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="active">Active</SelectItem>
-                  <SelectItem value="inactive">Inactive</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          {/* Image Upload */}
-          <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
-              Product Image
-            </label>
-            <div className="flex items-center gap-4">
-              {imagePreview && (
-                <img
-                  src={imagePreview}
-                  alt="Preview"
-                  className="h-20 w-20 object-cover rounded-lg border-2 border-slate-200 shadow-md"
-                />
-              )}
-              <div className="flex-1">
-                <label className="cursor-pointer">
-                  <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center hover:border-blue-400 hover:bg-blue-50/50 transition-colors bg-white/60 backdrop-blur-sm">
-                    <Upload className="mx-auto h-8 w-8 text-slate-400 mb-2" />
-                    <span className="text-sm text-slate-600 font-medium">
-                      {selectedImage ? selectedImage.name : "Click to upload image"}
-                    </span>
-                    <p className="text-xs text-slate-500 mt-1">PNG, JPG up to 2MB</p>
-                  </div>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="hidden"
-                  />
-                </label>
-              </div>
-            </div>
-          </div>
-
-          {/* Submit Button */}
-          <div className="flex justify-end gap-3 pt-4 border-t border-slate-200/60">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => {
-                form.reset();
-                setSelectedImage(null);
-                setImagePreview(null);
-                setGroups([]);
-                setSubGroups([]);
-              }}
-              disabled={isPending}
-              className="bg-white hover:bg-slate-50 border-slate-200 hover:border-slate-300 transition-colors shadow-sm"
-            >
-              Reset
-            </Button>
-            <Button
-              type="submit"
-              variant="outline"
-              disabled={isPending}
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-200"
-            >
-              {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Create Product
-            </Button>
-          </div>
-        </form>
-      </div>
+        <div className="flex justify-end space-x-4">
+          <Button type="button" variant="outline" onClick={onCancel}>
+            Cancel
+          </Button>
+          <Button type="submit" disabled={loading}>
+            {loading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+            Create Product
+          </Button>
+        </div>
+      </form>
     </div>
   );
 }

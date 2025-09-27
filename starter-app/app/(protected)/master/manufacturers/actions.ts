@@ -23,7 +23,7 @@ const Upsert = z.object({
   notes: z.string().optional(),
 });
 
-export async function upsertManufacturer(_: any, formData: FormData) {
+export async function upsertManufacturer(_: unknown, formData: FormData) {
   // Parse all form fields
   const parsed = Upsert.safeParse({
     id: formData.get("id") ?? undefined,

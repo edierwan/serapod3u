@@ -1,5 +1,7 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import { getProductVariants } from "../products/actions";
+import type { ProductVariantWithProduct } from "@/lib/types/master";
 
 export default async function VariantsPage() {
   const supabase = await createSupabaseServerClient();
@@ -16,17 +18,9 @@ export default async function VariantsPage() {
   const canModify = profile?.role_code === "hq_admin" || profile?.role_code === "power_user";
 
   // Fetch variants with product information
-  const { data: variants } = await supabase
-    .from("product_variants")
-    .select(`
-      *,
-      products:product_id (
-        id,
-        name,
-        sku
-      )
-    `)
-    .order("created_at", { ascending: false });
+  const variants = await getProductVariants();
+
+  const typedVariants: ProductVariantWithProduct[] = variants;
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
@@ -45,7 +39,7 @@ export default async function VariantsPage() {
 
       <div className="bg-white shadow overflow-hidden sm:rounded-lg">
         <div className="px-4 py-5 sm:p-6">
-          {variants && variants.length > 0 ? (
+          {typedVariants && typedVariants.length > 0 ? (
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
@@ -74,14 +68,14 @@ export default async function VariantsPage() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {variants.map((variant: any) => (
+                  {typedVariants.map((variant) => (
                     <tr key={variant.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm font-medium text-gray-900">
-                          {variant.products?.name || "Unknown Product"}
+                          {variant.product?.name || "Unknown Product"}
                         </div>
                         <div className="text-sm text-gray-500">
-                          {variant.products?.sku || ""}
+                          {variant.product?.sku || ""}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -114,7 +108,7 @@ export default async function VariantsPage() {
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {new Date(variant.created_at).toLocaleDateString()}
+                        {new Date(variant.created_at!).toLocaleDateString()}
                       </td>
                     </tr>
                   ))}

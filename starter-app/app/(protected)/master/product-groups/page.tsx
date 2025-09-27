@@ -4,6 +4,8 @@ import Link from "next/link";
 import { Plus, Edit, Eye } from "lucide-react";
 import DeleteProductGroupButton from "./DeleteProductGroupButton";
 import { CATEGORY_NAME_TO_ENUM_MAP, PRODUCT_CATEGORY_OPTIONS } from "@/lib/constants/productCategories";
+import { getProductGroups } from "../products/actions";
+import type { ProductGroupWithCategory } from "@/lib/types/master";
 
 export default async function ProductGroupsPage() {
   const supabase = await createSupabaseServerClient();
@@ -20,16 +22,9 @@ export default async function ProductGroupsPage() {
   const canModify = profile?.role_code === "hq_admin" || profile?.role_code === "power_user";
 
   // Fetch product groups with categories
-  const { data: productGroups } = await supabase
-    .from("product_groups")
-    .select(`
-      *,
-      categories!left (
-        id,
-        name
-      )
-    `)
-    .order("name");
+  const productGroups = await getProductGroups();
+
+  const typedProductGroups: ProductGroupWithCategory[] = productGroups;
 
   return (
     <div className="max-w-6xl mx-auto space-y-6">
@@ -48,7 +43,7 @@ export default async function ProductGroupsPage() {
 
       <div className="bg-white shadow overflow-hidden sm:rounded-lg">
         <div className="px-4 py-5 sm:p-6">
-          {productGroups && productGroups.length > 0 ? (
+          {typedProductGroups && typedProductGroups.length > 0 ? (
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
@@ -71,17 +66,17 @@ export default async function ProductGroupsPage() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {productGroups.map((group: any) => (
+                  {typedProductGroups.map((group) => (
                     <tr key={group.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm font-medium text-gray-900">{group.name}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">
-                          {group.categories?.name ? 
+                          {group.category?.name ? 
                             PRODUCT_CATEGORY_OPTIONS.find(opt => 
-                              CATEGORY_NAME_TO_ENUM_MAP[group.categories.name] === opt.value
-                            )?.label || group.categories.name 
+                              CATEGORY_NAME_TO_ENUM_MAP[group.category!.name] === opt.value
+                            )?.label || group.category.name 
                             : "No Category"
                           }
                         </div>
@@ -96,7 +91,7 @@ export default async function ProductGroupsPage() {
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {new Date(group.created_at).toLocaleDateString()}
+                        {new Date(group.created_at!).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                         <Link 
