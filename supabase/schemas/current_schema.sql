@@ -2,12 +2,12 @@
 -- PostgreSQL database dump
 --
 
-\restrict QdMMvEieMDDxnrtn6rUkLGDJvWdDxIIOXWuNWdyGTSozIzgoVsCNjmwH5suV3Lm
+\restrict fGCSnxuxCnIbqzBa6iJn27tkOpns0gaF16VcV7MYQNxPVXsyfPDz1gsWpaAJRJ4
 
 -- Dumped from database version 17.4
 -- Dumped by pg_dump version 17.6
 
--- Started on 2025-09-26 23:28:18 +08
+-- Started on 2025-09-27 01:03:15 +08
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -30,7 +30,7 @@ CREATE SCHEMA public;
 
 
 --
--- TOC entry 4398 (class 0 OID 0)
+-- TOC entry 4401 (class 0 OID 0)
 -- Dependencies: 13
 -- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: -
 --
@@ -2726,7 +2726,7 @@ $$;
 
 
 --
--- TOC entry 4399 (class 0 OID 0)
+-- TOC entry 4402 (class 0 OID 0)
 -- Dependencies: 627
 -- Name: FUNCTION reject_product(product_id_param uuid, reason_param text, comment_param text); Type: COMMENT; Schema: public; Owner: -
 --
@@ -2932,7 +2932,7 @@ $$;
 
 
 --
--- TOC entry 4400 (class 0 OID 0)
+-- TOC entry 4403 (class 0 OID 0)
 -- Dependencies: 528
 -- Name: FUNCTION submit_product_for_approval(product_id_param uuid, comment_param text); Type: COMMENT; Schema: public; Owner: -
 --
@@ -4358,7 +4358,7 @@ CREATE TABLE public.manufacturers (
 
 
 --
--- TOC entry 4401 (class 0 OID 0)
+-- TOC entry 4404 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.legal_name; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4367,7 +4367,7 @@ COMMENT ON COLUMN public.manufacturers.legal_name IS 'Registered legal name';
 
 
 --
--- TOC entry 4402 (class 0 OID 0)
+-- TOC entry 4405 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.brand_name; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4376,7 +4376,7 @@ COMMENT ON COLUMN public.manufacturers.brand_name IS 'Marketing/brand display na
 
 
 --
--- TOC entry 4403 (class 0 OID 0)
+-- TOC entry 4406 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.registration_number; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4385,7 +4385,7 @@ COMMENT ON COLUMN public.manufacturers.registration_number IS 'Company/business 
 
 
 --
--- TOC entry 4404 (class 0 OID 0)
+-- TOC entry 4407 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.tax_id; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4394,7 +4394,7 @@ COMMENT ON COLUMN public.manufacturers.tax_id IS 'Tax/VAT/GST identifier';
 
 
 --
--- TOC entry 4405 (class 0 OID 0)
+-- TOC entry 4408 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.country_code; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4403,7 +4403,7 @@ COMMENT ON COLUMN public.manufacturers.country_code IS 'ISO-3166-1 alpha-2';
 
 
 --
--- TOC entry 4406 (class 0 OID 0)
+-- TOC entry 4409 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.language_code; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4412,7 +4412,7 @@ COMMENT ON COLUMN public.manufacturers.language_code IS 'ISO-639-1';
 
 
 --
--- TOC entry 4407 (class 0 OID 0)
+-- TOC entry 4410 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.currency_code; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4421,7 +4421,7 @@ COMMENT ON COLUMN public.manufacturers.currency_code IS 'ISO-4217';
 
 
 --
--- TOC entry 4408 (class 0 OID 0)
+-- TOC entry 4411 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.support_email; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4430,7 +4430,7 @@ COMMENT ON COLUMN public.manufacturers.support_email IS 'Support contact email';
 
 
 --
--- TOC entry 4409 (class 0 OID 0)
+-- TOC entry 4412 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.support_phone; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4439,7 +4439,7 @@ COMMENT ON COLUMN public.manufacturers.support_phone IS 'Support phone';
 
 
 --
--- TOC entry 4410 (class 0 OID 0)
+-- TOC entry 4413 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.whatsapp; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4448,7 +4448,7 @@ COMMENT ON COLUMN public.manufacturers.whatsapp IS 'WhatsApp contact';
 
 
 --
--- TOC entry 4411 (class 0 OID 0)
+-- TOC entry 4414 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.address_line1; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4457,7 +4457,7 @@ COMMENT ON COLUMN public.manufacturers.address_line1 IS 'Address line 1';
 
 
 --
--- TOC entry 4412 (class 0 OID 0)
+-- TOC entry 4415 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.address_line2; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4466,7 +4466,7 @@ COMMENT ON COLUMN public.manufacturers.address_line2 IS 'Address line 2';
 
 
 --
--- TOC entry 4413 (class 0 OID 0)
+-- TOC entry 4416 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.state_region; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4475,7 +4475,7 @@ COMMENT ON COLUMN public.manufacturers.state_region IS 'State/Region';
 
 
 --
--- TOC entry 4414 (class 0 OID 0)
+-- TOC entry 4417 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.social_links; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4484,7 +4484,7 @@ COMMENT ON COLUMN public.manufacturers.social_links IS 'JSON of social links';
 
 
 --
--- TOC entry 4415 (class 0 OID 0)
+-- TOC entry 4418 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.certifications; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4493,7 +4493,7 @@ COMMENT ON COLUMN public.manufacturers.certifications IS 'JSON array of certific
 
 
 --
--- TOC entry 4416 (class 0 OID 0)
+-- TOC entry 4419 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.status; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4697,7 +4697,7 @@ CREATE SEQUENCE public.shop_points_ledger_id_seq
 
 
 --
--- TOC entry 4417 (class 0 OID 0)
+-- TOC entry 4420 (class 0 OID 0)
 -- Dependencies: 414
 -- Name: shop_points_ledger_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
@@ -4797,7 +4797,7 @@ CREATE TABLE storage.buckets (
 
 
 --
--- TOC entry 4418 (class 0 OID 0)
+-- TOC entry 4421 (class 0 OID 0)
 -- Dependencies: 361
 -- Name: COLUMN buckets.owner; Type: COMMENT; Schema: storage; Owner: -
 --
@@ -4855,7 +4855,7 @@ CREATE TABLE storage.objects (
 
 
 --
--- TOC entry 4419 (class 0 OID 0)
+-- TOC entry 4422 (class 0 OID 0)
 -- Dependencies: 362
 -- Name: COLUMN objects.owner; Type: COMMENT; Schema: storage; Owner: -
 --
@@ -5715,7 +5715,7 @@ ALTER TABLE ONLY storage.s3_multipart_uploads_parts
 
 
 --
--- TOC entry 4371 (class 3256 OID 84704)
+-- TOC entry 4370 (class 3256 OID 84704)
 -- Name: distributors dist_own_distributor; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -5727,7 +5727,7 @@ CREATE POLICY dist_own_distributor ON public.distributors USING ((id = ( SELECT 
 
 
 --
--- TOC entry 4372 (class 3256 OID 84706)
+-- TOC entry 4371 (class 3256 OID 84706)
 -- Name: shops dist_own_shops; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -5747,19 +5747,39 @@ CREATE POLICY dist_own_shops ON public.shops USING ((distributor_id = ( SELECT v
 ALTER TABLE public.distributors ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4367 (class 3256 OID 84696)
--- Name: distributors hq_all_distributors; Type: POLICY; Schema: public; Owner: -
+-- TOC entry 4377 (class 3256 OID 84755)
+-- Name: distributors distributors_admin_delete; Type: POLICY; Schema: public; Owner: -
 --
 
-CREATE POLICY hq_all_distributors ON public.distributors USING ((EXISTS ( SELECT 1
-   FROM public.v_current_profile
-  WHERE (v_current_profile.role = 'hq_admin'::public.app_role)))) WITH CHECK ((EXISTS ( SELECT 1
-   FROM public.v_current_profile
-  WHERE (v_current_profile.role = 'hq_admin'::public.app_role))));
+CREATE POLICY distributors_admin_delete ON public.distributors FOR DELETE TO authenticated USING ((app.is_hq_admin() OR app.is_power_user()));
 
 
 --
--- TOC entry 4370 (class 3256 OID 84702)
+-- TOC entry 4375 (class 3256 OID 84753)
+-- Name: distributors distributors_admin_insert; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY distributors_admin_insert ON public.distributors FOR INSERT TO authenticated WITH CHECK ((app.is_hq_admin() OR app.is_power_user()));
+
+
+--
+-- TOC entry 4374 (class 3256 OID 84752)
+-- Name: distributors distributors_admin_read_all; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY distributors_admin_read_all ON public.distributors FOR SELECT TO authenticated USING ((app.is_hq_admin() OR app.is_power_user()));
+
+
+--
+-- TOC entry 4376 (class 3256 OID 84754)
+-- Name: distributors distributors_admin_update; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY distributors_admin_update ON public.distributors FOR UPDATE TO authenticated USING ((app.is_hq_admin() OR app.is_power_user())) WITH CHECK ((app.is_hq_admin() OR app.is_power_user()));
+
+
+--
+-- TOC entry 4369 (class 3256 OID 84702)
 -- Name: shop_points_ledger hq_all_points; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -5771,7 +5791,7 @@ CREATE POLICY hq_all_points ON public.shop_points_ledger USING ((EXISTS ( SELECT
 
 
 --
--- TOC entry 4369 (class 3256 OID 84700)
+-- TOC entry 4368 (class 3256 OID 84700)
 -- Name: profiles hq_all_profiles; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -5783,7 +5803,7 @@ CREATE POLICY hq_all_profiles ON public.profiles USING ((EXISTS ( SELECT 1
 
 
 --
--- TOC entry 4368 (class 3256 OID 84698)
+-- TOC entry 4367 (class 3256 OID 84698)
 -- Name: shops hq_all_shops; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -5795,7 +5815,7 @@ CREATE POLICY hq_all_shops ON public.shops USING ((EXISTS ( SELECT 1
 
 
 --
--- TOC entry 4374 (class 3256 OID 84709)
+-- TOC entry 4373 (class 3256 OID 84709)
 -- Name: shop_points_ledger points_same_distributor; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -5838,7 +5858,7 @@ CREATE POLICY profiles_self_update ON public.profiles FOR UPDATE TO authenticate
 
 
 --
--- TOC entry 4373 (class 3256 OID 84708)
+-- TOC entry 4372 (class 3256 OID 84708)
 -- Name: profiles self_profile_rw; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -5894,7 +5914,7 @@ ALTER TABLE storage.buckets ENABLE ROW LEVEL SECURITY;
 ALTER TABLE storage.buckets_analytics ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4388 (class 3256 OID 70396)
+-- TOC entry 4391 (class 3256 OID 70396)
 -- Name: objects campaign_images_public_read; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -5902,7 +5922,7 @@ CREATE POLICY campaign_images_public_read ON storage.objects FOR SELECT USING ((
 
 
 --
--- TOC entry 4391 (class 3256 OID 70420)
+-- TOC entry 4394 (class 3256 OID 70420)
 -- Name: objects campaign_images_write_delete; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -5910,7 +5930,7 @@ CREATE POLICY campaign_images_write_delete ON storage.objects FOR DELETE TO auth
 
 
 --
--- TOC entry 4389 (class 3256 OID 70418)
+-- TOC entry 4392 (class 3256 OID 70418)
 -- Name: objects campaign_images_write_insert; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -5918,7 +5938,7 @@ CREATE POLICY campaign_images_write_insert ON storage.objects FOR INSERT TO auth
 
 
 --
--- TOC entry 4390 (class 3256 OID 70419)
+-- TOC entry 4393 (class 3256 OID 70419)
 -- Name: objects campaign_images_write_update; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -5958,7 +5978,7 @@ CREATE POLICY "prizes delete" ON storage.objects FOR DELETE TO authenticated USI
 
 
 --
--- TOC entry 4375 (class 3256 OID 67238)
+-- TOC entry 4378 (class 3256 OID 67238)
 -- Name: objects prizes read; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -5966,7 +5986,7 @@ CREATE POLICY "prizes read" ON storage.objects FOR SELECT USING ((bucket_id = 'p
 
 
 --
--- TOC entry 4377 (class 3256 OID 67240)
+-- TOC entry 4380 (class 3256 OID 67240)
 -- Name: objects prizes update; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -5974,7 +5994,7 @@ CREATE POLICY "prizes update" ON storage.objects FOR UPDATE TO authenticated USI
 
 
 --
--- TOC entry 4376 (class 3256 OID 67239)
+-- TOC entry 4379 (class 3256 OID 67239)
 -- Name: objects prizes write; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -5998,7 +6018,7 @@ CREATE POLICY prizes_insert_auth ON storage.objects FOR INSERT TO authenticated 
 
 
 --
--- TOC entry 4378 (class 3256 OID 67388)
+-- TOC entry 4381 (class 3256 OID 67388)
 -- Name: objects prizes_read_anon; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6030,7 +6050,7 @@ CREATE POLICY product_images_authenticated_write ON storage.objects FOR INSERT T
 
 
 --
--- TOC entry 4387 (class 3256 OID 70190)
+-- TOC entry 4390 (class 3256 OID 70190)
 -- Name: objects product_images_authenticated_write_delete; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6038,7 +6058,7 @@ CREATE POLICY product_images_authenticated_write_delete ON storage.objects FOR D
 
 
 --
--- TOC entry 4385 (class 3256 OID 70188)
+-- TOC entry 4388 (class 3256 OID 70188)
 -- Name: objects product_images_authenticated_write_insert; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6046,7 +6066,7 @@ CREATE POLICY product_images_authenticated_write_insert ON storage.objects FOR I
 
 
 --
--- TOC entry 4386 (class 3256 OID 70189)
+-- TOC entry 4389 (class 3256 OID 70189)
 -- Name: objects product_images_authenticated_write_update; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6054,7 +6074,7 @@ CREATE POLICY product_images_authenticated_write_update ON storage.objects FOR U
 
 
 --
--- TOC entry 4384 (class 3256 OID 69976)
+-- TOC entry 4387 (class 3256 OID 69976)
 -- Name: objects product_images_hq_power_delete; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6062,7 +6082,7 @@ CREATE POLICY product_images_hq_power_delete ON storage.objects FOR DELETE TO au
 
 
 --
--- TOC entry 4382 (class 3256 OID 69974)
+-- TOC entry 4385 (class 3256 OID 69974)
 -- Name: objects product_images_hq_power_insert; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6070,7 +6090,7 @@ CREATE POLICY product_images_hq_power_insert ON storage.objects FOR INSERT TO au
 
 
 --
--- TOC entry 4383 (class 3256 OID 69975)
+-- TOC entry 4386 (class 3256 OID 69975)
 -- Name: objects product_images_hq_power_update; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6086,7 +6106,7 @@ CREATE POLICY product_images_public_read ON storage.objects FOR SELECT USING ((b
 
 
 --
--- TOC entry 4381 (class 3256 OID 69952)
+-- TOC entry 4384 (class 3256 OID 69952)
 -- Name: objects product_images_server_write_delete; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6094,7 +6114,7 @@ CREATE POLICY product_images_server_write_delete ON storage.objects FOR DELETE T
 
 
 --
--- TOC entry 4379 (class 3256 OID 69908)
+-- TOC entry 4382 (class 3256 OID 69908)
 -- Name: objects product_images_server_write_insert; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6102,7 +6122,7 @@ CREATE POLICY product_images_server_write_insert ON storage.objects FOR INSERT T
 
 
 --
--- TOC entry 4380 (class 3256 OID 69930)
+-- TOC entry 4383 (class 3256 OID 69930)
 -- Name: objects product_images_server_write_update; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6125,11 +6145,11 @@ ALTER TABLE storage.s3_multipart_uploads ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE storage.s3_multipart_uploads_parts ENABLE ROW LEVEL SECURITY;
 
--- Completed on 2025-09-26 23:28:26 +08
+-- Completed on 2025-09-27 01:03:33 +08
 
 --
 -- PostgreSQL database dump complete
 --
 
-\unrestrict QdMMvEieMDDxnrtn6rUkLGDJvWdDxIIOXWuNWdyGTSozIzgoVsCNjmwH5suV3Lm
+\unrestrict fGCSnxuxCnIbqzBa6iJn27tkOpns0gaF16VcV7MYQNxPVXsyfPDz1gsWpaAJRJ4
 
