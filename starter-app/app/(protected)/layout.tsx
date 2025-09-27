@@ -13,13 +13,13 @@ export default async function ProtectedLayout({ children }: { children: ReactNod
   if (!user) redirect("/login");
 
   // Load profile (role)
-  const { data: profile } = await supabase.from("profiles").select("role_code, full_name, avatar_url").eq("id", user.id).maybeSingle();
+  const { data: profile } = await supabase.from("profiles").select("role_code, full_name").eq("id", user.id).maybeSingle();
   const role = (profile?.role_code ?? "shop") as keyof typeof SidebarByRole;
   const items = SidebarByRole[role];
 
   return (
     <div className="min-h-screen grid grid-rows-[auto_1fr] bg-white">
-      <Header onSignOut={async () => { "use server"; await logoutAction(); }} />
+      <Header onSignOut={async () => { "use server"; await logoutAction(); }} user={user} profile={profile} />
       <div className="grid grid-cols-[16rem_1fr] bg-white">
         <Sidebar items={items} />
         <main className="p-4 bg-white">{children}</main>

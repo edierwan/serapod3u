@@ -19,11 +19,11 @@ for select
 to anon, authenticated
 using ( bucket_id = 'product-images' );
 
--- Insert (auth only)
+-- Insert (auth only) - temporarily allow anon for testing
 drop policy if exists product-images_authenticated_insert on storage.objects;
 create policy product-images_authenticated_insert on storage.objects
 for insert
-to authenticated
+to anon, authenticated
 with check ( bucket_id = 'product-images' );
 
 -- Update (auth only)

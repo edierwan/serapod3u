@@ -222,7 +222,7 @@ export default function DistributorsClient({ tab, distributors, distributor, sho
           <button
             type="submit"
             disabled={isPending}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
+            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
           >
             {isPending ? "Creating..." : "Create Distributor"}
           </button>

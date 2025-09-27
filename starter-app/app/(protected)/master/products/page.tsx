@@ -1,32 +1,51 @@
-import TabBar from "@/components/layout/TabBar";
-import { getPageTabs } from "@/lib/tabs";
+"use client";
 
-export default function Products() {
-  const tabs = getPageTabs("/master/products");
-  
+import { useState } from "react";
+import { Tabs, TabsContent } from "@/components/ui/oval-tabs";
+import { OvalTabsList, OvalTab } from "@/components/ui/oval-tabs";
+import { Package, Plus, Database } from "lucide-react";
+import { ProductsList, ProductCreateForm, MasterDataTabs } from "@/components/products";
+
+export default function ProductsPage() {
+  const [activeTab, setActiveTab] = useState("products");
+
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Products</h1>
         <p className="mt-1 text-sm text-gray-500">
-          Manage product categories, groups, sub-types, items, and variants
+          Manage products, create new items, and maintain master data
         </p>
       </div>
       
-      <TabBar tabs={tabs}>
-        <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-lg font-medium text-gray-900 mb-4">Categories</h2>
-          <p className="text-gray-600">
-            This is the Categories tab content. Use the tabs above to navigate between:
-            Categories | Groups | Sub‑Types | Items | Variants
-          </p>
-          <div className="mt-4 p-4 bg-blue-50 rounded-md">
-            <p className="text-blue-800 text-sm">
-              <strong>Active Tab:</strong> Categories - Manage product categories here.
-            </p>
-          </div>
-        </div>
-      </TabBar>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+        <OvalTabsList size="lg" layout="grid" className="w-full">
+          <OvalTab value="products" size="lg" className="w-full justify-center">
+            <Package className="h-4 w-4 opacity-80 data-[state=active]:opacity-100" />
+            <span className="tracking-[0.01em]">Products</span>
+          </OvalTab>
+          <OvalTab value="create" size="lg" className="w-full justify-center">
+            <Plus className="h-4 w-4 opacity-80 data-[state=active]:opacity-100" />
+            <span className="tracking-[0.01em]">Create Product</span>
+          </OvalTab>
+          <OvalTab value="master-data" size="lg" className="w-full justify-center">
+            <Database className="h-4 w-4 opacity-80 data-[state=active]:opacity-100" />
+            <span className="tracking-[0.01em]">Master Data</span>
+          </OvalTab>
+        </OvalTabsList>
+        
+        <TabsContent value="products" className="space-y-0">
+          <ProductsList />
+        </TabsContent>
+        
+        <TabsContent value="create" className="space-y-0">
+          <ProductCreateForm />
+        </TabsContent>
+        
+        <TabsContent value="master-data" className="space-y-0">
+          <MasterDataTabs />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

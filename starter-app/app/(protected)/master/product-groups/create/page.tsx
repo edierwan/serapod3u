@@ -83,8 +83,9 @@ export default function CreateProductGroupPage() {
                 Category *
               </label>
               <Select
-                value={formData.category}
+                value={formData.category || ""}
                 onValueChange={(val: ProductCategoryValue) => setFormData({ ...formData, category: val })}
+                required
               >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select Category" />
@@ -114,6 +115,7 @@ export default function CreateProductGroupPage() {
             <div className="flex gap-3 pt-4">
               <Button
                 type="submit"
+                variant="outline"
                 disabled={isPending || !formData.name.trim() || !formData.category}
                 className="inline-flex items-center gap-2"
               >

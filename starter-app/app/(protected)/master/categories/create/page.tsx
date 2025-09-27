@@ -83,6 +83,7 @@ export default function CreateCategoryPage() {
             <div className="flex gap-3 pt-4">
               <Button
                 type="submit"
+                variant="outline"
                 disabled={isPending || !formData.name.trim()}
                 className="inline-flex items-center gap-2"
               >

@@ -150,6 +150,7 @@ export default function EditProductGroupPage({ params }: PageProps) {
               <Select
                 value={formData.category}
                 onValueChange={(val: ProductCategoryValue) => setFormData({ ...formData, category: val })}
+                required
               >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select Category" />
