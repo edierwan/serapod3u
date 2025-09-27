@@ -130,7 +130,7 @@ export async function createProduct(formData: FormData): Promise<ActionResult> {
 
     const supabase = await createSupabaseServerClient();
 
-    const { data: product, error } = await supabase
+    const { error } = await supabase
       .from("products")
       .insert([{
         ...validated,

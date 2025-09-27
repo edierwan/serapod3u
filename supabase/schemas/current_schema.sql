@@ -2,12 +2,12 @@
 -- PostgreSQL database dump
 --
 
-\restrict fGCSnxuxCnIbqzBa6iJn27tkOpns0gaF16VcV7MYQNxPVXsyfPDz1gsWpaAJRJ4
+\restrict aACaGRPHs4bYQP3rOuuHXhYeb0u8SZUxXpHIHiaWnX2Bg9rGLmb1u5rev2i2kBH
 
 -- Dumped from database version 17.4
 -- Dumped by pg_dump version 17.6
 
--- Started on 2025-09-27 01:03:15 +08
+-- Started on 2025-09-27 15:57:45 +08
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -30,7 +30,7 @@ CREATE SCHEMA public;
 
 
 --
--- TOC entry 4401 (class 0 OID 0)
+-- TOC entry 4410 (class 0 OID 0)
 -- Dependencies: 13
 -- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: -
 --
@@ -47,7 +47,7 @@ CREATE SCHEMA storage;
 
 
 --
--- TOC entry 1447 (class 1247 OID 84439)
+-- TOC entry 1451 (class 1247 OID 84439)
 -- Name: app_role; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -59,7 +59,7 @@ CREATE TYPE public.app_role AS ENUM (
 
 
 --
--- TOC entry 1474 (class 1247 OID 57062)
+-- TOC entry 1478 (class 1247 OID 57062)
 -- Name: batch_priority_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -70,7 +70,7 @@ CREATE TYPE public.batch_priority_type AS ENUM (
 
 
 --
--- TOC entry 1471 (class 1247 OID 57053)
+-- TOC entry 1475 (class 1247 OID 57053)
 -- Name: batch_status_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -83,7 +83,7 @@ CREATE TYPE public.batch_status_type AS ENUM (
 
 
 --
--- TOC entry 1450 (class 1247 OID 57267)
+-- TOC entry 1454 (class 1247 OID 57267)
 -- Name: campaign_status_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -96,7 +96,7 @@ CREATE TYPE public.campaign_status_type AS ENUM (
 
 
 --
--- TOC entry 1534 (class 1247 OID 67167)
+-- TOC entry 1538 (class 1247 OID 67167)
 -- Name: draw_selection_method; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -107,7 +107,7 @@ CREATE TYPE public.draw_selection_method AS ENUM (
 
 
 --
--- TOC entry 1332 (class 1247 OID 56931)
+-- TOC entry 1333 (class 1247 OID 56931)
 -- Name: hq_order_status_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -123,7 +123,7 @@ CREATE TYPE public.hq_order_status_type AS ENUM (
 
 
 --
--- TOC entry 1459 (class 1247 OID 52114)
+-- TOC entry 1463 (class 1247 OID 52114)
 -- Name: inventory_tx_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -137,7 +137,7 @@ CREATE TYPE public.inventory_tx_type AS ENUM (
 
 
 --
--- TOC entry 1426 (class 1247 OID 84275)
+-- TOC entry 1430 (class 1247 OID 84275)
 -- Name: manufacturer_status; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -149,7 +149,7 @@ CREATE TYPE public.manufacturer_status AS ENUM (
 
 
 --
--- TOC entry 1441 (class 1247 OID 57196)
+-- TOC entry 1445 (class 1247 OID 57196)
 -- Name: notification_channel_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -160,7 +160,7 @@ CREATE TYPE public.notification_channel_type AS ENUM (
 
 
 --
--- TOC entry 1438 (class 1247 OID 57169)
+-- TOC entry 1442 (class 1247 OID 57169)
 -- Name: notification_event_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -182,7 +182,7 @@ CREATE TYPE public.notification_event_type AS ENUM (
 
 
 --
--- TOC entry 1444 (class 1247 OID 57202)
+-- TOC entry 1448 (class 1247 OID 57202)
 -- Name: notification_status_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -194,7 +194,7 @@ CREATE TYPE public.notification_status_type AS ENUM (
 
 
 --
--- TOC entry 1414 (class 1247 OID 56946)
+-- TOC entry 1418 (class 1247 OID 56946)
 -- Name: order_priority_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -205,7 +205,7 @@ CREATE TYPE public.order_priority_type AS ENUM (
 
 
 --
--- TOC entry 1453 (class 1247 OID 52085)
+-- TOC entry 1457 (class 1247 OID 52085)
 -- Name: order_status_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -222,7 +222,7 @@ CREATE TYPE public.order_status_type AS ENUM (
 
 
 --
--- TOC entry 1456 (class 1247 OID 52102)
+-- TOC entry 1460 (class 1247 OID 52102)
 -- Name: payment_status_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -236,7 +236,7 @@ CREATE TYPE public.payment_status_type AS ENUM (
 
 
 --
--- TOC entry 1525 (class 1247 OID 61285)
+-- TOC entry 1529 (class 1247 OID 61285)
 -- Name: po_status; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -250,7 +250,7 @@ CREATE TYPE public.po_status AS ENUM (
 
 
 --
--- TOC entry 1516 (class 1247 OID 48273)
+-- TOC entry 1520 (class 1247 OID 48273)
 -- Name: product_category_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -261,7 +261,7 @@ CREATE TYPE public.product_category_type AS ENUM (
 
 
 --
--- TOC entry 1462 (class 1247 OID 49587)
+-- TOC entry 1466 (class 1247 OID 49587)
 -- Name: product_status; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -274,7 +274,7 @@ CREATE TYPE public.product_status AS ENUM (
 
 
 --
--- TOC entry 1411 (class 1247 OID 82219)
+-- TOC entry 1415 (class 1247 OID 82219)
 -- Name: role_code; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -289,7 +289,7 @@ CREATE TYPE public.role_code AS ENUM (
 
 
 --
--- TOC entry 1546 (class 1247 OID 70693)
+-- TOC entry 1550 (class 1247 OID 70693)
 -- Name: royalty_activity_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -302,7 +302,7 @@ CREATE TYPE public.royalty_activity_type AS ENUM (
 
 
 --
--- TOC entry 1555 (class 1247 OID 70718)
+-- TOC entry 1559 (class 1247 OID 70718)
 -- Name: royalty_redemption_status; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -315,7 +315,7 @@ CREATE TYPE public.royalty_redemption_status AS ENUM (
 
 
 --
--- TOC entry 1552 (class 1247 OID 70710)
+-- TOC entry 1556 (class 1247 OID 70710)
 -- Name: royalty_tx_status; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -327,7 +327,7 @@ CREATE TYPE public.royalty_tx_status AS ENUM (
 
 
 --
--- TOC entry 1549 (class 1247 OID 70702)
+-- TOC entry 1553 (class 1247 OID 70702)
 -- Name: royalty_tx_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -339,7 +339,7 @@ CREATE TYPE public.royalty_tx_type AS ENUM (
 
 
 --
--- TOC entry 1519 (class 1247 OID 48278)
+-- TOC entry 1523 (class 1247 OID 48278)
 -- Name: status_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -350,7 +350,7 @@ CREATE TYPE public.status_type AS ENUM (
 
 
 --
--- TOC entry 1432 (class 1247 OID 48031)
+-- TOC entry 1436 (class 1247 OID 48031)
 -- Name: buckettype; Type: TYPE; Schema: storage; Owner: -
 --
 
@@ -361,7 +361,7 @@ CREATE TYPE storage.buckettype AS ENUM (
 
 
 --
--- TOC entry 568 (class 1255 OID 70854)
+-- TOC entry 569 (class 1255 OID 70854)
 -- Name: adjust_user_points(uuid, integer, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -414,7 +414,7 @@ $$;
 
 
 --
--- TOC entry 612 (class 1255 OID 55414)
+-- TOC entry 613 (class 1255 OID 55414)
 -- Name: app_approve_product(uuid, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -454,7 +454,7 @@ $$;
 
 
 --
--- TOC entry 482 (class 1255 OID 55415)
+-- TOC entry 483 (class 1255 OID 55415)
 -- Name: app_reject_product(uuid, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -494,7 +494,7 @@ $$;
 
 
 --
--- TOC entry 424 (class 1255 OID 55413)
+-- TOC entry 425 (class 1255 OID 55413)
 -- Name: app_submit_product_for_approval(uuid, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -536,7 +536,7 @@ $$;
 
 
 --
--- TOC entry 605 (class 1255 OID 57336)
+-- TOC entry 606 (class 1255 OID 57336)
 -- Name: approve_campaign(uuid, boolean); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -576,7 +576,7 @@ $$;
 
 
 --
--- TOC entry 476 (class 1255 OID 67552)
+-- TOC entry 477 (class 1255 OID 67552)
 -- Name: approve_campaign(uuid, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -619,7 +619,7 @@ $$;
 
 
 --
--- TOC entry 650 (class 1255 OID 67550)
+-- TOC entry 651 (class 1255 OID 67550)
 -- Name: approve_product(uuid, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -683,7 +683,7 @@ $$;
 
 
 --
--- TOC entry 502 (class 1255 OID 57672)
+-- TOC entry 503 (class 1255 OID 57672)
 -- Name: assign_manufacturer_to_user(uuid, uuid); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -719,7 +719,7 @@ $$;
 
 
 --
--- TOC entry 542 (class 1255 OID 57756)
+-- TOC entry 543 (class 1255 OID 57756)
 -- Name: auto_generate_pos_after_approval(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -745,7 +745,7 @@ $$;
 
 
 --
--- TOC entry 522 (class 1255 OID 67192)
+-- TOC entry 523 (class 1255 OID 67192)
 -- Name: award_manual_winner(uuid, uuid, uuid, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -803,7 +803,7 @@ END $$;
 
 
 --
--- TOC entry 432 (class 1255 OID 63172)
+-- TOC entry 433 (class 1255 OID 63172)
 -- Name: award_shop_points(uuid); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -859,7 +859,7 @@ $$;
 
 
 --
--- TOC entry 660 (class 1255 OID 63422)
+-- TOC entry 661 (class 1255 OID 63422)
 -- Name: award_shop_points_from_case(uuid, uuid); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -914,7 +914,7 @@ $$;
 
 
 --
--- TOC entry 606 (class 1255 OID 63302)
+-- TOC entry 607 (class 1255 OID 63302)
 -- Name: award_shop_points_from_qr(uuid, uuid); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -955,7 +955,7 @@ $$;
 
 
 --
--- TOC entry 450 (class 1255 OID 70855)
+-- TOC entry 451 (class 1255 OID 70855)
 -- Name: calculate_user_level(integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -992,7 +992,7 @@ $$;
 
 
 --
--- TOC entry 474 (class 1255 OID 59255)
+-- TOC entry 475 (class 1255 OID 59255)
 -- Name: can_product_be_added_to_order(uuid); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1018,7 +1018,7 @@ $$;
 
 
 --
--- TOC entry 641 (class 1255 OID 57489)
+-- TOC entry 642 (class 1255 OID 57489)
 -- Name: can_product_be_added_to_order(uuid, uuid); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1068,7 +1068,7 @@ $$;
 
 
 --
--- TOC entry 587 (class 1255 OID 63400)
+-- TOC entry 588 (class 1255 OID 63400)
 -- Name: case_scan_activate(text, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1137,7 +1137,7 @@ $$;
 
 
 --
--- TOC entry 588 (class 1255 OID 63650)
+-- TOC entry 589 (class 1255 OID 63650)
 -- Name: claim_free_device(text, text, text, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1179,7 +1179,7 @@ end $$;
 
 
 --
--- TOC entry 516 (class 1255 OID 63740)
+-- TOC entry 517 (class 1255 OID 63740)
 -- Name: claim_free_device(text, text, text, text, uuid); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1228,7 +1228,7 @@ $$;
 
 
 --
--- TOC entry 631 (class 1255 OID 52167)
+-- TOC entry 632 (class 1255 OID 52167)
 -- Name: commit_stock(uuid); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1251,7 +1251,7 @@ $$;
 
 
 --
--- TOC entry 678 (class 1255 OID 70852)
+-- TOC entry 679 (class 1255 OID 70852)
 -- Name: complete_activity_transaction(uuid, uuid, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1313,7 +1313,7 @@ $$;
 
 
 --
--- TOC entry 521 (class 1255 OID 50629)
+-- TOC entry 522 (class 1255 OID 50629)
 -- Name: create_batch_with_qr_codes(uuid, integer, uuid, numeric, date, date, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1399,7 +1399,7 @@ $$;
 
 
 --
--- TOC entry 430 (class 1255 OID 48327)
+-- TOC entry 431 (class 1255 OID 48327)
 -- Name: create_category_with_subcats(public.product_category_type, text, text, text, text, uuid, jsonb); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1435,7 +1435,7 @@ $$;
 
 
 --
--- TOC entry 632 (class 1255 OID 59458)
+-- TOC entry 633 (class 1255 OID 59458)
 -- Name: create_product_version(uuid, uuid); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1484,7 +1484,7 @@ $$;
 
 
 --
--- TOC entry 491 (class 1255 OID 52932)
+-- TOC entry 492 (class 1255 OID 52932)
 -- Name: debug_user_permissions(uuid); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1516,7 +1516,7 @@ $$;
 
 
 --
--- TOC entry 429 (class 1255 OID 65828)
+-- TOC entry 430 (class 1255 OID 65828)
 -- Name: draw_lucky_winners(uuid); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1598,7 +1598,7 @@ $$;
 
 
 --
--- TOC entry 567 (class 1255 OID 84458)
+-- TOC entry 568 (class 1255 OID 84458)
 -- Name: enforce_profile_parent(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1617,7 +1617,7 @@ $$;
 
 
 --
--- TOC entry 575 (class 1255 OID 57237)
+-- TOC entry 576 (class 1255 OID 57237)
 -- Name: enqueue_notification(public.notification_event_type, jsonb, jsonb, public.notification_channel_type); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1682,7 +1682,7 @@ $$;
 
 
 --
--- TOC entry 557 (class 1255 OID 64144)
+-- TOC entry 558 (class 1255 OID 64144)
 -- Name: ensure_distributor_org(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1700,7 +1700,7 @@ END$$;
 
 
 --
--- TOC entry 608 (class 1255 OID 63672)
+-- TOC entry 609 (class 1255 OID 63672)
 -- Name: enter_lucky_draw(uuid, text, text, text, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1753,7 +1753,7 @@ $$;
 
 
 --
--- TOC entry 442 (class 1255 OID 56969)
+-- TOC entry 443 (class 1255 OID 56969)
 -- Name: gen_hq_order_code(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1771,7 +1771,7 @@ $$;
 
 
 --
--- TOC entry 517 (class 1255 OID 57125)
+-- TOC entry 518 (class 1255 OID 57125)
 -- Name: gen_manufacturer_batch_number(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1789,7 +1789,7 @@ $$;
 
 
 --
--- TOC entry 633 (class 1255 OID 52126)
+-- TOC entry 634 (class 1255 OID 52126)
 -- Name: gen_order_number(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1807,7 +1807,7 @@ $$;
 
 
 --
--- TOC entry 601 (class 1255 OID 50098)
+-- TOC entry 602 (class 1255 OID 50098)
 -- Name: generate_sku(text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1859,7 +1859,7 @@ $$;
 
 
 --
--- TOC entry 585 (class 1255 OID 49597)
+-- TOC entry 586 (class 1255 OID 49597)
 -- Name: generate_sku(public.product_category_type); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1882,7 +1882,7 @@ $$;
 
 
 --
--- TOC entry 530 (class 1255 OID 82501)
+-- TOC entry 531 (class 1255 OID 82501)
 -- Name: generate_sku(uuid, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1895,7 +1895,7 @@ end $$;
 
 
 --
--- TOC entry 652 (class 1255 OID 57671)
+-- TOC entry 653 (class 1255 OID 57671)
 -- Name: get_all_users_for_management(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1932,7 +1932,7 @@ $$;
 
 
 --
--- TOC entry 554 (class 1255 OID 59254)
+-- TOC entry 555 (class 1255 OID 59254)
 -- Name: get_available_products_for_orders(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1961,7 +1961,7 @@ $$;
 
 
 --
--- TOC entry 640 (class 1255 OID 57238)
+-- TOC entry 641 (class 1255 OID 57238)
 -- Name: get_notification_template(public.notification_event_type, public.notification_channel_type); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1992,7 +1992,7 @@ $$;
 
 
 --
--- TOC entry 593 (class 1255 OID 57670)
+-- TOC entry 594 (class 1255 OID 57670)
 -- Name: get_orders_for_current_user(text, integer, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2057,7 +2057,7 @@ $$;
 
 
 --
--- TOC entry 533 (class 1255 OID 53024)
+-- TOC entry 534 (class 1255 OID 53024)
 -- Name: has_role(text[]); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2074,7 +2074,7 @@ $$;
 
 
 --
--- TOC entry 544 (class 1255 OID 57542)
+-- TOC entry 545 (class 1255 OID 57542)
 -- Name: initialize_user_profile(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2117,7 +2117,7 @@ $$;
 
 
 --
--- TOC entry 708 (class 1255 OID 57368)
+-- TOC entry 709 (class 1255 OID 57368)
 -- Name: is_product_in_approved_orders(uuid); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2139,7 +2139,7 @@ $$;
 
 
 --
--- TOC entry 543 (class 1255 OID 66989)
+-- TOC entry 544 (class 1255 OID 66989)
 -- Name: is_qr_eligible_for_campaign(uuid, uuid); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2157,7 +2157,7 @@ $$;
 
 
 --
--- TOC entry 463 (class 1255 OID 67655)
+-- TOC entry 464 (class 1255 OID 67655)
 -- Name: migrate_campaign_approvals(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2219,7 +2219,7 @@ $$;
 
 
 --
--- TOC entry 449 (class 1255 OID 67654)
+-- TOC entry 450 (class 1255 OID 67654)
 -- Name: migrate_existing_approvals(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2289,7 +2289,7 @@ $$;
 
 
 --
--- TOC entry 512 (class 1255 OID 62928)
+-- TOC entry 513 (class 1255 OID 62928)
 -- Name: po_acknowledge(uuid); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2325,7 +2325,7 @@ $$;
 
 
 --
--- TOC entry 457 (class 1255 OID 57370)
+-- TOC entry 458 (class 1255 OID 57370)
 -- Name: prevent_critical_product_updates(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2363,7 +2363,7 @@ $$;
 
 
 --
--- TOC entry 514 (class 1255 OID 57369)
+-- TOC entry 515 (class 1255 OID 57369)
 -- Name: prevent_product_deletion(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2384,7 +2384,7 @@ $$;
 
 
 --
--- TOC entry 635 (class 1255 OID 67214)
+-- TOC entry 636 (class 1255 OID 67214)
 -- Name: publish_draw(uuid, boolean); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2398,7 +2398,7 @@ END $$;
 
 
 --
--- TOC entry 702 (class 1255 OID 63280)
+-- TOC entry 703 (class 1255 OID 63280)
 -- Name: qr_scan_activate(text, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2463,7 +2463,7 @@ $$;
 
 
 --
--- TOC entry 615 (class 1255 OID 57018)
+-- TOC entry 616 (class 1255 OID 57018)
 -- Name: recalc_hq_order_totals(uuid); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2495,7 +2495,7 @@ $$;
 
 
 --
--- TOC entry 553 (class 1255 OID 52160)
+-- TOC entry 554 (class 1255 OID 52160)
 -- Name: recalc_order_totals(uuid); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2524,7 +2524,7 @@ $$;
 
 
 --
--- TOC entry 519 (class 1255 OID 50630)
+-- TOC entry 520 (class 1255 OID 50630)
 -- Name: record_qr_scan(text, text, jsonb, jsonb, jsonb); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2555,7 +2555,7 @@ $$;
 
 
 --
--- TOC entry 496 (class 1255 OID 70853)
+-- TOC entry 497 (class 1255 OID 70853)
 -- Name: redeem_reward_transaction(uuid, uuid, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2610,7 +2610,7 @@ $$;
 
 
 --
--- TOC entry 614 (class 1255 OID 67551)
+-- TOC entry 615 (class 1255 OID 67551)
 -- Name: reject_product(uuid, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2675,7 +2675,7 @@ $$;
 
 
 --
--- TOC entry 627 (class 1255 OID 50213)
+-- TOC entry 628 (class 1255 OID 50213)
 -- Name: reject_product(uuid, text, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2726,8 +2726,8 @@ $$;
 
 
 --
--- TOC entry 4402 (class 0 OID 0)
--- Dependencies: 627
+-- TOC entry 4411 (class 0 OID 0)
+-- Dependencies: 628
 -- Name: FUNCTION reject_product(product_id_param uuid, reason_param text, comment_param text); Type: COMMENT; Schema: public; Owner: -
 --
 
@@ -2735,7 +2735,7 @@ COMMENT ON FUNCTION public.reject_product(product_id_param uuid, reason_param te
 
 
 --
--- TOC entry 662 (class 1255 OID 52166)
+-- TOC entry 663 (class 1255 OID 52166)
 -- Name: release_stock(uuid); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2758,7 +2758,7 @@ $$;
 
 
 --
--- TOC entry 549 (class 1255 OID 57673)
+-- TOC entry 550 (class 1255 OID 57673)
 -- Name: request_user_password_reset(uuid); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2784,7 +2784,7 @@ $$;
 
 
 --
--- TOC entry 541 (class 1255 OID 49602)
+-- TOC entry 542 (class 1255 OID 49602)
 -- Name: reserve_sku(public.product_category_type); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2796,7 +2796,7 @@ $$;
 
 
 --
--- TOC entry 511 (class 1255 OID 52165)
+-- TOC entry 512 (class 1255 OID 52165)
 -- Name: reserve_stock(uuid); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2819,7 +2819,7 @@ $$;
 
 
 --
--- TOC entry 644 (class 1255 OID 65754)
+-- TOC entry 645 (class 1255 OID 65754)
 -- Name: resolve_shop_from_link(uuid, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2836,7 +2836,7 @@ $$;
 
 
 --
--- TOC entry 656 (class 1255 OID 48362)
+-- TOC entry 657 (class 1255 OID 48362)
 -- Name: set_updated_at(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2850,7 +2850,7 @@ end $$;
 
 
 --
--- TOC entry 703 (class 1255 OID 57335)
+-- TOC entry 704 (class 1255 OID 57335)
 -- Name: submit_campaign_for_approval(uuid); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2885,7 +2885,7 @@ $$;
 
 
 --
--- TOC entry 528 (class 1255 OID 50211)
+-- TOC entry 529 (class 1255 OID 50211)
 -- Name: submit_product_for_approval(uuid, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2932,8 +2932,8 @@ $$;
 
 
 --
--- TOC entry 4403 (class 0 OID 0)
--- Dependencies: 528
+-- TOC entry 4412 (class 0 OID 0)
+-- Dependencies: 529
 -- Name: FUNCTION submit_product_for_approval(product_id_param uuid, comment_param text); Type: COMMENT; Schema: public; Owner: -
 --
 
@@ -2941,7 +2941,7 @@ COMMENT ON FUNCTION public.submit_product_for_approval(product_id_param uuid, co
 
 
 --
--- TOC entry 561 (class 1255 OID 65710)
+-- TOC entry 562 (class 1255 OID 65710)
 -- Name: tg_populate_lucky_draw_submission_ctx(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2998,7 +2998,7 @@ $$;
 
 
 --
--- TOC entry 475 (class 1255 OID 57019)
+-- TOC entry 476 (class 1255 OID 57019)
 -- Name: tg_recalc_hq_order_totals(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -3013,7 +3013,7 @@ $$;
 
 
 --
--- TOC entry 607 (class 1255 OID 52161)
+-- TOC entry 608 (class 1255 OID 52161)
 -- Name: tg_recalc_order_totals(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -3028,7 +3028,7 @@ $$;
 
 
 --
--- TOC entry 572 (class 1255 OID 69535)
+-- TOC entry 573 (class 1255 OID 69535)
 -- Name: tg_set_updated_at(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -3039,7 +3039,7 @@ BEGIN NEW.updated_at = now(); RETURN NEW; END $$;
 
 
 --
--- TOC entry 455 (class 1255 OID 59789)
+-- TOC entry 456 (class 1255 OID 59789)
 -- Name: tg_touch_updated_at(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -3053,7 +3053,7 @@ END $$;
 
 
 --
--- TOC entry 468 (class 1255 OID 46841)
+-- TOC entry 469 (class 1255 OID 46841)
 -- Name: touch_updated_at(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -3068,7 +3068,7 @@ $$;
 
 
 --
--- TOC entry 576 (class 1255 OID 82502)
+-- TOC entry 577 (class 1255 OID 82502)
 -- Name: trg_assign_sku(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -3089,7 +3089,7 @@ end $_$;
 
 
 --
--- TOC entry 498 (class 1255 OID 49598)
+-- TOC entry 499 (class 1255 OID 49598)
 -- Name: trg_products_ensure_sku_fn(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -3109,7 +3109,7 @@ $$;
 
 
 --
--- TOC entry 471 (class 1255 OID 50019)
+-- TOC entry 472 (class 1255 OID 50019)
 -- Name: update_updated_at_column(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -3124,7 +3124,7 @@ $$;
 
 
 --
--- TOC entry 577 (class 1255 OID 57333)
+-- TOC entry 578 (class 1255 OID 57333)
 -- Name: validate_campaign_product(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -3150,7 +3150,7 @@ $$;
 
 
 --
--- TOC entry 604 (class 1255 OID 57375)
+-- TOC entry 605 (class 1255 OID 57375)
 -- Name: validate_order_line_item(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -3171,7 +3171,7 @@ $$;
 
 
 --
--- TOC entry 616 (class 1255 OID 63564)
+-- TOC entry 617 (class 1255 OID 63564)
 -- Name: verify_case_public(text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -3202,7 +3202,7 @@ $$;
 
 
 --
--- TOC entry 547 (class 1255 OID 63834)
+-- TOC entry 548 (class 1255 OID 63834)
 -- Name: verify_qr_public(text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -3232,7 +3232,7 @@ $$;
 
 
 --
--- TOC entry 692 (class 1255 OID 48009)
+-- TOC entry 693 (class 1255 OID 48009)
 -- Name: add_prefixes(text, text); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -3253,7 +3253,7 @@ $$;
 
 
 --
--- TOC entry 532 (class 1255 OID 17119)
+-- TOC entry 533 (class 1255 OID 17119)
 -- Name: can_insert_object(text, text, uuid, jsonb); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -3271,7 +3271,7 @@ $$;
 
 
 --
--- TOC entry 574 (class 1255 OID 82185)
+-- TOC entry 575 (class 1255 OID 82185)
 -- Name: delete_leaf_prefixes(text[], text[]); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -3337,7 +3337,7 @@ $$;
 
 
 --
--- TOC entry 436 (class 1255 OID 48010)
+-- TOC entry 437 (class 1255 OID 48010)
 -- Name: delete_prefix(text, text); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -3374,7 +3374,7 @@ $$;
 
 
 --
--- TOC entry 469 (class 1255 OID 48013)
+-- TOC entry 470 (class 1255 OID 48013)
 -- Name: delete_prefix_hierarchy_trigger(); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -3396,7 +3396,7 @@ $$;
 
 
 --
--- TOC entry 628 (class 1255 OID 48028)
+-- TOC entry 629 (class 1255 OID 48028)
 -- Name: enforce_bucket_name_length(); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -3413,7 +3413,7 @@ $$;
 
 
 --
--- TOC entry 586 (class 1255 OID 17044)
+-- TOC entry 587 (class 1255 OID 17044)
 -- Name: extension(text); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -3432,7 +3432,7 @@ $$;
 
 
 --
--- TOC entry 487 (class 1255 OID 17043)
+-- TOC entry 488 (class 1255 OID 17043)
 -- Name: filename(text); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -3449,7 +3449,7 @@ $$;
 
 
 --
--- TOC entry 508 (class 1255 OID 17039)
+-- TOC entry 509 (class 1255 OID 17039)
 -- Name: foldername(text); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -3468,7 +3468,7 @@ $$;
 
 
 --
--- TOC entry 596 (class 1255 OID 47991)
+-- TOC entry 597 (class 1255 OID 47991)
 -- Name: get_level(text); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -3480,7 +3480,7 @@ $$;
 
 
 --
--- TOC entry 639 (class 1255 OID 48007)
+-- TOC entry 640 (class 1255 OID 48007)
 -- Name: get_prefix(text); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -3497,7 +3497,7 @@ $_$;
 
 
 --
--- TOC entry 495 (class 1255 OID 48008)
+-- TOC entry 496 (class 1255 OID 48008)
 -- Name: get_prefixes(text); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -3525,7 +3525,7 @@ $$;
 
 
 --
--- TOC entry 421 (class 1255 OID 48026)
+-- TOC entry 422 (class 1255 OID 48026)
 -- Name: get_size_by_bucket(); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -3542,7 +3542,7 @@ $$;
 
 
 --
--- TOC entry 582 (class 1255 OID 17162)
+-- TOC entry 583 (class 1255 OID 17162)
 -- Name: list_multipart_uploads_with_delimiter(text, text, text, integer, text, text); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -3589,7 +3589,7 @@ $_$;
 
 
 --
--- TOC entry 472 (class 1255 OID 17123)
+-- TOC entry 473 (class 1255 OID 17123)
 -- Name: list_objects_with_delimiter(text, text, text, integer, text, text); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -3634,7 +3634,7 @@ $_$;
 
 
 --
--- TOC entry 444 (class 1255 OID 82184)
+-- TOC entry 445 (class 1255 OID 82184)
 -- Name: lock_top_prefixes(text[], text[]); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -3659,7 +3659,7 @@ $$;
 
 
 --
--- TOC entry 492 (class 1255 OID 82186)
+-- TOC entry 493 (class 1255 OID 82186)
 -- Name: objects_delete_cleanup(); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -3691,7 +3691,7 @@ $$;
 
 
 --
--- TOC entry 689 (class 1255 OID 48012)
+-- TOC entry 690 (class 1255 OID 48012)
 -- Name: objects_insert_prefix_trigger(); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -3708,7 +3708,7 @@ $$;
 
 
 --
--- TOC entry 613 (class 1255 OID 82187)
+-- TOC entry 614 (class 1255 OID 82187)
 -- Name: objects_update_cleanup(); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -3801,7 +3801,7 @@ $$;
 
 
 --
--- TOC entry 677 (class 1255 OID 82192)
+-- TOC entry 678 (class 1255 OID 82192)
 -- Name: objects_update_level_trigger(); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -3820,7 +3820,7 @@ $$;
 
 
 --
--- TOC entry 580 (class 1255 OID 48027)
+-- TOC entry 581 (class 1255 OID 48027)
 -- Name: objects_update_prefix_trigger(); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -3863,7 +3863,7 @@ $$;
 
 
 --
--- TOC entry 659 (class 1255 OID 17179)
+-- TOC entry 660 (class 1255 OID 17179)
 -- Name: operation(); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -3877,7 +3877,7 @@ $$;
 
 
 --
--- TOC entry 486 (class 1255 OID 82188)
+-- TOC entry 487 (class 1255 OID 82188)
 -- Name: prefixes_delete_cleanup(); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -3909,7 +3909,7 @@ $$;
 
 
 --
--- TOC entry 653 (class 1255 OID 48011)
+-- TOC entry 654 (class 1255 OID 48011)
 -- Name: prefixes_insert_trigger(); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -3924,7 +3924,7 @@ $$;
 
 
 --
--- TOC entry 706 (class 1255 OID 17101)
+-- TOC entry 707 (class 1255 OID 17101)
 -- Name: search(text, text, integer, integer, integer, text, text, text); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -3949,7 +3949,7 @@ $$;
 
 
 --
--- TOC entry 537 (class 1255 OID 48024)
+-- TOC entry 538 (class 1255 OID 48024)
 -- Name: search_legacy_v1(text, text, integer, integer, integer, text, text, text); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -4019,7 +4019,7 @@ $_$;
 
 
 --
--- TOC entry 419 (class 1255 OID 48023)
+-- TOC entry 420 (class 1255 OID 48023)
 -- Name: search_v1_optimised(text, text, integer, integer, integer, text, text, text); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -4088,7 +4088,7 @@ $_$;
 
 
 --
--- TOC entry 538 (class 1255 OID 82183)
+-- TOC entry 539 (class 1255 OID 82183)
 -- Name: search_v2(text, text, integer, integer, text, text, text, text); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -4185,7 +4185,7 @@ $_$;
 
 
 --
--- TOC entry 480 (class 1255 OID 17102)
+-- TOC entry 481 (class 1255 OID 17102)
 -- Name: update_updated_at_column(); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -4358,7 +4358,7 @@ CREATE TABLE public.manufacturers (
 
 
 --
--- TOC entry 4404 (class 0 OID 0)
+-- TOC entry 4413 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.legal_name; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4367,7 +4367,7 @@ COMMENT ON COLUMN public.manufacturers.legal_name IS 'Registered legal name';
 
 
 --
--- TOC entry 4405 (class 0 OID 0)
+-- TOC entry 4414 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.brand_name; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4376,7 +4376,7 @@ COMMENT ON COLUMN public.manufacturers.brand_name IS 'Marketing/brand display na
 
 
 --
--- TOC entry 4406 (class 0 OID 0)
+-- TOC entry 4415 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.registration_number; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4385,7 +4385,7 @@ COMMENT ON COLUMN public.manufacturers.registration_number IS 'Company/business 
 
 
 --
--- TOC entry 4407 (class 0 OID 0)
+-- TOC entry 4416 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.tax_id; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4394,7 +4394,7 @@ COMMENT ON COLUMN public.manufacturers.tax_id IS 'Tax/VAT/GST identifier';
 
 
 --
--- TOC entry 4408 (class 0 OID 0)
+-- TOC entry 4417 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.country_code; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4403,7 +4403,7 @@ COMMENT ON COLUMN public.manufacturers.country_code IS 'ISO-3166-1 alpha-2';
 
 
 --
--- TOC entry 4409 (class 0 OID 0)
+-- TOC entry 4418 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.language_code; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4412,7 +4412,7 @@ COMMENT ON COLUMN public.manufacturers.language_code IS 'ISO-639-1';
 
 
 --
--- TOC entry 4410 (class 0 OID 0)
+-- TOC entry 4419 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.currency_code; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4421,7 +4421,7 @@ COMMENT ON COLUMN public.manufacturers.currency_code IS 'ISO-4217';
 
 
 --
--- TOC entry 4411 (class 0 OID 0)
+-- TOC entry 4420 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.support_email; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4430,7 +4430,7 @@ COMMENT ON COLUMN public.manufacturers.support_email IS 'Support contact email';
 
 
 --
--- TOC entry 4412 (class 0 OID 0)
+-- TOC entry 4421 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.support_phone; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4439,7 +4439,7 @@ COMMENT ON COLUMN public.manufacturers.support_phone IS 'Support phone';
 
 
 --
--- TOC entry 4413 (class 0 OID 0)
+-- TOC entry 4422 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.whatsapp; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4448,7 +4448,7 @@ COMMENT ON COLUMN public.manufacturers.whatsapp IS 'WhatsApp contact';
 
 
 --
--- TOC entry 4414 (class 0 OID 0)
+-- TOC entry 4423 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.address_line1; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4457,7 +4457,7 @@ COMMENT ON COLUMN public.manufacturers.address_line1 IS 'Address line 1';
 
 
 --
--- TOC entry 4415 (class 0 OID 0)
+-- TOC entry 4424 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.address_line2; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4466,7 +4466,7 @@ COMMENT ON COLUMN public.manufacturers.address_line2 IS 'Address line 2';
 
 
 --
--- TOC entry 4416 (class 0 OID 0)
+-- TOC entry 4425 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.state_region; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4475,7 +4475,7 @@ COMMENT ON COLUMN public.manufacturers.state_region IS 'State/Region';
 
 
 --
--- TOC entry 4417 (class 0 OID 0)
+-- TOC entry 4426 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.social_links; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4484,7 +4484,7 @@ COMMENT ON COLUMN public.manufacturers.social_links IS 'JSON of social links';
 
 
 --
--- TOC entry 4418 (class 0 OID 0)
+-- TOC entry 4427 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.certifications; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4493,7 +4493,7 @@ COMMENT ON COLUMN public.manufacturers.certifications IS 'JSON array of certific
 
 
 --
--- TOC entry 4419 (class 0 OID 0)
+-- TOC entry 4428 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.status; Type: COMMENT; Schema: public; Owner: -
 --
@@ -4605,7 +4605,12 @@ CREATE TABLE public.products (
     name_ci text GENERATED ALWAYS AS (lower(COALESCE(name, ''::text))) STORED,
     is_active boolean DEFAULT true NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
-    updated_at timestamp with time zone DEFAULT now() NOT NULL
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    sku text,
+    price numeric(10,2),
+    status text DEFAULT 'active'::text,
+    image_url text,
+    CONSTRAINT products_status_check CHECK ((status = ANY (ARRAY['active'::text, 'inactive'::text])))
 );
 
 
@@ -4697,7 +4702,7 @@ CREATE SEQUENCE public.shop_points_ledger_id_seq
 
 
 --
--- TOC entry 4420 (class 0 OID 0)
+-- TOC entry 4429 (class 0 OID 0)
 -- Dependencies: 414
 -- Name: shop_points_ledger_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
@@ -4758,6 +4763,29 @@ CREATE SEQUENCE public.sku_seq_vape
 
 
 --
+-- TOC entry 419 (class 1259 OID 85889)
+-- Name: users_profile; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.users_profile AS
+ SELECT p.id AS user_id,
+    p.id,
+    p.role_code,
+    p.full_name,
+    p.avatar_url,
+    p.created_at,
+    p.updated_at,
+    p.role,
+    p.distributor_id,
+    p.shop_id,
+    u.email,
+    u.created_at AS user_created_at,
+    u.updated_at AS user_updated_at
+   FROM (public.profiles p
+     JOIN auth.users u ON ((p.id = u.id)));
+
+
+--
 -- TOC entry 417 (class 1259 OID 84644)
 -- Name: v_current_profile; Type: VIEW; Schema: public; Owner: -
 --
@@ -4797,7 +4825,7 @@ CREATE TABLE storage.buckets (
 
 
 --
--- TOC entry 4421 (class 0 OID 0)
+-- TOC entry 4430 (class 0 OID 0)
 -- Dependencies: 361
 -- Name: COLUMN buckets.owner; Type: COMMENT; Schema: storage; Owner: -
 --
@@ -4855,7 +4883,7 @@ CREATE TABLE storage.objects (
 
 
 --
--- TOC entry 4422 (class 0 OID 0)
+-- TOC entry 4431 (class 0 OID 0)
 -- Dependencies: 362
 -- Name: COLUMN objects.owner; Type: COMMENT; Schema: storage; Owner: -
 --
@@ -4915,7 +4943,7 @@ CREATE TABLE storage.s3_multipart_uploads_parts (
 
 
 --
--- TOC entry 4064 (class 2604 OID 84314)
+-- TOC entry 4069 (class 2604 OID 84314)
 -- Name: shop_points_ledger id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -4923,7 +4951,7 @@ ALTER TABLE ONLY public.shop_points_ledger ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
--- TOC entry 4103 (class 2606 OID 82775)
+-- TOC entry 4109 (class 2606 OID 82775)
 -- Name: brands brands_name_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4932,7 +4960,7 @@ ALTER TABLE ONLY public.brands
 
 
 --
--- TOC entry 4105 (class 2606 OID 82773)
+-- TOC entry 4111 (class 2606 OID 82773)
 -- Name: brands brands_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4941,7 +4969,7 @@ ALTER TABLE ONLY public.brands
 
 
 --
--- TOC entry 4099 (class 2606 OID 82762)
+-- TOC entry 4105 (class 2606 OID 82762)
 -- Name: categories categories_name_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4950,7 +4978,7 @@ ALTER TABLE ONLY public.categories
 
 
 --
--- TOC entry 4101 (class 2606 OID 82760)
+-- TOC entry 4107 (class 2606 OID 82760)
 -- Name: categories categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4959,7 +4987,7 @@ ALTER TABLE ONLY public.categories
 
 
 --
--- TOC entry 4146 (class 2606 OID 83101)
+-- TOC entry 4154 (class 2606 OID 83101)
 -- Name: dev_fastlogin_accounts dev_fastlogin_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4968,7 +4996,7 @@ ALTER TABLE ONLY public.dev_fastlogin_accounts
 
 
 --
--- TOC entry 4117 (class 2606 OID 82829)
+-- TOC entry 4123 (class 2606 OID 82829)
 -- Name: distributors distributors_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4977,7 +5005,7 @@ ALTER TABLE ONLY public.distributors
 
 
 --
--- TOC entry 4124 (class 2606 OID 82853)
+-- TOC entry 4130 (class 2606 OID 82853)
 -- Name: manufacturer_users manufacturer_users_manufacturer_id_user_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4986,7 +5014,7 @@ ALTER TABLE ONLY public.manufacturer_users
 
 
 --
--- TOC entry 4126 (class 2606 OID 82851)
+-- TOC entry 4132 (class 2606 OID 82851)
 -- Name: manufacturer_users manufacturer_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4995,7 +5023,7 @@ ALTER TABLE ONLY public.manufacturer_users
 
 
 --
--- TOC entry 4113 (class 2606 OID 82818)
+-- TOC entry 4119 (class 2606 OID 82818)
 -- Name: manufacturers manufacturers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5004,7 +5032,7 @@ ALTER TABLE ONLY public.manufacturers
 
 
 --
--- TOC entry 4115 (class 2606 OID 84283)
+-- TOC entry 4121 (class 2606 OID 84283)
 -- Name: manufacturers manufacturers_reg_country_uniq; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5013,7 +5041,7 @@ ALTER TABLE ONLY public.manufacturers
 
 
 --
--- TOC entry 4142 (class 2606 OID 83005)
+-- TOC entry 4150 (class 2606 OID 83005)
 -- Name: master_daerah master_daerah_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5022,7 +5050,7 @@ ALTER TABLE ONLY public.master_daerah
 
 
 --
--- TOC entry 4138 (class 2606 OID 82998)
+-- TOC entry 4146 (class 2606 OID 82998)
 -- Name: master_negeri master_negeri_code_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5031,7 +5059,7 @@ ALTER TABLE ONLY public.master_negeri
 
 
 --
--- TOC entry 4140 (class 2606 OID 82996)
+-- TOC entry 4148 (class 2606 OID 82996)
 -- Name: master_negeri master_negeri_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5040,7 +5068,7 @@ ALTER TABLE ONLY public.master_negeri
 
 
 --
--- TOC entry 4107 (class 2606 OID 82786)
+-- TOC entry 4113 (class 2606 OID 82786)
 -- Name: product_groups product_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5049,7 +5077,7 @@ ALTER TABLE ONLY public.product_groups
 
 
 --
--- TOC entry 4109 (class 2606 OID 82802)
+-- TOC entry 4115 (class 2606 OID 82802)
 -- Name: product_subgroups product_subgroups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5058,7 +5086,7 @@ ALTER TABLE ONLY public.product_subgroups
 
 
 --
--- TOC entry 4134 (class 2606 OID 82959)
+-- TOC entry 4142 (class 2606 OID 82959)
 -- Name: product_variants product_variants_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5067,7 +5095,7 @@ ALTER TABLE ONLY public.product_variants
 
 
 --
--- TOC entry 4130 (class 2606 OID 82890)
+-- TOC entry 4136 (class 2606 OID 82890)
 -- Name: products products_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5076,7 +5104,16 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 4097 (class 2606 OID 82720)
+-- TOC entry 4138 (class 2606 OID 85878)
+-- Name: products products_sku_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.products
+    ADD CONSTRAINT products_sku_key UNIQUE (sku);
+
+
+--
+-- TOC entry 4103 (class 2606 OID 82720)
 -- Name: profiles profiles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5085,7 +5122,7 @@ ALTER TABLE ONLY public.profiles
 
 
 --
--- TOC entry 4128 (class 2606 OID 82868)
+-- TOC entry 4134 (class 2606 OID 82868)
 -- Name: shop_distributors shop_distributors_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5094,7 +5131,7 @@ ALTER TABLE ONLY public.shop_distributors
 
 
 --
--- TOC entry 4149 (class 2606 OID 84319)
+-- TOC entry 4157 (class 2606 OID 84319)
 -- Name: shop_points_ledger shop_points_ledger_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5103,7 +5140,7 @@ ALTER TABLE ONLY public.shop_points_ledger
 
 
 --
--- TOC entry 4122 (class 2606 OID 82840)
+-- TOC entry 4128 (class 2606 OID 82840)
 -- Name: shops shops_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5112,7 +5149,7 @@ ALTER TABLE ONLY public.shops
 
 
 --
--- TOC entry 4144 (class 2606 OID 83012)
+-- TOC entry 4152 (class 2606 OID 83012)
 -- Name: master_daerah uq_daerah_per_negeri; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5121,7 +5158,7 @@ ALTER TABLE ONLY public.master_daerah
 
 
 --
--- TOC entry 4132 (class 2606 OID 82917)
+-- TOC entry 4140 (class 2606 OID 82917)
 -- Name: products uq_product_tuple; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5130,7 +5167,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 4136 (class 2606 OID 82966)
+-- TOC entry 4144 (class 2606 OID 82966)
 -- Name: product_variants uq_variant_tuple; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5139,7 +5176,7 @@ ALTER TABLE ONLY public.product_variants
 
 
 --
--- TOC entry 4093 (class 2606 OID 48046)
+-- TOC entry 4099 (class 2606 OID 48046)
 -- Name: buckets_analytics buckets_analytics_pkey; Type: CONSTRAINT; Schema: storage; Owner: -
 --
 
@@ -5148,7 +5185,7 @@ ALTER TABLE ONLY storage.buckets_analytics
 
 
 --
--- TOC entry 4071 (class 2606 OID 16552)
+-- TOC entry 4077 (class 2606 OID 16552)
 -- Name: buckets buckets_pkey; Type: CONSTRAINT; Schema: storage; Owner: -
 --
 
@@ -5157,7 +5194,7 @@ ALTER TABLE ONLY storage.buckets
 
 
 --
--- TOC entry 4081 (class 2606 OID 16593)
+-- TOC entry 4087 (class 2606 OID 16593)
 -- Name: migrations migrations_name_key; Type: CONSTRAINT; Schema: storage; Owner: -
 --
 
@@ -5166,7 +5203,7 @@ ALTER TABLE ONLY storage.migrations
 
 
 --
--- TOC entry 4083 (class 2606 OID 16591)
+-- TOC entry 4089 (class 2606 OID 16591)
 -- Name: migrations migrations_pkey; Type: CONSTRAINT; Schema: storage; Owner: -
 --
 
@@ -5175,7 +5212,7 @@ ALTER TABLE ONLY storage.migrations
 
 
 --
--- TOC entry 4079 (class 2606 OID 16569)
+-- TOC entry 4085 (class 2606 OID 16569)
 -- Name: objects objects_pkey; Type: CONSTRAINT; Schema: storage; Owner: -
 --
 
@@ -5184,7 +5221,7 @@ ALTER TABLE ONLY storage.objects
 
 
 --
--- TOC entry 4091 (class 2606 OID 48001)
+-- TOC entry 4097 (class 2606 OID 48001)
 -- Name: prefixes prefixes_pkey; Type: CONSTRAINT; Schema: storage; Owner: -
 --
 
@@ -5193,7 +5230,7 @@ ALTER TABLE ONLY storage.prefixes
 
 
 --
--- TOC entry 4088 (class 2606 OID 17150)
+-- TOC entry 4094 (class 2606 OID 17150)
 -- Name: s3_multipart_uploads_parts s3_multipart_uploads_parts_pkey; Type: CONSTRAINT; Schema: storage; Owner: -
 --
 
@@ -5202,7 +5239,7 @@ ALTER TABLE ONLY storage.s3_multipart_uploads_parts
 
 
 --
--- TOC entry 4086 (class 2606 OID 17135)
+-- TOC entry 4092 (class 2606 OID 17135)
 -- Name: s3_multipart_uploads s3_multipart_uploads_pkey; Type: CONSTRAINT; Schema: storage; Owner: -
 --
 
@@ -5211,7 +5248,7 @@ ALTER TABLE ONLY storage.s3_multipart_uploads
 
 
 --
--- TOC entry 4118 (class 1259 OID 84389)
+-- TOC entry 4124 (class 1259 OID 84389)
 -- Name: idx_distributors_active; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5219,7 +5256,7 @@ CREATE INDEX idx_distributors_active ON public.distributors USING btree (active)
 
 
 --
--- TOC entry 4110 (class 1259 OID 84285)
+-- TOC entry 4116 (class 1259 OID 84285)
 -- Name: idx_manufacturers_country; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5227,7 +5264,7 @@ CREATE INDEX idx_manufacturers_country ON public.manufacturers USING btree (coun
 
 
 --
--- TOC entry 4111 (class 1259 OID 84286)
+-- TOC entry 4117 (class 1259 OID 84286)
 -- Name: idx_manufacturers_status; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5235,7 +5272,7 @@ CREATE INDEX idx_manufacturers_status ON public.manufacturers USING btree (statu
 
 
 --
--- TOC entry 4094 (class 1259 OID 84456)
+-- TOC entry 4100 (class 1259 OID 84456)
 -- Name: idx_profiles_distributor; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5243,7 +5280,7 @@ CREATE INDEX idx_profiles_distributor ON public.profiles USING btree (distributo
 
 
 --
--- TOC entry 4095 (class 1259 OID 84457)
+-- TOC entry 4101 (class 1259 OID 84457)
 -- Name: idx_profiles_shop; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5251,7 +5288,7 @@ CREATE INDEX idx_profiles_shop ON public.profiles USING btree (shop_id);
 
 
 --
--- TOC entry 4147 (class 1259 OID 84320)
+-- TOC entry 4155 (class 1259 OID 84320)
 -- Name: idx_shop_points_ledger_shop_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5259,7 +5296,7 @@ CREATE INDEX idx_shop_points_ledger_shop_id ON public.shop_points_ledger USING b
 
 
 --
--- TOC entry 4119 (class 1259 OID 84417)
+-- TOC entry 4125 (class 1259 OID 84417)
 -- Name: idx_shops_active; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5267,7 +5304,7 @@ CREATE INDEX idx_shops_active ON public.shops USING btree (active);
 
 
 --
--- TOC entry 4120 (class 1259 OID 84416)
+-- TOC entry 4126 (class 1259 OID 84416)
 -- Name: idx_shops_distributor; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5275,7 +5312,7 @@ CREATE INDEX idx_shops_distributor ON public.shops USING btree (distributor_id);
 
 
 --
--- TOC entry 4069 (class 1259 OID 16558)
+-- TOC entry 4075 (class 1259 OID 16558)
 -- Name: bname; Type: INDEX; Schema: storage; Owner: -
 --
 
@@ -5283,7 +5320,7 @@ CREATE UNIQUE INDEX bname ON storage.buckets USING btree (name);
 
 
 --
--- TOC entry 4072 (class 1259 OID 16580)
+-- TOC entry 4078 (class 1259 OID 16580)
 -- Name: bucketid_objname; Type: INDEX; Schema: storage; Owner: -
 --
 
@@ -5291,7 +5328,7 @@ CREATE UNIQUE INDEX bucketid_objname ON storage.objects USING btree (bucket_id, 
 
 
 --
--- TOC entry 4084 (class 1259 OID 17161)
+-- TOC entry 4090 (class 1259 OID 17161)
 -- Name: idx_multipart_uploads_list; Type: INDEX; Schema: storage; Owner: -
 --
 
@@ -5299,7 +5336,7 @@ CREATE INDEX idx_multipart_uploads_list ON storage.s3_multipart_uploads USING bt
 
 
 --
--- TOC entry 4073 (class 1259 OID 48019)
+-- TOC entry 4079 (class 1259 OID 48019)
 -- Name: idx_name_bucket_level_unique; Type: INDEX; Schema: storage; Owner: -
 --
 
@@ -5307,7 +5344,7 @@ CREATE UNIQUE INDEX idx_name_bucket_level_unique ON storage.objects USING btree 
 
 
 --
--- TOC entry 4074 (class 1259 OID 17124)
+-- TOC entry 4080 (class 1259 OID 17124)
 -- Name: idx_objects_bucket_id_name; Type: INDEX; Schema: storage; Owner: -
 --
 
@@ -5315,7 +5352,7 @@ CREATE INDEX idx_objects_bucket_id_name ON storage.objects USING btree (bucket_i
 
 
 --
--- TOC entry 4075 (class 1259 OID 48021)
+-- TOC entry 4081 (class 1259 OID 48021)
 -- Name: idx_objects_lower_name; Type: INDEX; Schema: storage; Owner: -
 --
 
@@ -5323,7 +5360,7 @@ CREATE INDEX idx_objects_lower_name ON storage.objects USING btree ((path_tokens
 
 
 --
--- TOC entry 4089 (class 1259 OID 48022)
+-- TOC entry 4095 (class 1259 OID 48022)
 -- Name: idx_prefixes_lower_name; Type: INDEX; Schema: storage; Owner: -
 --
 
@@ -5331,7 +5368,7 @@ CREATE INDEX idx_prefixes_lower_name ON storage.prefixes USING btree (bucket_id,
 
 
 --
--- TOC entry 4076 (class 1259 OID 16581)
+-- TOC entry 4082 (class 1259 OID 16581)
 -- Name: name_prefix_search; Type: INDEX; Schema: storage; Owner: -
 --
 
@@ -5339,7 +5376,7 @@ CREATE INDEX name_prefix_search ON storage.objects USING btree (name text_patter
 
 
 --
--- TOC entry 4077 (class 1259 OID 48020)
+-- TOC entry 4083 (class 1259 OID 48020)
 -- Name: objects_bucket_id_level_idx; Type: INDEX; Schema: storage; Owner: -
 --
 
@@ -5347,7 +5384,7 @@ CREATE UNIQUE INDEX objects_bucket_id_level_idx ON storage.objects USING btree (
 
 
 --
--- TOC entry 4184 (class 2620 OID 82919)
+-- TOC entry 4192 (class 2620 OID 82919)
 -- Name: brands trg_brands_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -5355,7 +5392,7 @@ CREATE TRIGGER trg_brands_updated_at BEFORE UPDATE ON public.brands FOR EACH ROW
 
 
 --
--- TOC entry 4183 (class 2620 OID 82918)
+-- TOC entry 4191 (class 2620 OID 82918)
 -- Name: categories trg_categories_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -5363,7 +5400,7 @@ CREATE TRIGGER trg_categories_updated_at BEFORE UPDATE ON public.categories FOR 
 
 
 --
--- TOC entry 4188 (class 2620 OID 82923)
+-- TOC entry 4196 (class 2620 OID 82923)
 -- Name: distributors trg_distributors_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -5371,7 +5408,7 @@ CREATE TRIGGER trg_distributors_updated_at BEFORE UPDATE ON public.distributors 
 
 
 --
--- TOC entry 4185 (class 2620 OID 82920)
+-- TOC entry 4193 (class 2620 OID 82920)
 -- Name: product_groups trg_groups_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -5379,7 +5416,7 @@ CREATE TRIGGER trg_groups_updated_at BEFORE UPDATE ON public.product_groups FOR 
 
 
 --
--- TOC entry 4187 (class 2620 OID 82922)
+-- TOC entry 4195 (class 2620 OID 82922)
 -- Name: manufacturers trg_manufacturers_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -5387,7 +5424,7 @@ CREATE TRIGGER trg_manufacturers_updated_at BEFORE UPDATE ON public.manufacturer
 
 
 --
--- TOC entry 4191 (class 2620 OID 82967)
+-- TOC entry 4199 (class 2620 OID 82967)
 -- Name: product_variants trg_product_variants_assign_sku; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -5395,7 +5432,7 @@ CREATE TRIGGER trg_product_variants_assign_sku BEFORE INSERT ON public.product_v
 
 
 --
--- TOC entry 4192 (class 2620 OID 82968)
+-- TOC entry 4200 (class 2620 OID 82968)
 -- Name: product_variants trg_product_variants_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -5403,7 +5440,7 @@ CREATE TRIGGER trg_product_variants_updated_at BEFORE UPDATE ON public.product_v
 
 
 --
--- TOC entry 4190 (class 2620 OID 82925)
+-- TOC entry 4198 (class 2620 OID 82925)
 -- Name: products trg_products_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -5411,7 +5448,7 @@ CREATE TRIGGER trg_products_updated_at BEFORE UPDATE ON public.products FOR EACH
 
 
 --
--- TOC entry 4181 (class 2620 OID 84459)
+-- TOC entry 4189 (class 2620 OID 84459)
 -- Name: profiles trg_profiles_parent; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -5419,7 +5456,7 @@ CREATE TRIGGER trg_profiles_parent BEFORE INSERT OR UPDATE ON public.profiles FO
 
 
 --
--- TOC entry 4182 (class 2620 OID 82726)
+-- TOC entry 4190 (class 2620 OID 82726)
 -- Name: profiles trg_profiles_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -5427,7 +5464,7 @@ CREATE TRIGGER trg_profiles_updated_at BEFORE UPDATE ON public.profiles FOR EACH
 
 
 --
--- TOC entry 4189 (class 2620 OID 82924)
+-- TOC entry 4197 (class 2620 OID 82924)
 -- Name: shops trg_shops_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -5435,7 +5472,7 @@ CREATE TRIGGER trg_shops_updated_at BEFORE UPDATE ON public.shops FOR EACH ROW E
 
 
 --
--- TOC entry 4186 (class 2620 OID 82921)
+-- TOC entry 4194 (class 2620 OID 82921)
 -- Name: product_subgroups trg_subgroups_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -5443,7 +5480,7 @@ CREATE TRIGGER trg_subgroups_updated_at BEFORE UPDATE ON public.product_subgroup
 
 
 --
--- TOC entry 4174 (class 2620 OID 48029)
+-- TOC entry 4182 (class 2620 OID 48029)
 -- Name: buckets enforce_bucket_name_length_trigger; Type: TRIGGER; Schema: storage; Owner: -
 --
 
@@ -5451,7 +5488,7 @@ CREATE TRIGGER enforce_bucket_name_length_trigger BEFORE INSERT OR UPDATE OF nam
 
 
 --
--- TOC entry 4175 (class 2620 OID 82195)
+-- TOC entry 4183 (class 2620 OID 82195)
 -- Name: objects objects_delete_delete_prefix; Type: TRIGGER; Schema: storage; Owner: -
 --
 
@@ -5459,7 +5496,7 @@ CREATE TRIGGER objects_delete_delete_prefix AFTER DELETE ON storage.objects FOR 
 
 
 --
--- TOC entry 4176 (class 2620 OID 48015)
+-- TOC entry 4184 (class 2620 OID 48015)
 -- Name: objects objects_insert_create_prefix; Type: TRIGGER; Schema: storage; Owner: -
 --
 
@@ -5467,7 +5504,7 @@ CREATE TRIGGER objects_insert_create_prefix BEFORE INSERT ON storage.objects FOR
 
 
 --
--- TOC entry 4177 (class 2620 OID 82194)
+-- TOC entry 4185 (class 2620 OID 82194)
 -- Name: objects objects_update_create_prefix; Type: TRIGGER; Schema: storage; Owner: -
 --
 
@@ -5475,7 +5512,7 @@ CREATE TRIGGER objects_update_create_prefix BEFORE UPDATE ON storage.objects FOR
 
 
 --
--- TOC entry 4179 (class 2620 OID 48025)
+-- TOC entry 4187 (class 2620 OID 48025)
 -- Name: prefixes prefixes_create_hierarchy; Type: TRIGGER; Schema: storage; Owner: -
 --
 
@@ -5483,7 +5520,7 @@ CREATE TRIGGER prefixes_create_hierarchy BEFORE INSERT ON storage.prefixes FOR E
 
 
 --
--- TOC entry 4180 (class 2620 OID 82196)
+-- TOC entry 4188 (class 2620 OID 82196)
 -- Name: prefixes prefixes_delete_hierarchy; Type: TRIGGER; Schema: storage; Owner: -
 --
 
@@ -5491,7 +5528,7 @@ CREATE TRIGGER prefixes_delete_hierarchy AFTER DELETE ON storage.prefixes FOR EA
 
 
 --
--- TOC entry 4178 (class 2620 OID 17103)
+-- TOC entry 4186 (class 2620 OID 17103)
 -- Name: objects update_objects_updated_at; Type: TRIGGER; Schema: storage; Owner: -
 --
 
@@ -5499,7 +5536,7 @@ CREATE TRIGGER update_objects_updated_at BEFORE UPDATE ON storage.objects FOR EA
 
 
 --
--- TOC entry 4162 (class 2606 OID 82854)
+-- TOC entry 4170 (class 2606 OID 82854)
 -- Name: manufacturer_users manufacturer_users_manufacturer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5508,7 +5545,7 @@ ALTER TABLE ONLY public.manufacturer_users
 
 
 --
--- TOC entry 4163 (class 2606 OID 82859)
+-- TOC entry 4171 (class 2606 OID 82859)
 -- Name: manufacturer_users manufacturer_users_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5517,7 +5554,7 @@ ALTER TABLE ONLY public.manufacturer_users
 
 
 --
--- TOC entry 4172 (class 2606 OID 83006)
+-- TOC entry 4180 (class 2606 OID 83006)
 -- Name: master_daerah master_daerah_negeri_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5526,7 +5563,7 @@ ALTER TABLE ONLY public.master_daerah
 
 
 --
--- TOC entry 4158 (class 2606 OID 82787)
+-- TOC entry 4166 (class 2606 OID 82787)
 -- Name: product_groups product_groups_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5535,7 +5572,7 @@ ALTER TABLE ONLY public.product_groups
 
 
 --
--- TOC entry 4159 (class 2606 OID 82803)
+-- TOC entry 4167 (class 2606 OID 82803)
 -- Name: product_subgroups product_subgroups_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5544,7 +5581,7 @@ ALTER TABLE ONLY public.product_subgroups
 
 
 --
--- TOC entry 4171 (class 2606 OID 82960)
+-- TOC entry 4179 (class 2606 OID 82960)
 -- Name: product_variants product_variants_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5553,7 +5590,7 @@ ALTER TABLE ONLY public.product_variants
 
 
 --
--- TOC entry 4166 (class 2606 OID 82896)
+-- TOC entry 4174 (class 2606 OID 82896)
 -- Name: products products_brand_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5562,7 +5599,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 4167 (class 2606 OID 82891)
+-- TOC entry 4175 (class 2606 OID 82891)
 -- Name: products products_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5571,7 +5608,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 4168 (class 2606 OID 82901)
+-- TOC entry 4176 (class 2606 OID 82901)
 -- Name: products products_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5580,7 +5617,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 4169 (class 2606 OID 82911)
+-- TOC entry 4177 (class 2606 OID 82911)
 -- Name: products products_manufacturer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5589,7 +5626,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 4170 (class 2606 OID 82906)
+-- TOC entry 4178 (class 2606 OID 82906)
 -- Name: products products_sub_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5598,7 +5635,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 4155 (class 2606 OID 84446)
+-- TOC entry 4163 (class 2606 OID 84446)
 -- Name: profiles profiles_distributor_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5607,7 +5644,7 @@ ALTER TABLE ONLY public.profiles
 
 
 --
--- TOC entry 4156 (class 2606 OID 82721)
+-- TOC entry 4164 (class 2606 OID 82721)
 -- Name: profiles profiles_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5616,7 +5653,7 @@ ALTER TABLE ONLY public.profiles
 
 
 --
--- TOC entry 4157 (class 2606 OID 84451)
+-- TOC entry 4165 (class 2606 OID 84451)
 -- Name: profiles profiles_shop_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5625,7 +5662,7 @@ ALTER TABLE ONLY public.profiles
 
 
 --
--- TOC entry 4164 (class 2606 OID 82874)
+-- TOC entry 4172 (class 2606 OID 82874)
 -- Name: shop_distributors shop_distributors_distributor_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5634,7 +5671,7 @@ ALTER TABLE ONLY public.shop_distributors
 
 
 --
--- TOC entry 4165 (class 2606 OID 82869)
+-- TOC entry 4173 (class 2606 OID 82869)
 -- Name: shop_distributors shop_distributors_shop_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5643,7 +5680,7 @@ ALTER TABLE ONLY public.shop_distributors
 
 
 --
--- TOC entry 4173 (class 2606 OID 84526)
+-- TOC entry 4181 (class 2606 OID 84526)
 -- Name: shop_points_ledger shop_points_ledger_shop_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5652,7 +5689,7 @@ ALTER TABLE ONLY public.shop_points_ledger
 
 
 --
--- TOC entry 4160 (class 2606 OID 84411)
+-- TOC entry 4168 (class 2606 OID 84411)
 -- Name: shops shops_distributor_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5661,7 +5698,7 @@ ALTER TABLE ONLY public.shops
 
 
 --
--- TOC entry 4161 (class 2606 OID 82841)
+-- TOC entry 4169 (class 2606 OID 82841)
 -- Name: shops shops_distributor_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5670,7 +5707,7 @@ ALTER TABLE ONLY public.shops
 
 
 --
--- TOC entry 4150 (class 2606 OID 16570)
+-- TOC entry 4158 (class 2606 OID 16570)
 -- Name: objects objects_bucketId_fkey; Type: FK CONSTRAINT; Schema: storage; Owner: -
 --
 
@@ -5679,7 +5716,7 @@ ALTER TABLE ONLY storage.objects
 
 
 --
--- TOC entry 4154 (class 2606 OID 48002)
+-- TOC entry 4162 (class 2606 OID 48002)
 -- Name: prefixes prefixes_bucketId_fkey; Type: FK CONSTRAINT; Schema: storage; Owner: -
 --
 
@@ -5688,7 +5725,7 @@ ALTER TABLE ONLY storage.prefixes
 
 
 --
--- TOC entry 4151 (class 2606 OID 17136)
+-- TOC entry 4159 (class 2606 OID 17136)
 -- Name: s3_multipart_uploads s3_multipart_uploads_bucket_id_fkey; Type: FK CONSTRAINT; Schema: storage; Owner: -
 --
 
@@ -5697,7 +5734,7 @@ ALTER TABLE ONLY storage.s3_multipart_uploads
 
 
 --
--- TOC entry 4152 (class 2606 OID 17156)
+-- TOC entry 4160 (class 2606 OID 17156)
 -- Name: s3_multipart_uploads_parts s3_multipart_uploads_parts_bucket_id_fkey; Type: FK CONSTRAINT; Schema: storage; Owner: -
 --
 
@@ -5706,7 +5743,7 @@ ALTER TABLE ONLY storage.s3_multipart_uploads_parts
 
 
 --
--- TOC entry 4153 (class 2606 OID 17151)
+-- TOC entry 4161 (class 2606 OID 17151)
 -- Name: s3_multipart_uploads_parts s3_multipart_uploads_parts_upload_id_fkey; Type: FK CONSTRAINT; Schema: storage; Owner: -
 --
 
@@ -5715,7 +5752,7 @@ ALTER TABLE ONLY storage.s3_multipart_uploads_parts
 
 
 --
--- TOC entry 4370 (class 3256 OID 84704)
+-- TOC entry 4379 (class 3256 OID 84704)
 -- Name: distributors dist_own_distributor; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -5727,7 +5764,7 @@ CREATE POLICY dist_own_distributor ON public.distributors USING ((id = ( SELECT 
 
 
 --
--- TOC entry 4371 (class 3256 OID 84706)
+-- TOC entry 4380 (class 3256 OID 84706)
 -- Name: shops dist_own_shops; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -5739,7 +5776,7 @@ CREATE POLICY dist_own_shops ON public.shops USING ((distributor_id = ( SELECT v
 
 
 --
--- TOC entry 4352 (class 0 OID 82819)
+-- TOC entry 4361 (class 0 OID 82819)
 -- Dependencies: 405
 -- Name: distributors; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -5747,7 +5784,7 @@ CREATE POLICY dist_own_shops ON public.shops USING ((distributor_id = ( SELECT v
 ALTER TABLE public.distributors ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4377 (class 3256 OID 84755)
+-- TOC entry 4386 (class 3256 OID 84755)
 -- Name: distributors distributors_admin_delete; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -5755,7 +5792,7 @@ CREATE POLICY distributors_admin_delete ON public.distributors FOR DELETE TO aut
 
 
 --
--- TOC entry 4375 (class 3256 OID 84753)
+-- TOC entry 4384 (class 3256 OID 84753)
 -- Name: distributors distributors_admin_insert; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -5763,7 +5800,7 @@ CREATE POLICY distributors_admin_insert ON public.distributors FOR INSERT TO aut
 
 
 --
--- TOC entry 4374 (class 3256 OID 84752)
+-- TOC entry 4383 (class 3256 OID 84752)
 -- Name: distributors distributors_admin_read_all; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -5771,7 +5808,7 @@ CREATE POLICY distributors_admin_read_all ON public.distributors FOR SELECT TO a
 
 
 --
--- TOC entry 4376 (class 3256 OID 84754)
+-- TOC entry 4385 (class 3256 OID 84754)
 -- Name: distributors distributors_admin_update; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -5779,7 +5816,7 @@ CREATE POLICY distributors_admin_update ON public.distributors FOR UPDATE TO aut
 
 
 --
--- TOC entry 4369 (class 3256 OID 84702)
+-- TOC entry 4378 (class 3256 OID 84702)
 -- Name: shop_points_ledger hq_all_points; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -5791,7 +5828,7 @@ CREATE POLICY hq_all_points ON public.shop_points_ledger USING ((EXISTS ( SELECT
 
 
 --
--- TOC entry 4368 (class 3256 OID 84700)
+-- TOC entry 4377 (class 3256 OID 84700)
 -- Name: profiles hq_all_profiles; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -5803,7 +5840,7 @@ CREATE POLICY hq_all_profiles ON public.profiles USING ((EXISTS ( SELECT 1
 
 
 --
--- TOC entry 4367 (class 3256 OID 84698)
+-- TOC entry 4376 (class 3256 OID 84698)
 -- Name: shops hq_all_shops; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -5815,7 +5852,7 @@ CREATE POLICY hq_all_shops ON public.shops USING ((EXISTS ( SELECT 1
 
 
 --
--- TOC entry 4373 (class 3256 OID 84709)
+-- TOC entry 4382 (class 3256 OID 84709)
 -- Name: shop_points_ledger points_same_distributor; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -5826,7 +5863,7 @@ CREATE POLICY points_same_distributor ON public.shop_points_ledger USING ((EXIST
 
 
 --
--- TOC entry 4351 (class 0 OID 82712)
+-- TOC entry 4360 (class 0 OID 82712)
 -- Dependencies: 399
 -- Name: profiles; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -5834,7 +5871,7 @@ CREATE POLICY points_same_distributor ON public.shop_points_ledger USING ((EXIST
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4362 (class 3256 OID 82729)
+-- TOC entry 4371 (class 3256 OID 82729)
 -- Name: profiles profiles_admin_read_all; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -5842,7 +5879,7 @@ CREATE POLICY profiles_admin_read_all ON public.profiles FOR SELECT TO authentic
 
 
 --
--- TOC entry 4360 (class 3256 OID 82727)
+-- TOC entry 4369 (class 3256 OID 82727)
 -- Name: profiles profiles_self_select; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -5850,7 +5887,7 @@ CREATE POLICY profiles_self_select ON public.profiles FOR SELECT TO authenticate
 
 
 --
--- TOC entry 4361 (class 3256 OID 82728)
+-- TOC entry 4370 (class 3256 OID 82728)
 -- Name: profiles profiles_self_update; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -5858,7 +5895,7 @@ CREATE POLICY profiles_self_update ON public.profiles FOR UPDATE TO authenticate
 
 
 --
--- TOC entry 4372 (class 3256 OID 84708)
+-- TOC entry 4381 (class 3256 OID 84708)
 -- Name: profiles self_profile_rw; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -5866,7 +5903,7 @@ CREATE POLICY self_profile_rw ON public.profiles USING ((id = auth.uid())) WITH 
 
 
 --
--- TOC entry 4354 (class 0 OID 84311)
+-- TOC entry 4363 (class 0 OID 84311)
 -- Dependencies: 415
 -- Name: shop_points_ledger; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -5874,7 +5911,7 @@ CREATE POLICY self_profile_rw ON public.profiles USING ((id = auth.uid())) WITH 
 ALTER TABLE public.shop_points_ledger ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4353 (class 0 OID 82830)
+-- TOC entry 4362 (class 0 OID 82830)
 -- Dependencies: 406
 -- Name: shops; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -5882,7 +5919,7 @@ ALTER TABLE public.shop_points_ledger ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.shops ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4363 (class 3256 OID 49854)
+-- TOC entry 4372 (class 3256 OID 49854)
 -- Name: objects Allow anonymous uploads to product-images; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -5890,7 +5927,7 @@ CREATE POLICY "Allow anonymous uploads to product-images" ON storage.objects FOR
 
 
 --
--- TOC entry 4364 (class 3256 OID 49855)
+-- TOC entry 4373 (class 3256 OID 49855)
 -- Name: objects Allow public access to product-images; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -5898,7 +5935,7 @@ CREATE POLICY "Allow public access to product-images" ON storage.objects FOR SEL
 
 
 --
--- TOC entry 4344 (class 0 OID 16544)
+-- TOC entry 4353 (class 0 OID 16544)
 -- Dependencies: 361
 -- Name: buckets; Type: ROW SECURITY; Schema: storage; Owner: -
 --
@@ -5906,7 +5943,7 @@ CREATE POLICY "Allow public access to product-images" ON storage.objects FOR SEL
 ALTER TABLE storage.buckets ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4350 (class 0 OID 48036)
+-- TOC entry 4359 (class 0 OID 48036)
 -- Dependencies: 391
 -- Name: buckets_analytics; Type: ROW SECURITY; Schema: storage; Owner: -
 --
@@ -5914,7 +5951,7 @@ ALTER TABLE storage.buckets ENABLE ROW LEVEL SECURITY;
 ALTER TABLE storage.buckets_analytics ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4391 (class 3256 OID 70396)
+-- TOC entry 4400 (class 3256 OID 70396)
 -- Name: objects campaign_images_public_read; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -5922,7 +5959,7 @@ CREATE POLICY campaign_images_public_read ON storage.objects FOR SELECT USING ((
 
 
 --
--- TOC entry 4394 (class 3256 OID 70420)
+-- TOC entry 4403 (class 3256 OID 70420)
 -- Name: objects campaign_images_write_delete; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -5930,7 +5967,7 @@ CREATE POLICY campaign_images_write_delete ON storage.objects FOR DELETE TO auth
 
 
 --
--- TOC entry 4392 (class 3256 OID 70418)
+-- TOC entry 4401 (class 3256 OID 70418)
 -- Name: objects campaign_images_write_insert; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -5938,7 +5975,7 @@ CREATE POLICY campaign_images_write_insert ON storage.objects FOR INSERT TO auth
 
 
 --
--- TOC entry 4393 (class 3256 OID 70419)
+-- TOC entry 4402 (class 3256 OID 70419)
 -- Name: objects campaign_images_write_update; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -5946,7 +5983,7 @@ CREATE POLICY campaign_images_write_update ON storage.objects FOR UPDATE TO auth
 
 
 --
--- TOC entry 4346 (class 0 OID 16586)
+-- TOC entry 4355 (class 0 OID 16586)
 -- Dependencies: 363
 -- Name: migrations; Type: ROW SECURITY; Schema: storage; Owner: -
 --
@@ -5954,7 +5991,7 @@ CREATE POLICY campaign_images_write_update ON storage.objects FOR UPDATE TO auth
 ALTER TABLE storage.migrations ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4345 (class 0 OID 16559)
+-- TOC entry 4354 (class 0 OID 16559)
 -- Dependencies: 362
 -- Name: objects; Type: ROW SECURITY; Schema: storage; Owner: -
 --
@@ -5962,7 +5999,7 @@ ALTER TABLE storage.migrations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4349 (class 0 OID 47992)
+-- TOC entry 4358 (class 0 OID 47992)
 -- Dependencies: 390
 -- Name: prefixes; Type: ROW SECURITY; Schema: storage; Owner: -
 --
@@ -5970,7 +6007,7 @@ ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
 ALTER TABLE storage.prefixes ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4356 (class 3256 OID 67241)
+-- TOC entry 4365 (class 3256 OID 67241)
 -- Name: objects prizes delete; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -5978,7 +6015,7 @@ CREATE POLICY "prizes delete" ON storage.objects FOR DELETE TO authenticated USI
 
 
 --
--- TOC entry 4378 (class 3256 OID 67238)
+-- TOC entry 4387 (class 3256 OID 67238)
 -- Name: objects prizes read; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -5986,7 +6023,7 @@ CREATE POLICY "prizes read" ON storage.objects FOR SELECT USING ((bucket_id = 'p
 
 
 --
--- TOC entry 4380 (class 3256 OID 67240)
+-- TOC entry 4389 (class 3256 OID 67240)
 -- Name: objects prizes update; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -5994,7 +6031,7 @@ CREATE POLICY "prizes update" ON storage.objects FOR UPDATE TO authenticated USI
 
 
 --
--- TOC entry 4379 (class 3256 OID 67239)
+-- TOC entry 4388 (class 3256 OID 67239)
 -- Name: objects prizes write; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6002,7 +6039,7 @@ CREATE POLICY "prizes write" ON storage.objects FOR INSERT TO authenticated WITH
 
 
 --
--- TOC entry 4359 (class 3256 OID 67392)
+-- TOC entry 4368 (class 3256 OID 67392)
 -- Name: objects prizes_delete_auth; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6010,7 +6047,7 @@ CREATE POLICY prizes_delete_auth ON storage.objects FOR DELETE TO authenticated 
 
 
 --
--- TOC entry 4357 (class 3256 OID 67390)
+-- TOC entry 4366 (class 3256 OID 67390)
 -- Name: objects prizes_insert_auth; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6018,7 +6055,7 @@ CREATE POLICY prizes_insert_auth ON storage.objects FOR INSERT TO authenticated 
 
 
 --
--- TOC entry 4381 (class 3256 OID 67388)
+-- TOC entry 4390 (class 3256 OID 67388)
 -- Name: objects prizes_read_anon; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6026,7 +6063,7 @@ CREATE POLICY prizes_read_anon ON storage.objects FOR SELECT TO anon USING ((buc
 
 
 --
--- TOC entry 4355 (class 3256 OID 67389)
+-- TOC entry 4364 (class 3256 OID 67389)
 -- Name: objects prizes_read_auth; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6034,7 +6071,7 @@ CREATE POLICY prizes_read_auth ON storage.objects FOR SELECT TO authenticated US
 
 
 --
--- TOC entry 4358 (class 3256 OID 67391)
+-- TOC entry 4367 (class 3256 OID 67391)
 -- Name: objects prizes_update_auth; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6042,7 +6079,7 @@ CREATE POLICY prizes_update_auth ON storage.objects FOR UPDATE TO authenticated 
 
 
 --
--- TOC entry 4365 (class 3256 OID 49879)
+-- TOC entry 4374 (class 3256 OID 49879)
 -- Name: objects product_images_authenticated_write; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6050,7 +6087,7 @@ CREATE POLICY product_images_authenticated_write ON storage.objects FOR INSERT T
 
 
 --
--- TOC entry 4390 (class 3256 OID 70190)
+-- TOC entry 4399 (class 3256 OID 70190)
 -- Name: objects product_images_authenticated_write_delete; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6058,7 +6095,7 @@ CREATE POLICY product_images_authenticated_write_delete ON storage.objects FOR D
 
 
 --
--- TOC entry 4388 (class 3256 OID 70188)
+-- TOC entry 4397 (class 3256 OID 70188)
 -- Name: objects product_images_authenticated_write_insert; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6066,7 +6103,7 @@ CREATE POLICY product_images_authenticated_write_insert ON storage.objects FOR I
 
 
 --
--- TOC entry 4389 (class 3256 OID 70189)
+-- TOC entry 4398 (class 3256 OID 70189)
 -- Name: objects product_images_authenticated_write_update; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6074,7 +6111,7 @@ CREATE POLICY product_images_authenticated_write_update ON storage.objects FOR U
 
 
 --
--- TOC entry 4387 (class 3256 OID 69976)
+-- TOC entry 4396 (class 3256 OID 69976)
 -- Name: objects product_images_hq_power_delete; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6082,7 +6119,7 @@ CREATE POLICY product_images_hq_power_delete ON storage.objects FOR DELETE TO au
 
 
 --
--- TOC entry 4385 (class 3256 OID 69974)
+-- TOC entry 4394 (class 3256 OID 69974)
 -- Name: objects product_images_hq_power_insert; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6090,7 +6127,7 @@ CREATE POLICY product_images_hq_power_insert ON storage.objects FOR INSERT TO au
 
 
 --
--- TOC entry 4386 (class 3256 OID 69975)
+-- TOC entry 4395 (class 3256 OID 69975)
 -- Name: objects product_images_hq_power_update; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6098,7 +6135,7 @@ CREATE POLICY product_images_hq_power_update ON storage.objects FOR UPDATE TO au
 
 
 --
--- TOC entry 4366 (class 3256 OID 49880)
+-- TOC entry 4375 (class 3256 OID 49880)
 -- Name: objects product_images_public_read; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6106,7 +6143,7 @@ CREATE POLICY product_images_public_read ON storage.objects FOR SELECT USING ((b
 
 
 --
--- TOC entry 4384 (class 3256 OID 69952)
+-- TOC entry 4393 (class 3256 OID 69952)
 -- Name: objects product_images_server_write_delete; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6114,7 +6151,7 @@ CREATE POLICY product_images_server_write_delete ON storage.objects FOR DELETE T
 
 
 --
--- TOC entry 4382 (class 3256 OID 69908)
+-- TOC entry 4391 (class 3256 OID 69908)
 -- Name: objects product_images_server_write_insert; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6122,7 +6159,7 @@ CREATE POLICY product_images_server_write_insert ON storage.objects FOR INSERT T
 
 
 --
--- TOC entry 4383 (class 3256 OID 69930)
+-- TOC entry 4392 (class 3256 OID 69930)
 -- Name: objects product_images_server_write_update; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -6130,7 +6167,7 @@ CREATE POLICY product_images_server_write_update ON storage.objects FOR UPDATE T
 
 
 --
--- TOC entry 4347 (class 0 OID 17126)
+-- TOC entry 4356 (class 0 OID 17126)
 -- Dependencies: 384
 -- Name: s3_multipart_uploads; Type: ROW SECURITY; Schema: storage; Owner: -
 --
@@ -6138,18 +6175,18 @@ CREATE POLICY product_images_server_write_update ON storage.objects FOR UPDATE T
 ALTER TABLE storage.s3_multipart_uploads ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4348 (class 0 OID 17141)
+-- TOC entry 4357 (class 0 OID 17141)
 -- Dependencies: 385
 -- Name: s3_multipart_uploads_parts; Type: ROW SECURITY; Schema: storage; Owner: -
 --
 
 ALTER TABLE storage.s3_multipart_uploads_parts ENABLE ROW LEVEL SECURITY;
 
--- Completed on 2025-09-27 01:03:33 +08
+-- Completed on 2025-09-27 15:57:59 +08
 
 --
 -- PostgreSQL database dump complete
 --
 
-\unrestrict fGCSnxuxCnIbqzBa6iJn27tkOpns0gaF16VcV7MYQNxPVXsyfPDz1gsWpaAJRJ4
+\unrestrict aACaGRPHs4bYQP3rOuuHXhYeb0u8SZUxXpHIHiaWnX2Bg9rGLmb1u5rev2i2kBH
 

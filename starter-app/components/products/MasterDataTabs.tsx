@@ -2,11 +2,13 @@
 
 import { useState, useEffect, useTransition } from "react";
 import { Plus, Edit, Trash2, Loader2 } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs } from "@/components/ui/tabs";
+import { OvalTabsList, OvalTab } from "@/components/ui/oval-tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
+import ManufacturerFormModal from "./ManufacturerFormModal";
 import {
   getBrands, createBrand, updateBrand, deleteBrand,
   getManufacturers, createManufacturer, updateManufacturer, deleteManufacturer,
@@ -23,9 +25,6 @@ interface BaseEntity {
   created_at: string;
   updated_at?: string;
 }
-
-interface Brand extends BaseEntity {}
-interface Manufacturer extends BaseEntity {}
 
 interface ProductGroup extends BaseEntity {
   category_id: string;
@@ -63,8 +62,8 @@ export default function MasterDataTabs() {
   const [isPending, startTransition] = useTransition();
   
   // Data states
-  const [brands, setBrands] = useState<Brand[]>([]);
-  const [manufacturers, setManufacturers] = useState<Manufacturer[]>([]);
+  const [brands, setBrands] = useState<BaseEntity[]>([]);
+  const [manufacturers, setManufacturers] = useState<BaseEntity[]>([]);
   const [productGroups, setProductGroups] = useState<ProductGroup[]>([]);
   const [productSubGroups, setProductSubGroups] = useState<ProductSubGroup[]>([]);
   const [productVariants, setProductVariants] = useState<ProductVariant[]>([]);
@@ -75,6 +74,10 @@ export default function MasterDataTabs() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [showAddForm, setShowAddForm] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  // Modal states
+  const [manufacturerModalOpen, setManufacturerModalOpen] = useState(false);
+  const [editingManufacturer, setEditingManufacturer] = useState<any>(null);
 
   useEffect(() => {
     loadData();
@@ -117,7 +120,7 @@ export default function MasterDataTabs() {
           setProductVariants(variantsData);
           break;
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to load data");
     } finally {
       setLoading(false);
@@ -228,6 +231,11 @@ export default function MasterDataTabs() {
   };
 
   const renderAddForm = () => {
+    // Manufacturers use modal, not inline form
+    if (activeTab === "manufacturers") {
+      return null;
+    }
+
     return (
       <div className="bg-gray-50 p-4 rounded-lg mb-6">
         <h3 className="text-sm font-medium text-gray-900 mb-3">Add New {activeTab.slice(0, -1)}</h3>
@@ -238,7 +246,7 @@ export default function MasterDataTabs() {
         }} className="space-y-3">
           {renderFormFields()}
           <div className="flex gap-2">
-            <Button type="submit" size="sm" disabled={isPending}>
+            <Button type="submit" variant="outline" size="sm" disabled={isPending}>
               {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Create
             </Button>
@@ -253,6 +261,9 @@ export default function MasterDataTabs() {
 
   const renderFormFields = (item?: any) => {
     switch (activeTab) {
+      case "manufacturers":
+        // Manufacturers use modal form, not inline
+        return null;
       case "brands":
       case "manufacturers":
         return (
@@ -452,7 +463,7 @@ export default function MasterDataTabs() {
                       }} className="flex items-center gap-2 flex-wrap">
                         {renderFormFields(item)}
                         <div className="flex gap-1">
-                          <Button type="submit" size="sm" disabled={isPending}>
+                          <Button type="submit" variant="outline" size="sm" disabled={isPending}>
                             Save
                           </Button>
                           <Button
@@ -501,7 +512,14 @@ export default function MasterDataTabs() {
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => setEditingId(item.id)}
+                            onClick={() => {
+                              if (activeTab === "manufacturers") {
+                                setEditingManufacturer(item);
+                                setManufacturerModalOpen(true);
+                              } else {
+                                setEditingId(item.id);
+                              }
+                            }}
                             disabled={isPending}
                           >
                             <Edit className="h-4 w-4" />
@@ -532,9 +550,17 @@ export default function MasterDataTabs() {
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-lg font-medium text-gray-900">Master Data</h2>
         <Button 
-          onClick={() => setShowAddForm(true)}
-          disabled={showAddForm}
-          size="sm"
+          onClick={() => {
+            if (activeTab === "manufacturers") {
+              setEditingManufacturer(null);
+              setManufacturerModalOpen(true);
+            } else {
+              setShowAddForm(true);
+            }
+          }}
+          disabled={activeTab !== "manufacturers" && showAddForm}
+          size="default"
+          className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm border-0 px-4 py-2 h-9 font-medium"
         >
           <Plus className="h-4 w-4 mr-2" />
           Add {activeTab.slice(0, -1)}
@@ -542,19 +568,54 @@ export default function MasterDataTabs() {
       </div>
       
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="manufacturers">Manufacturers</TabsTrigger>
-          <TabsTrigger value="brands">Brands</TabsTrigger>
-          <TabsTrigger value="groups">Groups</TabsTrigger>
-          <TabsTrigger value="subgroups">Sub-Groups</TabsTrigger>
-          <TabsTrigger value="variants">Variants</TabsTrigger>
-        </TabsList>
+        <div className="flex items-center justify-between">
+          <OvalTabsList size="md" className="w-auto">
+            <OvalTab value="manufacturers" size="md">
+              <svg className="h-4 w-4 opacity-80 data-[state=active]:opacity-100" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M12 2L2 7v10c0 5.55 3.84 9.74 9 11 5.16-1.26 9-5.45 9-11V7l-10-5z"/>
+              </svg>
+              <span>Manufacturers</span>
+            </OvalTab>
+            <OvalTab value="brands" size="md">
+              <span className="h-4 w-4 rounded-sm border border-border opacity-80 data-[state=active]:opacity-100" aria-hidden="true" />
+              <span>Brands</span>
+            </OvalTab>
+            <OvalTab value="groups" size="md">
+              <span className="h-4 w-4 rounded-sm border border-border opacity-80 data-[state=active]:opacity-100" aria-hidden="true" />
+              <span>Groups</span>
+            </OvalTab>
+            <OvalTab value="subgroups" size="md">
+              <span className="h-4 w-4 rounded-sm border border-border opacity-80 data-[state=active]:opacity-100" aria-hidden="true" />
+              <span>Sub-Groups</span>
+            </OvalTab>
+            <OvalTab value="variants" size="md">
+              <span className="h-4 w-4 rounded-sm border border-border opacity-80 data-[state=active]:opacity-100" aria-hidden="true" />
+              <span>Variants</span>
+            </OvalTab>
+          </OvalTabsList>
+        </div>
         
         <div className="space-y-4">
           {showAddForm && renderAddForm()}
           {renderTable()}
         </div>
       </Tabs>
+
+      <ManufacturerFormModal
+        open={manufacturerModalOpen}
+        onOpenChange={(open) => {
+          setManufacturerModalOpen(open);
+          if (!open) {
+            setEditingManufacturer(null);
+          }
+        }}
+        manufacturer={editingManufacturer}
+        onSuccess={() => {
+          setManufacturerModalOpen(false);
+          setEditingManufacturer(null);
+          loadData();
+        }}
+      />
     </div>
   );
 }

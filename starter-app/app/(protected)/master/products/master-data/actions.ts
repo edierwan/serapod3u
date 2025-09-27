@@ -14,6 +14,33 @@ const BrandSchema = z.object({
 
 const ManufacturerSchema = z.object({
   name: z.string().min(1, "Name is required"),
+  legal_name: z.string().optional(),
+  brand_name: z.string().optional(),
+  registration_number: z.string().optional(),
+  tax_id: z.string().optional(),
+  contact_person: z.string().optional(),
+  phone: z.string().optional(),
+  email: z.string().email().optional().or(z.literal("")),
+  secondary_email: z.string().email().optional().or(z.literal("")),
+  support_email: z.string().email().optional().or(z.literal("")),
+  support_phone: z.string().optional(),
+  whatsapp: z.string().optional(),
+  fax: z.string().optional(),
+  address_line1: z.string().optional(),
+  address_line2: z.string().optional(),
+  city: z.string().optional(),
+  state_region: z.string().optional(),
+  postal_code: z.string().optional(),
+  country_code: z.string().length(2).optional(),
+  website_url: z.string().url().optional().or(z.literal("")),
+  timezone: z.string().optional(),
+  language_code: z.string().length(2).optional(),
+  currency_code: z.string().length(3).optional(),
+  logo_url: z.string().optional(),
+  social_links: z.string().optional(), // JSON string
+  certifications: z.string().optional(), // JSON string
+  notes: z.string().optional(),
+  status: z.enum(["active", "inactive", "blocked"]).default("active"),
   is_active: z.boolean().default(true)
 });
 
@@ -67,7 +94,7 @@ export async function createBrand(formData: FormData): Promise<ActionResult> {
 
     const data = BrandSchema.parse({
       name: formData.get("name"),
-      is_active: formData.get("is_active") === "true"
+      is_active: formData.has("is_active")
     });
 
     const supabase = await createSupabaseServerClient();
@@ -96,7 +123,7 @@ export async function updateBrand(id: string, formData: FormData): Promise<Actio
 
     const data = BrandSchema.parse({
       name: formData.get("name"),
-      is_active: formData.get("is_active") === "true"
+      is_active: formData.has("is_active")
     });
 
     const supabase = await createSupabaseServerClient();
@@ -157,13 +184,61 @@ export async function createManufacturer(formData: FormData): Promise<ActionResu
 
     const data = ManufacturerSchema.parse({
       name: formData.get("name"),
-      is_active: formData.get("is_active") === "true"
+      legal_name: formData.get("legal_name") || undefined,
+      brand_name: formData.get("brand_name") || undefined,
+      registration_number: formData.get("registration_number") || undefined,
+      tax_id: formData.get("tax_id") || undefined,
+      contact_person: formData.get("contact_person") || undefined,
+      phone: formData.get("phone") || undefined,
+      email: formData.get("email") || undefined,
+      secondary_email: formData.get("secondary_email") || undefined,
+      support_email: formData.get("support_email") || undefined,
+      support_phone: formData.get("support_phone") || undefined,
+      whatsapp: formData.get("whatsapp") || undefined,
+      fax: formData.get("fax") || undefined,
+      address_line1: formData.get("address_line1") || undefined,
+      address_line2: formData.get("address_line2") || undefined,
+      city: formData.get("city") || undefined,
+      state_region: formData.get("state_region") || undefined,
+      postal_code: formData.get("postal_code") || undefined,
+      country_code: formData.get("country_code") || undefined,
+      website_url: formData.get("website_url") || undefined,
+      timezone: formData.get("timezone") || undefined,
+      language_code: formData.get("language_code") || undefined,
+      currency_code: formData.get("currency_code") || undefined,
+      logo_url: formData.get("logo_url") || undefined,
+      social_links: formData.get("social_links") || undefined,
+      certifications: formData.get("certifications") || undefined,
+      notes: formData.get("notes") || undefined,
+      status: formData.get("status") || "active",
+      is_active: formData.has("is_active")
     });
+
+    // Convert JSON strings to objects
+    if (data.social_links) {
+      try {
+        data.social_links = JSON.parse(data.social_links);
+      } catch {
+        data.social_links = undefined;
+      }
+    }
+    if (data.certifications) {
+      try {
+        data.certifications = JSON.parse(data.certifications);
+      } catch {
+        data.certifications = undefined;
+      }
+    }
 
     const supabase = await createSupabaseServerClient();
     const { error } = await supabase.from("manufacturers").insert([data]);
 
-    if (error) throw error;
+    if (error) {
+      if (error.code === "23505") {
+        return { ok: false, message: "A manufacturer with this registration number and country already exists." };
+      }
+      throw error;
+    }
 
     revalidatePath("/(protected)/master/products");
     return { ok: true };
@@ -181,8 +256,51 @@ export async function updateManufacturer(id: string, formData: FormData): Promis
 
     const data = ManufacturerSchema.parse({
       name: formData.get("name"),
-      is_active: formData.get("is_active") === "true"
+      legal_name: formData.get("legal_name") || undefined,
+      brand_name: formData.get("brand_name") || undefined,
+      registration_number: formData.get("registration_number") || undefined,
+      tax_id: formData.get("tax_id") || undefined,
+      contact_person: formData.get("contact_person") || undefined,
+      phone: formData.get("phone") || undefined,
+      email: formData.get("email") || undefined,
+      secondary_email: formData.get("secondary_email") || undefined,
+      support_email: formData.get("support_email") || undefined,
+      support_phone: formData.get("support_phone") || undefined,
+      whatsapp: formData.get("whatsapp") || undefined,
+      fax: formData.get("fax") || undefined,
+      address_line1: formData.get("address_line1") || undefined,
+      address_line2: formData.get("address_line2") || undefined,
+      city: formData.get("city") || undefined,
+      state_region: formData.get("state_region") || undefined,
+      postal_code: formData.get("postal_code") || undefined,
+      country_code: formData.get("country_code") || undefined,
+      website_url: formData.get("website_url") || undefined,
+      timezone: formData.get("timezone") || undefined,
+      language_code: formData.get("language_code") || undefined,
+      currency_code: formData.get("currency_code") || undefined,
+      logo_url: formData.get("logo_url") || undefined,
+      social_links: formData.get("social_links") || undefined,
+      certifications: formData.get("certifications") || undefined,
+      notes: formData.get("notes") || undefined,
+      status: formData.get("status") || "active",
+      is_active: formData.has("is_active")
     });
+
+    // Convert JSON strings to objects
+    if (data.social_links) {
+      try {
+        data.social_links = JSON.parse(data.social_links);
+      } catch {
+        data.social_links = undefined;
+      }
+    }
+    if (data.certifications) {
+      try {
+        data.certifications = JSON.parse(data.certifications);
+      } catch {
+        data.certifications = undefined;
+      }
+    }
 
     const supabase = await createSupabaseServerClient();
     const { error } = await supabase
@@ -243,7 +361,7 @@ export async function createProductGroup(formData: FormData): Promise<ActionResu
     const data = ProductGroupSchema.parse({
       name: formData.get("name"),
       category_id: formData.get("category_id"),
-      is_active: formData.get("is_active") === "true"
+      is_active: formData.has("is_active")
     });
 
     const supabase = await createSupabaseServerClient();
@@ -268,7 +386,7 @@ export async function updateProductGroup(id: string, formData: FormData): Promis
     const data = ProductGroupSchema.parse({
       name: formData.get("name"),
       category_id: formData.get("category_id"),
-      is_active: formData.get("is_active") === "true"
+      is_active: formData.has("is_active")
     });
 
     const supabase = await createSupabaseServerClient();
@@ -330,7 +448,7 @@ export async function createProductSubGroup(formData: FormData): Promise<ActionR
     const data = ProductSubGroupSchema.parse({
       name: formData.get("name"),
       group_id: formData.get("group_id"),
-      is_active: formData.get("is_active") === "true"
+      is_active: formData.has("is_active")
     });
 
     const supabase = await createSupabaseServerClient();
@@ -355,7 +473,7 @@ export async function updateProductSubGroup(id: string, formData: FormData): Pro
     const data = ProductSubGroupSchema.parse({
       name: formData.get("name"),
       group_id: formData.get("group_id"),
-      is_active: formData.get("is_active") === "true"
+      is_active: formData.has("is_active")
     });
 
     const supabase = await createSupabaseServerClient();

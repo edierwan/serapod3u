@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ListTab from "./components/tabs/ListTab";
 import DetailsTab from "./components/tabs/DetailsTab";
 import { Factory } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
 
 interface Manufacturer {
   id: string;
@@ -22,12 +23,26 @@ interface ManufacturersPageClientProps {
   currentUserRole: string;
 }
 
-export default function ManufacturersPageClient({ manufacturers, currentUserRole }: ManufacturersPageClientProps) {
+export default function ManufacturersPageClient({ manufacturers: initialManufacturers, currentUserRole }: ManufacturersPageClientProps) {
+  const [manufacturers, setManufacturers] = useState(initialManufacturers);
   const [selectedManufacturerId, setSelectedManufacturerId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("list");
   const [selectedManufacturer, setSelectedManufacturer] = useState<Manufacturer | null>(null);
 
   const canEdit = currentUserRole === "hq_admin" || currentUserRole === "power_user";
+
+  // Refresh manufacturers list when needed
+  const refreshManufacturers = async () => {
+    const supabase = createClient();
+    const { data } = await supabase
+      .from("manufacturers")
+      .select("*")
+      .order("updated_at", { ascending: false });
+    
+    if (data) {
+      setManufacturers(data);
+    }
+  };
 
   useEffect(() => {
     if (selectedManufacturerId) {
@@ -36,6 +51,26 @@ export default function ManufacturersPageClient({ manufacturers, currentUserRole
       setActiveTab("details");
     }
   }, [selectedManufacturerId, manufacturers]);
+
+  // Listen for manufacturer updates
+  useEffect(() => {
+    const supabase = createClient();
+    
+    const channel = supabase
+      .channel('manufacturers_changes')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'manufacturers'
+      }, () => {
+        refreshManufacturers();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">
@@ -70,6 +105,7 @@ export default function ManufacturersPageClient({ manufacturers, currentUserRole
             <DetailsTab
               manufacturer={selectedManufacturer}
               canEdit={canEdit}
+              onRefresh={refreshManufacturers}
             />
           </TabsContent>
         </Tabs>

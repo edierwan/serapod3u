@@ -91,6 +91,10 @@ export const SidebarByRole: Record<Role, MenuItem[]> = {
           href: "/master/products"
         },
         { 
+          label: "Variants", 
+          href: "/master/variants"
+        },
+        { 
           label: "Manufacturers", 
           href: "/master/manufacturers"
         },
@@ -199,6 +203,10 @@ export const SidebarByRole: Record<Role, MenuItem[]> = {
         { 
           label: "Products", 
           href: "/master/products"
+        },
+        { 
+          label: "Variants", 
+          href: "/master/variants"
         },
         { 
           label: "Manufacturers", 

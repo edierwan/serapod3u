@@ -15,8 +15,8 @@ export default async function ManufacturersPage() {
   // Fetch manufacturers
   const { data: manufacturers = [] } = await supabase
     .from("manufacturers")
-    .select("*")
-    .order("updated_at", { ascending: false });
+    .select("id, name, is_active, logo_url, contact_person, phone, email, website_url, address_line1, address_line2, city, postal_code, country_code, language_code, currency_code, tax_id, registration_number, support_email, support_phone, timezone, notes, created_at, updated_at")
+    .order("name", { ascending: true });
 
   return (
     <ManufacturersPageClient

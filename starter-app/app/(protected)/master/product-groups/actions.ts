@@ -36,9 +36,9 @@ async function checkPermission(): Promise<boolean> {
   if (!user) return false;
 
   const { data: profile } = await supabase
-    .from("profiles")
+    .from("users_profile")
     .select("role_code")
-    .eq("id", user.id)
+    .eq("user_id", user.id)
     .single();
 
   return profile?.role_code === "hq_admin" || profile?.role_code === "power_user";
@@ -78,6 +78,9 @@ export async function createProductGroup(formData: FormData): Promise<ActionResu
 
     if (error) {
       if (error.code === "23505") {
+        if (error.message.includes("product_groups_name_key")) {
+          return { ok: false, message: "A product group with this name already exists. Please choose a different name." };
+        }
         return { ok: false, message: "A product group with this name already exists." };
       }
       throw error;
@@ -127,6 +130,9 @@ export async function updateProductGroup(id: string, formData: FormData): Promis
 
     if (error) {
       if (error.code === "23505") {
+        if (error.message.includes("product_groups_name_key")) {
+          return { ok: false, message: "A product group with this name already exists. Please choose a different name." };
+        }
         return { ok: false, message: "A product group with this name already exists." };
       }
       throw error;

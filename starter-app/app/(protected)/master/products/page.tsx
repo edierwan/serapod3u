@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/oval-tabs";
+import { OvalTabsList, OvalTab } from "@/components/ui/oval-tabs";
+import { Package, Plus, Database } from "lucide-react";
 import { ProductsList, ProductCreateForm, MasterDataTabs } from "@/components/products";
 
 export default function ProductsPage() {
@@ -17,11 +19,20 @@ export default function ProductsPage() {
       </div>
       
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="products">Products</TabsTrigger>
-          <TabsTrigger value="create">Create Product</TabsTrigger>
-          <TabsTrigger value="master-data">Master Data</TabsTrigger>
-        </TabsList>
+        <OvalTabsList size="lg" layout="grid" className="w-full">
+          <OvalTab value="products" size="lg" className="w-full justify-center">
+            <Package className="h-4 w-4 opacity-80 data-[state=active]:opacity-100" />
+            <span className="tracking-[0.01em]">Products</span>
+          </OvalTab>
+          <OvalTab value="create" size="lg" className="w-full justify-center">
+            <Plus className="h-4 w-4 opacity-80 data-[state=active]:opacity-100" />
+            <span className="tracking-[0.01em]">Create Product</span>
+          </OvalTab>
+          <OvalTab value="master-data" size="lg" className="w-full justify-center">
+            <Database className="h-4 w-4 opacity-80 data-[state=active]:opacity-100" />
+            <span className="tracking-[0.01em]">Master Data</span>
+          </OvalTab>
+        </OvalTabsList>
         
         <TabsContent value="products" className="space-y-0">
           <ProductsList />

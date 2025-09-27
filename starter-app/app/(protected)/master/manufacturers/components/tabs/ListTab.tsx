@@ -1,20 +1,38 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Search, Plus, Edit, Trash2 } from "lucide-react";
+import { Search, Edit, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { createManufacturer, updateManufacturer, deleteManufacturer } from "../../actions";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { deleteManufacturer } from "../../actions";
 import { toast } from "sonner";
 
 interface Manufacturer {
   id: string;
   name: string;
-  email?: string;
+  is_active?: boolean;
+  contact_person?: string;
   phone?: string;
-  address?: string;
+  email?: string;
+  website_url?: string;
   logo_url?: string;
+  address_line1?: string;
+  address_line2?: string;
+  city?: string;
+  postal_code?: string;
+  country_code?: string;
+  language_code?: string;
+  currency_code?: string;
+  tax_id?: string;
+  registration_number?: string;
+  support_email?: string;
+  support_phone?: string;
+  timezone?: string;
+  notes?: string;
   created_at: string;
+  updated_at?: string;
 }
 
 interface ListTabProps {
@@ -24,46 +42,20 @@ interface ListTabProps {
 
 export default function ListTab({ manufacturers, onSelectManufacturer }: ListTabProps) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [showCreateDialog, setShowCreateDialog] = useState(false);
-  const [editingManufacturer, setEditingManufacturer] = useState<Manufacturer | null>(null);
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
 
   const filteredManufacturers = manufacturers.filter(manufacturer =>
     manufacturer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    manufacturer.email?.toLowerCase().includes(searchQuery.toLowerCase())
+    manufacturer.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    manufacturer.country_code?.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  const handleCreate = (formData: FormData) => {
-    startTransition(async () => {
-      const result = await createManufacturer(formData);
-      if (result.success) {
-        toast.success("Saved successfully.");
-        setShowCreateDialog(false);
-      } else {
-        toast.error(result.error || "Failed to create manufacturer");
-      }
-    });
-  };
-
-  const handleUpdate = (formData: FormData) => {
-    if (!editingManufacturer) return;
-    startTransition(async () => {
-      const result = await updateManufacturer(formData);
-      if (result.success) {
-        toast.success("Changes saved.");
-        setEditingManufacturer(null);
-      } else {
-        toast.error(result.error || "Failed to update manufacturer");
-      }
-    });
-  };
 
   const handleDelete = (id: string) => {
     if (!confirm("Are you sure you want to delete this manufacturer?")) return;
     startTransition(async () => {
       const result = await deleteManufacturer(id);
       if (result.success) {
-        toast.success("Deleted.");
+        toast.success("Manufacturer deleted successfully.");
       } else {
         toast.error(result.error || "Failed to delete manufacturer");
       }
@@ -75,10 +67,6 @@ export default function ListTab({ manufacturers, onSelectManufacturer }: ListTab
       {/* Header */}
       <div className="flex justify-between items-center">
         <h2 className="text-lg font-semibold">Manufacturers List</h2>
-        <Button onClick={() => setShowCreateDialog(true)}>
-          <Plus className="h-4 w-4 mr-2" />
-          Add Manufacturer
-        </Button>
       </div>
 
       {/* Search */}
@@ -99,9 +87,10 @@ export default function ListTab({ manufacturers, onSelectManufacturer }: ListTab
             <thead className="bg-muted/50">
               <tr>
                 <th className="text-left p-4 font-medium">Name</th>
-                <th className="text-left p-4 font-medium">Email</th>
+                <th className="text-left p-4 font-medium">Country</th>
                 <th className="text-left p-4 font-medium">Phone</th>
-                <th className="text-left p-4 font-medium">Created</th>
+                <th className="text-left p-4 font-medium">Email</th>
+                <th className="text-left p-4 font-medium">Status</th>
                 <th className="text-left p-4 font-medium">Actions</th>
               </tr>
             </thead>
@@ -112,11 +101,25 @@ export default function ListTab({ manufacturers, onSelectManufacturer }: ListTab
                   className="border-t border-border hover:bg-muted/25 cursor-pointer"
                   onClick={() => onSelectManufacturer(manufacturer.id)}
                 >
-                  <td className="p-4 font-medium">{manufacturer.name}</td>
-                  <td className="p-4 text-muted-foreground">{manufacturer.email || "-"}</td>
+                  <td className="p-4">
+                    <div className="flex items-center gap-3">
+                      <Avatar className="h-8 w-8">
+                        {manufacturer.logo_url ? (
+                          <AvatarImage src={`${manufacturer.logo_url}?v=${manufacturer.updated_at ?? ""}`} alt={manufacturer.name} />
+                        ) : (
+                          <AvatarFallback>{manufacturer.name?.slice(0,2).toUpperCase()}</AvatarFallback>
+                        )}
+                      </Avatar>
+                      <span className="truncate">{manufacturer.name}</span>
+                    </div>
+                  </td>
+                  <td className="p-4 text-muted-foreground">{manufacturer.country_code || "-"}</td>
                   <td className="p-4 text-muted-foreground">{manufacturer.phone || "-"}</td>
-                  <td className="p-4 text-muted-foreground">
-                    {new Date(manufacturer.created_at).toLocaleDateString()}
+                  <td className="p-4 text-muted-foreground">{manufacturer.email || "-"}</td>
+                  <td className="p-4">
+                    <Badge variant={manufacturer.is_active ? "default" : "secondary"}>
+                      {manufacturer.is_active ? "Active" : "Inactive"}
+                    </Badge>
                   </td>
                   <td className="p-4">
                     <div className="flex gap-2">
@@ -125,7 +128,7 @@ export default function ListTab({ manufacturers, onSelectManufacturer }: ListTab
                         size="sm"
                         onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                           e.stopPropagation();
-                          setEditingManufacturer(manufacturer);
+                          onSelectManufacturer(manufacturer.id);
                         }}
                       >
                         <Edit className="h-4 w-4" />
@@ -149,75 +152,9 @@ export default function ListTab({ manufacturers, onSelectManufacturer }: ListTab
         </div>
       </div>
 
-      {/* Create/Edit Dialog */}
-      {(showCreateDialog || editingManufacturer) && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg w-full max-w-md mx-4">
-            <h3 className="text-lg font-semibold mb-4">
-              {editingManufacturer ? "Edit Manufacturer" : "Create Manufacturer"}
-            </h3>
-            <form
-              action={editingManufacturer ? handleUpdate : handleCreate}
-              className="space-y-4"
-            >
-              {editingManufacturer && (
-                <input type="hidden" name="id" value={editingManufacturer.id} />
-              )}
-              <div>
-                <label className="block text-sm font-medium mb-1">Name *</label>
-                <Input
-                  name="name"
-                  defaultValue={editingManufacturer?.name || ""}
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Email</label>
-                <Input
-                  name="email"
-                  type="email"
-                  defaultValue={editingManufacturer?.email || ""}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Phone</label>
-                <Input
-                  name="phone"
-                  defaultValue={editingManufacturer?.phone || ""}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Address</label>
-                <Input
-                  name="address"
-                  defaultValue={editingManufacturer?.address || ""}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Logo URL</label>
-                <Input
-                  name="logo_url"
-                  type="url"
-                  defaultValue={editingManufacturer?.logo_url || ""}
-                />
-              </div>
-              <div className="flex gap-2 pt-4">
-                <Button type="submit" disabled={isPending}>
-                  {isPending ? "Saving..." : "Save"}
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => {
-                    setShowCreateDialog(false);
-                    setEditingManufacturer(null);
-                  }}
-                >
-                  Cancel
-                </Button>
-              </div>
-            </form>
-          </div>
+      {filteredManufacturers.length === 0 && (
+        <div className="text-center py-8">
+          <p className="text-muted-foreground">No manufacturers found.</p>
         </div>
       )}
     </div>

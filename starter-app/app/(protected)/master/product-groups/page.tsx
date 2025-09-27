@@ -12,9 +12,9 @@ export default async function ProductGroupsPage() {
 
   // Check permissions
   const { data: profile } = await supabase
-    .from("profiles")
+    .from("users_profile")
     .select("role_code")
-    .eq("id", user.id)
+    .eq("user_id", user.id)
     .single();
 
   const canModify = profile?.role_code === "hq_admin" || profile?.role_code === "power_user";
@@ -24,7 +24,7 @@ export default async function ProductGroupsPage() {
     .from("product_groups")
     .select(`
       *,
-      categories:category_id (
+      categories!left (
         id,
         name
       )
@@ -133,7 +133,7 @@ export default async function ProductGroupsPage() {
               {canModify && (
                 <Link 
                   href="/master/product-groups/create"
-                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700"
+                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                   <Plus className="h-4 w-4" />
                   Create your first product group
