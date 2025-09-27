@@ -1,35 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { Edit, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ManufacturerFormModal from "@/components/products/ManufacturerFormModal";
-
-interface Manufacturer {
-  id: string;
-  name: string;
-  is_active?: boolean;
-  contact_person?: string;
-  phone?: string;
-  email?: string;
-  website_url?: string;
-  logo_url?: string;
-  address_line1?: string;
-  address_line2?: string;
-  city?: string;
-  postal_code?: string;
-  country_code?: string;
-  language_code?: string;
-  currency_code?: string;
-  tax_id?: string;
-  registration_number?: string;
-  support_email?: string;
-  support_phone?: string;
-  timezone?: string;
-  notes?: string;
-  created_at: string;
-  updated_at?: string;
-}
+import { Manufacturer } from "@/lib/types/master";
 
 interface DetailsTabProps {
   manufacturer: Manufacturer | null;
@@ -100,14 +76,18 @@ export default function DetailsTab({ manufacturer, canEdit, onRefresh }: Details
         {manufacturer.logo_url && (
           <div>
             <label className="block text-sm font-medium text-muted-foreground mb-2">Logo</label>
-            <img
-              src={manufacturer.logo_url}
-              alt={manufacturer.name}
-              className="h-16 w-auto object-contain border border-border rounded"
-              onError={(e) => {
-                (e.target as HTMLImageElement).style.display = "none";
-              }}
-            />
+            <div className="relative h-16 w-32 border border-border rounded overflow-hidden">
+              <Image
+                src={manufacturer.logo_url}
+                alt={`${manufacturer.name} logo`}
+                fill
+                className="object-contain"
+                sizes="128px"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.display = "none";
+                }}
+              />
+            </div>
           </div>
         )}
 
@@ -237,7 +217,7 @@ export default function DetailsTab({ manufacturer, canEdit, onRefresh }: Details
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-muted-foreground mb-1">Created</label>
-              <p className="text-base">{new Date(manufacturer.created_at).toLocaleString()}</p>
+              <p className="text-base">{manufacturer.created_at ? new Date(manufacturer.created_at).toLocaleString() : "Unknown"}</p>
             </div>
 
             {manufacturer.updated_at && (

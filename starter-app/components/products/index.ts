@@ -1,3 +1,4 @@
-export { default as ProductsList } from './ProductsList';
-export { default as ProductCreateForm } from './ProductCreateForm';
-export { default as MasterDataTabs } from './MasterDataTabs';
+// Product components exports
+export { ProductsList } from './ProductsList';
+export { ProductCreateForm } from './ProductCreateForm';
+export { MasterDataTabs } from './MasterDataTabs';
