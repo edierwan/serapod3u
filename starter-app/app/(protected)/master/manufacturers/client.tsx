@@ -103,7 +103,6 @@ export default function ManufacturersPageClient({
   }, []);
 
   const handleAdd = () => {
-    console.log("Add button clicked");
     setEditingManufacturer(null);
     setIsFormModalOpen(true);
   };
@@ -124,8 +123,6 @@ export default function ManufacturersPageClient({
     refreshManufacturers();
   };
 
-  console.log("Modal open state:", isFormModalOpen);
-
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="mx-auto max-w-7xl py-6 px-4">
@@ -140,7 +137,6 @@ export default function ManufacturersPageClient({
         <ManufacturerFormModal
           open={isFormModalOpen}
           onOpenChange={(open) => {
-            console.log("Modal onOpenChange:", open);
             setIsFormModalOpen(open);
           }}
           manufacturer={editingManufacturer || undefined}

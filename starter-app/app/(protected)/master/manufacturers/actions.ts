@@ -28,7 +28,7 @@ export async function upsertManufacturer(_: unknown, formData: FormData) {
   const parsed = Upsert.safeParse({
     id: formData.get("id") ?? undefined,
     name: formData.get("name"),
-    is_active: (formData.get("is_active") ?? "true") === "true",
+    is_active: formData.get("is_active") === "on",
     contact_person: formData.get("contact_person") || undefined,
     phone: formData.get("phone") || undefined,
     email: formData.get("email") || undefined,
