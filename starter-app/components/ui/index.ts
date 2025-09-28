@@ -12,4 +12,5 @@ export { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 export { StatusToggle } from "./status-toggle"
 export { Switch } from "./switch"
 export { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs"
+export { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption } from "./table"
 export { Textarea } from "./textarea"
