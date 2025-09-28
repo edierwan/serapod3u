@@ -11,7 +11,6 @@ export interface PageTabConfig {
 export const PAGE_TABS: PageTabConfig = {
   // Order Management
   "/orders": [
-    { id: "create", label: "Create", href: "/orders" },
     { id: "approval", label: "Approval", href: "/orders/approval" },
     { id: "list", label: "List", href: "/orders/list" }
   ],

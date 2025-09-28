@@ -36,6 +36,29 @@ export interface ProductSubGroupRow {
   updated_at?: string;
 }
 
+export interface DistributorRow {
+  id: string;
+  name: string;
+  contact_person?: string;
+  phone?: string;
+  email?: string;
+  address?: string;
+  logo_url?: string;
+  is_active?: boolean;
+  address_line1?: string;
+  address_line2?: string;
+  city?: string;
+  state_region?: string;
+  postal_code?: string;
+  country_code?: string;
+  website_url?: string;
+  whatsapp?: string;
+  notes?: string;
+  category_id?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
 export interface ManufacturerRow {
   id: string;
   name: string;
@@ -128,6 +151,8 @@ export interface ProductSubGroup extends ProductSubGroupRow {
 }
 
 export type Manufacturer = ManufacturerRow;
+
+export type Distributor = DistributorRow;
 
 export interface Product extends ProductRow {
   category?: Category;
