@@ -7,9 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { EmptyState } from "@/components/ui/empty-state";
+import { FormDialog } from "@/components/ui/form-dialog";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Edit, Trash2, Tag, Package, Layers, Layers3, Box, Building2, Users, Loader2 } from "lucide-react";
+import { Plus, Edit, Trash2, Tag, Package, Layers, Layers3, Box, Building2, Users } from "lucide-react";
 import { toast } from "sonner";
 import ManufacturerFormModal from "./ManufacturerFormModal";
 import {
@@ -52,7 +53,7 @@ import {
   ProductVariantForm
 } from "@/lib/types/master";
 
-export function MasterDataTabs() {
+export function MasterDataTabs({ onCreateProduct }: { onCreateProduct?: () => void }) {
   const [activeTab, setActiveTab] = useState<TabKey>("categories");
   const [showManufacturerModal, setShowManufacturerModal] = useState(false);
   const [editingManufacturer, setEditingManufacturer] = useState<Manufacturer | null>(null);
@@ -266,6 +267,8 @@ export function MasterDataTabs() {
     }
   };
 
+  const isBrandFormValid = brandForm.name.trim() !== "" && brandForm.category_id !== "";
+
   const handleDeleteBrand = async (id: string) => {
     if (!confirm("Are you sure you want to delete this brand?")) return;
     try {
@@ -324,6 +327,8 @@ export function MasterDataTabs() {
       setIsGroupSubmitting(false);
     }
   };
+
+  const isGroupFormValid = groupForm.name.trim() !== "" && groupForm.category_id !== "";
 
   const handleDeleteGroup = async (id: string) => {
     if (!confirm("Are you sure you want to delete this group?")) return;
@@ -384,6 +389,8 @@ export function MasterDataTabs() {
     }
   };
 
+  const isSubGroupFormValid = subGroupForm.name.trim() !== "" && subGroupForm.group_id !== "";
+
   const handleDeleteSubGroup = async (id: string) => {
     if (!confirm("Are you sure you want to delete this sub-group?")) return;
     try {
@@ -424,6 +431,14 @@ export function MasterDataTabs() {
     const toastId = toast.loading("Saving variant...");
 
     try {
+      // Check if the selected product still exists
+      const selectedProduct = products.find(p => p.id === variantForm.product_id);
+      if (!selectedProduct) {
+        toast.error("The selected product no longer exists. Please choose another product or create a new one.", { id: toastId });
+        setIsVariantSubmitting(false);
+        return;
+      }
+
       const formData = new FormData();
       formData.append("product_id", variantForm.product_id);
       if (variantForm.flavor_name) formData.append("flavor_name", variantForm.flavor_name);
@@ -449,6 +464,8 @@ export function MasterDataTabs() {
       setIsVariantSubmitting(false);
     }
   };
+
+  const isVariantFormValid = variantForm.product_id !== "";
 
   const handleDeleteVariant = async (id: string) => {
     if (!confirm("Are you sure you want to delete this variant?")) return;
@@ -522,7 +539,7 @@ export function MasterDataTabs() {
         <TabsContent value="categories" className="space-y-4">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <h2 className="text-2xl font-bold">Categories</h2>
-            <Button onClick={handleCreateCategory} className="w-full sm:w-auto">
+            <Button onClick={handleCreateCategory} variant="primary" className="w-full sm:w-auto">
               <Plus className="w-4 h-4 mr-2" />
               Add Category
             </Button>
@@ -554,21 +571,21 @@ export function MasterDataTabs() {
         <TabsContent value="brands" className="space-y-4">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <h2 className="text-2xl font-bold">Brands</h2>
-            <Button onClick={handleCreateBrand} className="w-full sm:w-auto" size="sm">
+            <Button onClick={handleCreateBrand} variant="primary" className="w-full sm:w-auto">
               <Plus className="w-4 h-4 mr-2" />
               Add Brand
             </Button>
           </div>
           {brands.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-12 text-center">
-              <Package className="w-12 h-12 text-gray-400 mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No brands found</h3>
-              <p className="text-gray-500 mb-6">Get started by creating your first brand.</p>
-              <Button onClick={handleCreateBrand}>
-                <Plus className="w-4 h-4 mr-2" />
-                Add Brand
-              </Button>
-            </div>
+            <EmptyState
+              icon={Package}
+              title="No brands found"
+              body="Get started by creating your first brand."
+              primaryCta={{
+                label: "Add Brand",
+                onClick: handleCreateBrand
+              }}
+            />
           ) : (
             <div className="grid gap-4">
               {brands.map((brand) => (
@@ -598,21 +615,21 @@ export function MasterDataTabs() {
                 <TabsContent value="groups" className="space-y-4">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <h2 className="text-2xl font-bold">Product Groups</h2>
-            <Button onClick={handleCreateGroup} className="w-full sm:w-auto" size="sm">
+            <Button onClick={handleCreateGroup} variant="primary" className="w-full sm:w-auto">
               <Plus className="w-4 h-4 mr-2" />
               Add Group
             </Button>
           </div>
           {productGroups.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-12 text-center">
-              <Layers className="w-12 h-12 text-gray-400 mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No product groups found</h3>
-              <p className="text-gray-500 mb-6">Get started by creating your first product group.</p>
-              <Button onClick={handleCreateGroup}>
-                <Plus className="w-4 h-4 mr-2" />
-                Add Group
-              </Button>
-            </div>
+            <EmptyState
+              icon={Layers}
+              title="No product groups found"
+              body="Get started by creating your first product group."
+              primaryCta={{
+                label: "Add Group",
+                onClick: handleCreateGroup
+              }}
+            />
           ) : (
             <div className="grid gap-4">
               {productGroups.map((group) => (
@@ -642,21 +659,21 @@ export function MasterDataTabs() {
         <TabsContent value="subgroups" className="space-y-4">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <h2 className="text-2xl font-bold">Product Sub-Groups</h2>
-            <Button onClick={handleCreateSubGroup} className="w-full sm:w-auto" size="sm">
+            <Button onClick={handleCreateSubGroup} variant="primary" className="w-full sm:w-auto">
               <Plus className="w-4 h-4 mr-2" />
               Add Sub-Group
             </Button>
           </div>
           {productSubGroups.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-12 text-center">
-              <Layers3 className="w-12 h-12 text-gray-400 mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No product sub-groups found</h3>
-              <p className="text-gray-500 mb-6">Get started by creating your first product sub-group.</p>
-              <Button onClick={handleCreateSubGroup}>
-                <Plus className="w-4 h-4 mr-2" />
-                Add Sub-Group
-              </Button>
-            </div>
+            <EmptyState
+              icon={Layers3}
+              title="No product sub-groups found"
+              body="Get started by creating your first product sub-group."
+              primaryCta={{
+                label: "Add Sub-Group",
+                onClick: handleCreateSubGroup
+              }}
+            />
           ) : (
             <div className="grid gap-4">
               {productSubGroups.map((subGroup) => (
@@ -686,21 +703,38 @@ export function MasterDataTabs() {
         <TabsContent value="variants" className="space-y-4">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <h2 className="text-2xl font-bold">Product Variants</h2>
-            <Button onClick={handleCreateVariant} className="w-full sm:w-auto" size="sm">
-              <Plus className="w-4 h-4 mr-2" />
-              Add Variant
-            </Button>
-          </div>
-          {productVariants.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-12 text-center">
-              <Box className="w-12 h-12 text-gray-400 mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No product variants found</h3>
-              <p className="text-gray-500 mb-6">Get started by creating your first product variant.</p>
-              <Button onClick={handleCreateVariant}>
+            {products.length > 0 && (
+              <Button onClick={handleCreateVariant} variant="primary" className="w-full sm:w-auto">
                 <Plus className="w-4 h-4 mr-2" />
                 Add Variant
               </Button>
-            </div>
+            )}
+          </div>
+          
+          {products.length === 0 ? (
+            <EmptyState
+              icon={Box}
+              title="Create a product first"
+              body="Variants belong to a product. Add your first product, then come back to create its variants (flavor, nicotine strength, packaging)."
+              primaryCta={{
+                label: "Create Product",
+                onClick: onCreateProduct || (() => {})
+              }}
+              secondaryCta={{
+                label: "Back to Products",
+                onClick: () => window.location.href = "/master/products?tab=products"
+              }}
+            />
+          ) : productVariants.length === 0 ? (
+            <EmptyState
+              icon={Box}
+              title="No product variants found"
+              body="Get started by creating your first product variant."
+              primaryCta={{
+                label: "Add Variant",
+                onClick: handleCreateVariant
+              }}
+            />
           ) : (
             <div className="grid gap-4">
               {productVariants.map((variant) => (
@@ -732,21 +766,21 @@ export function MasterDataTabs() {
         <TabsContent value="manufacturers" className="space-y-4">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <h2 className="text-2xl font-bold">Manufacturers</h2>
-            <Button onClick={handleCreateManufacturer} className="w-full sm:w-auto" size="sm">
+            <Button onClick={handleCreateManufacturer} variant="primary" className="w-full sm:w-auto" size="sm">
               <Plus className="w-4 h-4 mr-2" />
               Add Manufacturer
             </Button>
           </div>
           {manufacturers.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-12 text-center">
-              <Building2 className="w-12 h-12 text-gray-400 mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No manufacturers found</h3>
-              <p className="text-gray-500 mb-6">Get started by creating your first manufacturer.</p>
-              <Button onClick={handleCreateManufacturer}>
-                <Plus className="w-4 h-4 mr-2" />
-                Add Manufacturer
-              </Button>
-            </div>
+            <EmptyState
+              icon={Building2}
+              title="No manufacturers found"
+              body="Get started by creating your first manufacturer."
+              primaryCta={{
+                label: "Add Manufacturer",
+                onClick: handleCreateManufacturer
+              }}
+            />
           ) : (
             <div className="grid gap-4">
               {manufacturers.map((manufacturer) => (
@@ -787,7 +821,7 @@ export function MasterDataTabs() {
           <Card>
             <CardHeader className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
               <CardTitle>Distributors</CardTitle>
-              <Button className="w-full sm:w-auto">
+              <Button variant="primary" className="w-full sm:w-auto">
                 <Plus className="h-4 w-4 mr-2" />
                 Add Distributor
               </Button>
@@ -805,295 +839,234 @@ export function MasterDataTabs() {
       </Tabs>
 
       {/* Category Dialog */}
-      <Dialog open={showCategoryDialog} onOpenChange={setShowCategoryDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{editingCategory ? "Edit Category" : "Add Category"}</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleCategorySubmit}>
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="category-name">Name</Label>
-                <Input
-                  id="category-name"
-                  value={categoryForm.name}
-                  onChange={(e) => setCategoryForm({ ...categoryForm, name: e.target.value })}
-                  required
-                />
-              </div>
-              <div>
-                <Label htmlFor="category-description">Description</Label>
-                <Textarea
-                  id="category-description"
-                  value={categoryForm.description}
-                  onChange={(e) => setCategoryForm({ ...categoryForm, description: e.target.value })}
-                />
-              </div>
-            </div>
-            <div className="flex justify-end gap-2 mt-4">
-              <Button type="button" variant="outline" onClick={() => setShowCategoryDialog(false)}>
-                Cancel
-              </Button>
-              <Button type="submit">{editingCategory ? "Update" : "Create"}</Button>
-            </div>
-          </form>
-        </DialogContent>
-      </Dialog>
+      <FormDialog
+        title={editingCategory ? "Edit Category" : "Add Category"}
+        isOpen={showCategoryDialog}
+        onClose={() => setShowCategoryDialog(false)}
+        onSubmit={handleCategorySubmit}
+        submitLabel={editingCategory ? "Update" : "Create"}
+      >
+        <div>
+          <Label htmlFor="category-name">Name</Label>
+          <Input
+            id="category-name"
+            value={categoryForm.name}
+            onChange={(e) => setCategoryForm({ ...categoryForm, name: e.target.value })}
+            required
+            className="h-12"
+          />
+        </div>
+        <div>
+          <Label htmlFor="category-description">Description</Label>
+          <Textarea
+            id="category-description"
+            value={categoryForm.description}
+            onChange={(e) => setCategoryForm({ ...categoryForm, description: e.target.value })}
+            className="h-12"
+          />
+        </div>
+      </FormDialog>
 
       {/* Brand Dialog */}
-      <Dialog open={showBrandDialog} onOpenChange={setShowBrandDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Add Brand</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleBrandSubmit}>
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="brand-name">
-                  Name <span className="text-red-500">*</span>
-                </Label>
-                <Input
-                  id="brand-name"
-                  value={brandForm.name}
-                  onChange={(e) => setBrandForm({ ...brandForm, name: e.target.value })}
-                  required
-                  disabled={isBrandSubmitting}
-                />
-              </div>
-              <div>
-                <Label htmlFor="brand-category">
-                  Category <span className="text-red-500">*</span>
-                </Label>
-                <Select
-                  value={brandForm.category_id}
-                  onValueChange={(value) => setBrandForm({ ...brandForm, category_id: value })}
-                  disabled={isBrandSubmitting}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {categories.map((category) => (
-                      <SelectItem key={category.id} value={category.id}>
-                        {category.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            <DialogFooter className="mt-6">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setShowBrandDialog(false)}
-                disabled={isBrandSubmitting}
-              >
-                Cancel
-              </Button>
-              <Button type="submit" disabled={isBrandSubmitting}>
-                {isBrandSubmitting && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                Save
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+      <FormDialog
+        title="Add Brand"
+        isOpen={showBrandDialog}
+        onClose={() => setShowBrandDialog(false)}
+        onSubmit={handleBrandSubmit}
+        submitLabel="Save"
+        busy={isBrandSubmitting}
+        disableSubmit={!isBrandFormValid}
+      >
+        <div>
+          <Label htmlFor="brand-name">
+            Name <span className="text-red-500">*</span>
+          </Label>
+          <Input
+            id="brand-name"
+            value={brandForm.name}
+            onChange={(e) => setBrandForm({ ...brandForm, name: e.target.value })}
+            required
+            disabled={isBrandSubmitting}
+            className="h-12"
+          />
+        </div>
+        <div>
+          <Label htmlFor="brand-category">
+            Category <span className="text-red-500">*</span>
+          </Label>
+          <Select
+            value={brandForm.category_id}
+            onValueChange={(value) => setBrandForm({ ...brandForm, category_id: value })}
+            disabled={isBrandSubmitting}
+          >
+            <SelectTrigger className="h-12">
+              <SelectValue placeholder="Select a category" />
+            </SelectTrigger>
+            <SelectContent>
+              {categories.map((category) => (
+                <SelectItem key={category.id} value={category.id}>
+                  {category.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </FormDialog>
 
       {/* Group Dialog */}
-      <Dialog open={showGroupDialog} onOpenChange={setShowGroupDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Add Group</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleGroupSubmit}>
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="group-name">
-                  Name <span className="text-red-500">*</span>
-                </Label>
-                <Input
-                  id="group-name"
-                  value={groupForm.name}
-                  onChange={(e) => setGroupForm({ ...groupForm, name: e.target.value })}
-                  required
-                  disabled={isGroupSubmitting}
-                />
-              </div>
-              <div>
-                <Label htmlFor="group-category">
-                  Category <span className="text-red-500">*</span>
-                </Label>
-                <Select
-                  value={groupForm.category_id}
-                  onValueChange={(value) => setGroupForm({ ...groupForm, category_id: value })}
-                  disabled={isGroupSubmitting}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {categories.map((category) => (
-                      <SelectItem key={category.id} value={category.id}>
-                        {category.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            <DialogFooter className="mt-6">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setShowGroupDialog(false)}
-                disabled={isGroupSubmitting}
-              >
-                Cancel
-              </Button>
-              <Button type="submit" disabled={isGroupSubmitting}>
-                {isGroupSubmitting && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                Save
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+      <FormDialog
+        title="Add Group"
+        isOpen={showGroupDialog}
+        onClose={() => setShowGroupDialog(false)}
+        onSubmit={handleGroupSubmit}
+        submitLabel="Save"
+        busy={isGroupSubmitting}
+        disableSubmit={!isGroupFormValid}
+      >
+        <div>
+          <Label htmlFor="group-name">
+            Name <span className="text-red-500">*</span>
+          </Label>
+          <Input
+            id="group-name"
+            value={groupForm.name}
+            onChange={(e) => setGroupForm({ ...groupForm, name: e.target.value })}
+            required
+            disabled={isGroupSubmitting}
+            className="h-12"
+          />
+        </div>
+        <div>
+          <Label htmlFor="group-category">
+            Category <span className="text-red-500">*</span>
+          </Label>
+          <Select
+            value={groupForm.category_id}
+            onValueChange={(value) => setGroupForm({ ...groupForm, category_id: value })}
+            disabled={isGroupSubmitting}
+          >
+            <SelectTrigger className="h-12">
+              <SelectValue placeholder="Select a category" />
+            </SelectTrigger>
+            <SelectContent>
+              {categories.map((category) => (
+                <SelectItem key={category.id} value={category.id}>
+                  {category.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </FormDialog>
 
       {/* Sub-Group Dialog */}
-      <Dialog open={showSubGroupDialog} onOpenChange={setShowSubGroupDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Add Sub-Group</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleSubGroupSubmit}>
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="subgroup-name">
-                  Name <span className="text-red-500">*</span>
-                </Label>
-                <Input
-                  id="subgroup-name"
-                  value={subGroupForm.name}
-                  onChange={(e) => setSubGroupForm({ ...subGroupForm, name: e.target.value })}
-                  required
-                  disabled={isSubGroupSubmitting}
-                />
-              </div>
-              <div>
-                <Label htmlFor="subgroup-group">
-                  Group <span className="text-red-500">*</span>
-                </Label>
-                <Select
-                  value={subGroupForm.group_id}
-                  onValueChange={(value) => setSubGroupForm({ ...subGroupForm, group_id: value })}
-                  disabled={isSubGroupSubmitting}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a group" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {productGroups.map((group) => (
-                      <SelectItem key={group.id} value={group.id}>
-                        {group.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            <DialogFooter className="mt-6">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setShowSubGroupDialog(false)}
-                disabled={isSubGroupSubmitting}
-              >
-                Cancel
-              </Button>
-              <Button type="submit" disabled={isSubGroupSubmitting}>
-                {isSubGroupSubmitting && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                Save
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+      <FormDialog
+        title="Add Sub-Group"
+        isOpen={showSubGroupDialog}
+        onClose={() => setShowSubGroupDialog(false)}
+        onSubmit={handleSubGroupSubmit}
+        submitLabel="Save"
+        busy={isSubGroupSubmitting}
+        disableSubmit={!isSubGroupFormValid}
+      >
+        <div>
+          <Label htmlFor="subgroup-name">
+            Name <span className="text-red-500">*</span>
+          </Label>
+          <Input
+            id="subgroup-name"
+            value={subGroupForm.name}
+            onChange={(e) => setSubGroupForm({ ...subGroupForm, name: e.target.value })}
+            required
+            disabled={isSubGroupSubmitting}
+            className="h-12"
+          />
+        </div>
+        <div>
+          <Label htmlFor="subgroup-group">
+            Group <span className="text-red-500">*</span>
+          </Label>
+          <Select
+            value={subGroupForm.group_id}
+            onValueChange={(value) => setSubGroupForm({ ...subGroupForm, group_id: value })}
+            disabled={isSubGroupSubmitting}
+          >
+            <SelectTrigger className="h-12">
+              <SelectValue placeholder="Select a group" />
+            </SelectTrigger>
+            <SelectContent>
+              {productGroups.map((group) => (
+                <SelectItem key={group.id} value={group.id}>
+                  {group.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </FormDialog>
 
       {/* Variant Dialog */}
-      <Dialog open={showVariantDialog} onOpenChange={setShowVariantDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Add Variant</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleVariantSubmit}>
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="variant-product">
-                  Product <span className="text-red-500">*</span>
-                </Label>
-                <Select
-                  value={variantForm.product_id}
-                  onValueChange={(value) => setVariantForm({ ...variantForm, product_id: value })}
-                  disabled={isVariantSubmitting}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a product" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {products.map((product) => (
-                      <SelectItem key={product.id} value={product.id}>
-                        {product.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <Label htmlFor="variant-flavor">Flavor Name</Label>
-                <Input
-                  id="variant-flavor"
-                  value={variantForm.flavor_name}
-                  onChange={(e) => setVariantForm({ ...variantForm, flavor_name: e.target.value })}
-                  disabled={isVariantSubmitting}
-                />
-              </div>
-              <div>
-                <Label htmlFor="variant-nic">Nicotine Strength</Label>
-                <Input
-                  id="variant-nic"
-                  value={variantForm.nic_strength}
-                  onChange={(e) => setVariantForm({ ...variantForm, nic_strength: e.target.value })}
-                  disabled={isVariantSubmitting}
-                />
-              </div>
-              <div>
-                <Label htmlFor="variant-packaging">Packaging</Label>
-                <Input
-                  id="variant-packaging"
-                  value={variantForm.packaging}
-                  onChange={(e) => setVariantForm({ ...variantForm, packaging: e.target.value })}
-                  disabled={isVariantSubmitting}
-                />
-              </div>
-            </div>
-            <DialogFooter className="mt-6">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setShowVariantDialog(false)}
-                disabled={isVariantSubmitting}
-              >
-                Cancel
-              </Button>
-              <Button type="submit" disabled={isVariantSubmitting}>
-                {isVariantSubmitting && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                Save
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+      <FormDialog
+        title="Add Variant"
+        isOpen={showVariantDialog}
+        onClose={() => setShowVariantDialog(false)}
+        onSubmit={handleVariantSubmit}
+        submitLabel="Save"
+        busy={isVariantSubmitting}
+        disableSubmit={!isVariantFormValid}
+      >
+        <div>
+          <Label htmlFor="variant-product">
+            Product <span className="text-red-500">*</span>
+          </Label>
+          <Select
+            value={variantForm.product_id}
+            onValueChange={(value) => setVariantForm({ ...variantForm, product_id: value })}
+            disabled={isVariantSubmitting}
+          >
+            <SelectTrigger className="h-12">
+              <SelectValue placeholder="Select a product" />
+            </SelectTrigger>
+            <SelectContent>
+              {products.map((product) => (
+                <SelectItem key={product.id} value={product.id}>
+                  {product.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div>
+          <Label htmlFor="variant-flavor">Flavor Name</Label>
+          <Input
+            id="variant-flavor"
+            value={variantForm.flavor_name}
+            onChange={(e) => setVariantForm({ ...variantForm, flavor_name: e.target.value })}
+            disabled={isVariantSubmitting}
+            className="h-12"
+          />
+        </div>
+        <div>
+          <Label htmlFor="variant-nic">Nicotine Strength</Label>
+          <Input
+            id="variant-nic"
+            value={variantForm.nic_strength}
+            onChange={(e) => setVariantForm({ ...variantForm, nic_strength: e.target.value })}
+            disabled={isVariantSubmitting}
+            className="h-12"
+          />
+        </div>
+        <div>
+          <Label htmlFor="variant-packaging">Packaging</Label>
+          <Input
+            id="variant-packaging"
+            value={variantForm.packaging}
+            onChange={(e) => setVariantForm({ ...variantForm, packaging: e.target.value })}
+            disabled={isVariantSubmitting}
+            className="h-12"
+          />
+        </div>
+      </FormDialog>
 
       <ManufacturerFormModal
         open={showManufacturerModal}

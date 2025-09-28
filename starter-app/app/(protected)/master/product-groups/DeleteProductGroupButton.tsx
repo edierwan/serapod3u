@@ -37,9 +37,8 @@ export default function DeleteProductGroupButton({ groupId, groupName }: DeleteP
     <Button
       onClick={handleDelete}
       disabled={isPending}
-      variant="ghost"
+      variant="destructive"
       size="sm"
-      className="text-red-600 hover:text-red-900 inline-flex items-center gap-1"
     >
       <Trash2 className="h-4 w-4" />
       {isPending ? "Deleting..." : "Delete"}

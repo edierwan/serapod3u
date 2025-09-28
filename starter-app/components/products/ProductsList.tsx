@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { EmptyState } from "@/components/ui/empty-state";
 import { getProducts } from "../../app/(protected)/master/products/actions";
 import type { Product } from "@/lib/types/master";
 
@@ -48,10 +50,10 @@ export function ProductsList({ onCreateProduct, onEditProduct, onViewProduct }: 
     }).format(price);
   };
 
-  const getStatusBadge = (status: string) => {
+  const getStatusBadge = (isActive: boolean) => {
     return (
-      <Badge variant={status === "active" ? "default" : "secondary"}>
-        {status}
+      <Badge variant={isActive ? "default" : "secondary"}>
+        {isActive ? "Active" : "Inactive"}
       </Badge>
     );
   };
@@ -106,7 +108,7 @@ export function ProductsList({ onCreateProduct, onEditProduct, onViewProduct }: 
             {products.length} product{products.length !== 1 ? "s" : ""} found
           </p>
         </div>
-        <Button onClick={onCreateProduct}>
+        <Button onClick={onCreateProduct} variant="primary">
           <Plus className="h-4 w-4 mr-2" />
           Create Product
         </Button>
@@ -125,33 +127,34 @@ export function ProductsList({ onCreateProduct, onEditProduct, onViewProduct }: 
       </div>
 
       {products.length === 0 ? (
-        <Card>
-          <CardContent className="flex flex-col items-center justify-center py-12">
-            <Package className="h-12 w-12 text-gray-400 mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No products found</h3>
-            <p className="text-gray-500 text-center mb-4">
-              {searchTerm
-                ? "No products match your search criteria."
-                : "Get started by creating your first product."
-              }
-            </p>
-            <Button onClick={onCreateProduct}>
-              <Plus className="h-4 w-4 mr-2" />
-              Create Product
-            </Button>
-          </CardContent>
-        </Card>
+        <EmptyState
+          icon={Package}
+          title="No products found"
+          body={searchTerm ? "No products match your search criteria." : "Get started by creating your first product."}
+          primaryCta={onCreateProduct ? {
+            label: "Create Product",
+            onClick: onCreateProduct
+          } : undefined}
+        />
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (
             <Card key={product.id} className="hover:shadow-md transition-shadow">
               <CardHeader className="pb-3">
                 <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <CardTitle className="text-lg line-clamp-2">{product.name}</CardTitle>
-                    <p className="text-sm text-gray-500 font-mono">{product.sku}</p>
+                  <div className="flex items-start space-x-3 flex-1">
+                    <Avatar className="h-12 w-12 rounded-lg">
+                      <AvatarImage src={product.image_url || undefined} alt={product.name} />
+                      <AvatarFallback className="rounded-lg">
+                        <Package className="h-6 w-6" />
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1">
+                      <CardTitle className="text-lg line-clamp-2">{product.name}</CardTitle>
+                      <p className="text-sm text-gray-500 font-mono">{product.sku}</p>
+                    </div>
                   </div>
-                  {getStatusBadge(product.status || "inactive")}
+                  {getStatusBadge(product.is_active ?? true)}
                 </div>
               </CardHeader>
               <CardContent className="space-y-3">

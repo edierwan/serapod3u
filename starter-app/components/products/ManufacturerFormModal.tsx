@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { StatusToggle } from "@/components/ui/status-toggle";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { upsertManufacturer } from "@/app/(protected)/master/manufacturers/actions";
 
@@ -113,15 +113,10 @@ export default function ManufacturerFormModal({
             </div>
             <div>
               <label className="block text-sm font-medium mb-1">Status</label>
-              <Select name="is_active" defaultValue={String(manufacturer?.is_active ?? true)}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="true">Active</SelectItem>
-                  <SelectItem value="false">Inactive</SelectItem>
-                </SelectContent>
-              </Select>
+              <StatusToggle
+                name="is_active"
+                defaultChecked={manufacturer?.is_active ?? true}
+              />
             </div>
           </div>
 
@@ -260,10 +255,10 @@ export default function ManufacturerFormModal({
           </div>
 
           <div className="flex justify-end gap-2 pt-4">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+            <Button type="button" variant="outline" size="lg" onClick={() => onOpenChange(false)}>
               Cancel
             </Button>
-            <Button type="submit">
+            <Button type="submit" variant="primary" size="lg">
               {manufacturer?.id ? "Update Manufacturer" : "Create Manufacturer"}
             </Button>
           </div>

@@ -2,6 +2,7 @@
 
 import React, { useState, useTransition } from "react";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 import { createProduct, updateProduct, deleteProduct } from "./actions";
 
 interface Product {
@@ -170,13 +171,14 @@ export default function ProductsClient({ products, subtypes, manufacturers }: Pr
               </label>
             </div>
           </div>
-          <button
+          <Button
             type="submit"
+            variant="primary"
+            size="lg"
             disabled={isPending}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
           >
             {isPending ? "Creating..." : "Create Product"}
-          </button>
+          </Button>
         </form>
       </div>
 
@@ -272,19 +274,22 @@ export default function ProductsClient({ products, subtypes, manufacturers }: Pr
                           />
                           Active
                         </label>
-                        <button
+                        <Button
                           type="submit"
-                          className="text-green-600 hover:text-green-900 px-2 py-1 border border-green-600 rounded"
+                          variant="primary"
+                          size="sm"
+                          disabled={isPending}
                         >
                           Save
-                        </button>
-                        <button
+                        </Button>
+                        <Button
                           type="button"
+                          variant="outline"
+                          size="sm"
                           onClick={() => setEditingId(null)}
-                          className="text-gray-600 hover:text-gray-900 px-2 py-1 border border-gray-600 rounded"
                         >
                           Cancel
-                        </button>
+                        </Button>
                       </form>
                     </td>
                   </>
@@ -317,18 +322,21 @@ export default function ProductsClient({ products, subtypes, manufacturers }: Pr
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button
+                      <Button
                         onClick={() => setEditingId(product.id)}
-                        className="text-indigo-600 hover:text-indigo-900 mr-2"
+                        variant="outline"
+                        size="sm"
+                        className="mr-2"
                       >
                         Edit
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         onClick={() => handleDelete(product.id)}
-                        className="text-red-600 hover:text-red-900"
+                        variant="destructive"
+                        size="sm"
                       >
                         Delete
-                      </button>
+                      </Button>
                     </td>
                   </>
                 )}

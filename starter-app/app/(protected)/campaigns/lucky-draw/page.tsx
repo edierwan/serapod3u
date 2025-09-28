@@ -1,5 +1,7 @@
 import TabBar from "@/components/layout/TabBar";
 import { getPageTabs } from "@/lib/tabs";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 
 export default function LuckyDrawCampaigns() {
   const tabs = getPageTabs("/campaigns/lucky-draw");
@@ -79,9 +81,9 @@ export default function LuckyDrawCampaigns() {
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                       Active
                     </span>
-                    <button className="text-blue-600 hover:text-blue-500 text-sm font-medium">
+                    <Button variant="outline" size="sm">
                       View Details
-                    </button>
+                    </Button>
                   </div>
                 </div>
 
@@ -94,9 +96,9 @@ export default function LuckyDrawCampaigns() {
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                       Active
                     </span>
-                    <button className="text-blue-600 hover:text-blue-500 text-sm font-medium">
+                    <Button variant="outline" size="sm">
                       View Details
-                    </button>
+                    </Button>
                   </div>
                 </div>
 
@@ -109,18 +111,18 @@ export default function LuckyDrawCampaigns() {
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                       Active
                     </span>
-                    <button className="text-blue-600 hover:text-blue-500 text-sm font-medium">
+                    <Button variant="outline" size="sm">
                       View Details
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>
 
               <div className="mt-6">
-                <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                  <span className="mr-2">+</span>
+                <Button variant="primary">
+                  <Plus className="w-4 h-4 mr-2" />
                   Create New Campaign
-                </button>
+                </Button>
               </div>
             </div>
           </div>

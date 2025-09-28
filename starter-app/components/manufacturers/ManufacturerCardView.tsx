@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { EmptyState } from "@/components/ui/empty-state";
 
 interface Manufacturer {
   id: string;
@@ -71,9 +72,9 @@ export default function ManufacturerCardView({
             console.log("Add Manufacturer button clicked");
             onAdd();
           }}
-          className="bg-black hover:bg-gray-800 text-white flex items-center gap-2"
+          variant="primary"
         >
-          <Plus className="h-4 w-4" />
+          <Plus className="h-4 w-4 mr-2" />
           Add Manufacturer
         </Button>
       </div>
@@ -200,19 +201,15 @@ export default function ManufacturerCardView({
 
       {/* Empty State */}
       {filteredManufacturers.length === 0 && (
-        <div className="text-center py-12">
-          <Building2 className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">No manufacturers found</h3>
-          <p className="text-gray-600 mb-4">
-            {searchQuery ? "Try adjusting your search terms" : "Get started by adding your first manufacturer"}
-          </p>
-          {!searchQuery && (
-            <Button onClick={onAdd} className="bg-black hover:bg-gray-800 text-white">
-              <Plus className="h-4 w-4 mr-2" />
-              Add Manufacturer
-            </Button>
-          )}
-        </div>
+        <EmptyState
+          icon={Building2}
+          title="No manufacturers found"
+          body={searchQuery ? "Try adjusting your search terms" : "Get started by adding your first manufacturer"}
+          primaryCta={!searchQuery ? {
+            label: "Add Manufacturer",
+            onClick: onAdd
+          } : undefined}
+        />
       )}
     </div>
   );

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface SubMenuItem {
   label: string;
@@ -51,8 +52,9 @@ export default function Sidebar({ items }: SidebarProps) {
           <div key={item.label} className="space-y-1">
             {/* Top-level item */}
             {item.children ? (
-              <button
+              <Button
                 onClick={() => toggleExpanded(item.label)}
+                variant="ghost"
                 className="w-full flex items-center justify-between px-3 py-2.5 text-sm font-semibold text-gray-800 rounded-lg hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 group"
               >
                 <span className="flex items-center gap-3">
@@ -64,7 +66,7 @@ export default function Sidebar({ items }: SidebarProps) {
                 ) : (
                   <ChevronRight className="h-4 w-4 text-gray-500 group-hover:text-blue-600" />
                 )}
-              </button>
+              </Button>
             ) : (
               <Link
                 href={item.href || "#"}

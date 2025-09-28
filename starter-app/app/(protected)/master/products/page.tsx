@@ -39,11 +39,14 @@ export default function ProductsPage() {
         </TabsContent>
         
         <TabsContent value="create" className="space-y-0">
-          <ProductCreateForm />
+          <ProductCreateForm 
+            onSuccess={() => setActiveTab("master-data")}
+            onCancel={() => setActiveTab("products")}
+          />
         </TabsContent>
         
         <TabsContent value="master-data" className="space-y-0">
-          <MasterDataTabs />
+          <MasterDataTabs onCreateProduct={() => setActiveTab("create")} />
         </TabsContent>
       </Tabs>
     </div>

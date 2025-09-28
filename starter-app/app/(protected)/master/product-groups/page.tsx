@@ -6,6 +6,8 @@ import DeleteProductGroupButton from "./DeleteProductGroupButton";
 import { CATEGORY_NAME_TO_ENUM_MAP, PRODUCT_CATEGORY_OPTIONS } from "@/lib/constants/productCategories";
 import { getProductGroups } from "../products/actions";
 import type { ProductGroupWithCategory } from "@/lib/types/master";
+import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/ui/empty-state";
 
 export default async function ProductGroupsPage() {
   const supabase = await createSupabaseServerClient();
@@ -31,13 +33,12 @@ export default async function ProductGroupsPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold text-gray-900">Product Groups</h1>
         {canModify && (
-          <Link 
-            href="/master/product-groups/create"
-            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
-            <Plus className="h-4 w-4" />
-            Add Product Group
-          </Link>
+          <Button asChild variant="primary">
+            <Link href="/master/product-groups/create">
+              <Plus className="h-4 w-4" />
+              Add Product Group
+            </Link>
+          </Button>
         )}
       </div>
 
@@ -94,22 +95,20 @@ export default async function ProductGroupsPage() {
                         {new Date(group.created_at!).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                        <Link 
-                          href={`/master/product-groups/${group.id}`}
-                          className="text-blue-600 hover:text-blue-900 inline-flex items-center gap-1"
-                        >
-                          <Eye className="h-4 w-4" />
-                          View
-                        </Link>
+                        <Button asChild variant="outline" size="sm">
+                          <Link href={`/master/product-groups/${group.id}`}>
+                            <Eye className="h-4 w-4" />
+                            View
+                          </Link>
+                        </Button>
                         {canModify && (
                           <>
-                            <Link 
-                              href={`/master/product-groups/${group.id}/edit`}
-                              className="text-indigo-600 hover:text-indigo-900 inline-flex items-center gap-1"
-                            >
-                              <Edit className="h-4 w-4" />
-                              Edit
-                            </Link>
+                            <Button asChild variant="outline" size="sm">
+                              <Link href={`/master/product-groups/${group.id}/edit`}>
+                                <Edit className="h-4 w-4" />
+                                Edit
+                              </Link>
+                            </Button>
                             <DeleteProductGroupButton 
                               groupId={group.id}
                               groupName={group.name}
@@ -124,16 +123,15 @@ export default async function ProductGroupsPage() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-gray-500 mb-4">No product groups found</p>
-              {canModify && (
-                <Link 
-                  href="/master/product-groups/create"
-                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                >
-                  <Plus className="h-4 w-4" />
-                  Create your first product group
-                </Link>
-              )}
+              <EmptyState
+                icon={Plus}
+                title="No product groups found"
+                body="Get started by creating your first product group."
+                primaryCta={canModify ? {
+                  label: "Create Product Group",
+                  onClick: () => window.location.href = "/master/product-groups/create"
+                } : undefined}
+              />
             </div>
           )}
         </div>
