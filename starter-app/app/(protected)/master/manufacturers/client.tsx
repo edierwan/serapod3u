@@ -1,11 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import ManufacturerCardView from "@/components/manufacturers/ManufacturerCardView";
 import ManufacturerFormModal from "@/components/products/ManufacturerFormModal";
 import DetailsTab from "./components/tabs/DetailsTab";
 import { createClient } from "@/lib/supabase/client";
+import { toast } from "sonner";
 
 interface Manufacturer {
   id: string;
@@ -24,15 +26,23 @@ interface Manufacturer {
   orders_count?: number;
   created_at: string;
   updated_at?: string;
+  category?: { id: string; name: string } | null;
+}
+
+interface Category {
+  id: string;
+  name: string;
 }
 
 interface ManufacturersPageClientProps {
   manufacturers: Manufacturer[];
+  categories: Category[];
   currentUserRole: string;
 }
 
 export default function ManufacturersPageClient({ 
   manufacturers: initialManufacturers, 
+  categories,
   currentUserRole 
 }: ManufacturersPageClientProps) {
   const [manufacturers, setManufacturers] = useState(initialManufacturers);
@@ -40,6 +50,7 @@ export default function ManufacturersPageClient({
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [editingManufacturer, setEditingManufacturer] = useState<Manufacturer | null>(null);
+  const [deletingManufacturer, setDeletingManufacturer] = useState<Manufacturer | null>(null);
 
   const canEdit = currentUserRole === "hq_admin" || currentUserRole === "power_user";
 
@@ -50,9 +61,10 @@ export default function ManufacturersPageClient({
       .from("manufacturers")
       .select(`
         id, name, is_active, logo_url, contact_person, phone, email, website_url, 
-        address_line1, address_line2, city, postal_code, country_code, 
+        address_line1, address_line2, city, state_region, postal_code, country_code, 
         language_code, currency_code, tax_id, registration_number, 
-        support_email, support_phone, timezone, notes, created_at, updated_at
+        support_email, support_phone, timezone, notes, created_at, updated_at,
+        category:categories(id, name)
       `)
       .order("name", { ascending: true });
     
@@ -74,6 +86,7 @@ export default function ManufacturersPageClient({
 
       const manufacturersWithMetrics = data.map(manufacturer => ({
         ...manufacturer,
+        category: Array.isArray(manufacturer.category) ? manufacturer.category[0] : manufacturer.category,
         products_count: productCountsMap[manufacturer.id] || 0,
         orders_count: 0 // Placeholder
       }));
@@ -103,6 +116,7 @@ export default function ManufacturersPageClient({
   }, []);
 
   const handleAdd = () => {
+    console.log("Add button clicked");
     setEditingManufacturer(null);
     setIsFormModalOpen(true);
   };
@@ -117,29 +131,76 @@ export default function ManufacturersPageClient({
     setIsDetailsModalOpen(true);
   };
 
+  const handleDelete = (manufacturer: Manufacturer) => {
+    setDeletingManufacturer(manufacturer);
+  };
+
+  const confirmDelete = async () => {
+    if (!deletingManufacturer) return;
+
+    try {
+      // Check if manufacturer has products
+      const supabase = createClient();
+      const { data: products } = await supabase
+        .from("products")
+        .select("id")
+        .eq("manufacturer_id", deletingManufacturer.id)
+        .limit(1);
+
+      if (products && products.length > 0) {
+        toast.error(`Cannot delete. There are products linked to this manufacturer.`);
+        setDeletingManufacturer(null);
+        return;
+      }
+
+      const { error } = await supabase
+        .from("manufacturers")
+        .delete()
+        .eq("id", deletingManufacturer.id);
+
+      if (error) {
+        toast.error("Failed to delete manufacturer");
+      } else {
+        toast.success("Manufacturer deleted successfully");
+        refreshManufacturers();
+      }
+    } catch {
+      toast.error("Delete failed");
+    } finally {
+      setDeletingManufacturer(null);
+    }
+  };
+
   const handleFormClose = () => {
     setIsFormModalOpen(false);
     setEditingManufacturer(null);
     refreshManufacturers();
   };
 
+  console.log("Modal open state:", isFormModalOpen);
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="mx-auto max-w-7xl py-6 px-4">
         <ManufacturerCardView
           manufacturers={manufacturers}
+          categories={categories}
           onAdd={handleAdd}
           onEdit={handleEdit}
           onView={handleView}
+          onLogoUpdate={refreshManufacturers}
+          onDelete={handleDelete}
         />
 
         {/* Add/Edit Modal */}
         <ManufacturerFormModal
           open={isFormModalOpen}
           onOpenChange={(open) => {
+            console.log("Modal onOpenChange:", open);
             setIsFormModalOpen(open);
           }}
           manufacturer={editingManufacturer || undefined}
+          categories={categories}
           onSuccess={handleFormClose}
         />
 
@@ -156,8 +217,29 @@ export default function ManufacturersPageClient({
                 manufacturer={selectedManufacturer}
                 canEdit={canEdit}
                 onRefresh={refreshManufacturers}
+                categories={categories}
               />
             )}
+          </DialogContent>
+        </Dialog>
+
+        {/* Delete Confirmation Modal */}
+        <Dialog open={!!deletingManufacturer} onOpenChange={() => setDeletingManufacturer(null)}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Delete manufacturer?</DialogTitle>
+            </DialogHeader>
+            <p className="text-sm text-muted-foreground">
+              This will permanently delete <strong>{deletingManufacturer?.name}</strong>. You can&apos;t undo this.
+            </p>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setDeletingManufacturer(null)}>
+                Cancel
+              </Button>
+              <Button variant="destructive" onClick={confirmDelete}>
+                Delete
+              </Button>
+            </DialogFooter>
           </DialogContent>
         </Dialog>
       </div>

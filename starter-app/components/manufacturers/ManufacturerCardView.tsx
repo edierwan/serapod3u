@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { Search, Plus, Edit2, Eye, Building2, ShoppingBag, MapPin, Mail, Phone } from "lucide-react";
+import { useState, useRef } from "react";
+import { Search, Plus, Edit2, Eye, Building2, ShoppingBag, MapPin, Mail, Phone, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty-state";
+import { createClient } from "@/lib/supabase/client";
+import { toast } from "sonner";
 
 interface Manufacturer {
   id: string;
@@ -19,35 +21,110 @@ interface Manufacturer {
   address_line1?: string;
   address_line2?: string;
   city?: string;
+  state_region?: string;
   postal_code?: string;
   country_code?: string;
   products_count?: number;
   orders_count?: number;
   created_at: string;
   updated_at?: string;
+  category?: { id: string; name: string } | null;
+}
+
+interface Category {
+  id: string;
+  name: string;
 }
 
 interface ManufacturerCardViewProps {
   manufacturers: Manufacturer[];
+  categories: Category[];
   onEdit: (manufacturer: Manufacturer) => void;
   onView: (manufacturer: Manufacturer) => void;
   onAdd: () => void;
+  onLogoUpdate?: () => void;
+  onDelete?: (manufacturer: Manufacturer) => void;
 }
 
 export default function ManufacturerCardView({ 
   manufacturers, 
+  categories,
   onEdit, 
   onView, 
-  onAdd 
+  onAdd,
+  onLogoUpdate,
+  onDelete
 }: ManufacturerCardViewProps) {
   const [searchQuery, setSearchQuery] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState<string>("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploadingId, setUploadingId] = useState<string | null>(null);
 
-  const filteredManufacturers = manufacturers.filter(manufacturer =>
-    manufacturer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    manufacturer.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    manufacturer.contact_person?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    manufacturer.country_code?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const handleLogoClick = (manufacturerId: string) => {
+    setUploadingId(manufacturerId);
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file || !uploadingId) return;
+
+    // Validate
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error("File size must be less than 2MB");
+      return;
+    }
+    if (!file.type.startsWith('image/') || !['image/jpeg', 'image/jpg', 'image/png', 'image/webp'].includes(file.type)) {
+      toast.error("Please upload a valid image file (JPG, PNG, or WebP)");
+      return;
+    }
+
+    try {
+      const supabase = createClient();
+      const ext = file.name.split('.').pop()?.toLowerCase() || 'png';
+      const path = `manufacturers/${uploadingId}/logo.${ext}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("product-images")
+        .upload(path, file, { upsert: true, cacheControl: "3600" });
+
+      if (uploadError) {
+        toast.error("Failed to upload logo");
+        return;
+      }
+
+      const { data: urlData } = supabase.storage.from("product-images").getPublicUrl(path);
+
+      const { error: updateError } = await supabase
+        .from("manufacturers")
+        .update({ logo_url: urlData.publicUrl })
+        .eq("id", uploadingId);
+
+      if (updateError) {
+        toast.error("Failed to update manufacturer");
+        return;
+      }
+
+      toast.success("Logo updated successfully");
+      onLogoUpdate?.();
+    } catch {
+      toast.error("Upload failed");
+    } finally {
+      setUploadingId(null);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
+  const filteredManufacturers = manufacturers.filter(manufacturer => {
+    const matchesSearch = manufacturer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      manufacturer.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      manufacturer.contact_person?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      manufacturer.country_code?.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    const matchesCategory = !categoryFilter || manufacturer.category?.id === categoryFilter;
+    
+    return matchesSearch && matchesCategory;
+  });
 
   const formatAddress = (manufacturer: Manufacturer) => {
     const parts = [
@@ -59,8 +136,29 @@ export default function ManufacturerCardView({
     return parts.join(", ") || "No address provided";
   };
 
+  const formatRegion = (manufacturer: Manufacturer) => {
+    if (manufacturer.city && manufacturer.state_region) {
+      return `${manufacturer.city}, ${manufacturer.state_region}`;
+    } else if (manufacturer.state_region) {
+      return manufacturer.state_region;
+    } else if (manufacturer.city) {
+      return manufacturer.city;
+    } else {
+      return "Unknown Region";
+    }
+  };
+
   return (
     <div className="space-y-6">
+      {/* Hidden file input */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleFileChange}
+        className="hidden"
+      />
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
@@ -73,6 +171,7 @@ export default function ManufacturerCardView({
             onAdd();
           }}
           variant="primary"
+          data-testid="cta-create-manufacturer"
         >
           <Plus className="h-4 w-4 mr-2" />
           Add Manufacturer
@@ -90,6 +189,18 @@ export default function ManufacturerCardView({
             className="pl-10 bg-gray-50"
           />
         </div>
+        <select
+          value={categoryFilter}
+          onChange={(e) => setCategoryFilter(e.target.value)}
+          className="px-3 py-2 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        >
+          <option value="">All categories</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
         <Button variant="outline" className="px-6">
           Search
         </Button>
@@ -105,7 +216,12 @@ export default function ManufacturerCardView({
             {/* Header with Logo and Actions */}
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="relative">
+                <button
+                  onClick={() => handleLogoClick(manufacturer.id)}
+                  className="relative group cursor-pointer rounded-full"
+                  aria-label="Change logo"
+                  disabled={uploadingId === manufacturer.id}
+                >
                   <Building2 className="h-8 w-8 text-gray-600" />
                   {manufacturer.logo_url && (
                     <Avatar className="h-8 w-8 absolute inset-0">
@@ -118,10 +234,21 @@ export default function ManufacturerCardView({
                       </AvatarFallback>
                     </Avatar>
                   )}
-                </div>
+                  {/* Hover overlay */}
+                  <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex items-center justify-center rounded-full transition-opacity">
+                    <span className="text-white text-xs">Change logo</span>
+                  </div>
+                </button>
                 <div>
                   <h3 className="font-semibold text-lg text-gray-900">{manufacturer.name}</h3>
-                  <p className="text-gray-600 text-sm">{manufacturer.country_code || "Unknown Region"}</p>
+                  <div className="flex items-center gap-2 mt-1">
+                    <p className="text-gray-600 text-sm">{formatRegion(manufacturer)}</p>
+                    {manufacturer.category && (
+                      <Badge variant="secondary" className="text-xs">
+                        {manufacturer.category.name}
+                      </Badge>
+                    )}
+                  </div>
                 </div>
               </div>
               <div className="flex gap-2">
@@ -130,6 +257,8 @@ export default function ManufacturerCardView({
                   size="sm"
                   onClick={() => onEdit(manufacturer)}
                   className="p-2"
+                  title="Edit"
+                  aria-label="Edit manufacturer"
                 >
                   <Edit2 className="h-4 w-4" />
                 </Button>
@@ -138,9 +267,23 @@ export default function ManufacturerCardView({
                   size="sm"
                   onClick={() => onView(manufacturer)}
                   className="p-2"
+                  title="View"
+                  aria-label="View manufacturer"
                 >
                   <Eye className="h-4 w-4" />
                 </Button>
+                {onDelete && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => onDelete(manufacturer)}
+                    className="p-2"
+                    title="Delete"
+                    aria-label="Delete manufacturer"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                )}
               </div>
             </div>
 

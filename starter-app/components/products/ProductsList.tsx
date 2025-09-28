@@ -108,7 +108,7 @@ export function ProductsList({ onCreateProduct, onEditProduct, onViewProduct }: 
             {products.length} product{products.length !== 1 ? "s" : ""} found
           </p>
         </div>
-        <Button onClick={onCreateProduct} variant="primary">
+        <Button onClick={onCreateProduct} variant="primary" data-testid="cta-create-product">
           <Plus className="h-4 w-4 mr-2" />
           Create Product
         </Button>

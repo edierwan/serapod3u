@@ -30,14 +30,14 @@ export function EmptyState({
   secondaryCta
 }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center py-12 text-center">
+    <div className="flex flex-col items-center justify-center py-12 text-center" data-testid="empty-state">
       <Icon className="w-12 h-12 text-gray-400 mb-4" />
       <h3 className="text-lg font-medium text-gray-900 mb-2">{title}</h3>
       <p className="text-gray-500 mb-6 max-w-md">{body}</p>
       <div className="flex flex-col sm:flex-row gap-3">
         {primaryCta && (
           primaryCta.href ? (
-            <Button variant="primary" size="lg" asChild>
+            <Button variant="primary" size="lg" asChild data-testid="cta-primary">
               <a href={primaryCta.href}>{primaryCta.label}</a>
             </Button>
           ) : (
@@ -46,6 +46,7 @@ export function EmptyState({
               disabled={primaryCta.disabled || primaryCta.loading}
               variant="primary"
               size="lg"
+              data-testid="cta-primary"
             >
               {primaryCta.loading && (
                 <div className="w-4 h-4 mr-2 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -56,7 +57,7 @@ export function EmptyState({
         )}
         {secondaryCta && (
           secondaryCta.href ? (
-            <Button variant="secondary" asChild>
+            <Button variant="secondary" asChild data-testid="cta-secondary">
               <a href={secondaryCta.href}>{secondaryCta.label}</a>
             </Button>
           ) : (
@@ -64,6 +65,7 @@ export function EmptyState({
               variant="secondary"
               onClick={secondaryCta.onClick}
               disabled={secondaryCta.disabled}
+              data-testid="cta-secondary"
             >
               {secondaryCta.label}
             </Button>

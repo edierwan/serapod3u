@@ -9,6 +9,7 @@ const Upsert = z.object({
   id: z.string().optional(),
   name: z.string().min(1, "Name is required"),
   is_active: z.boolean(),
+  categoryId: z.string().uuid().optional().nullable(),
   contact_person: z.string().optional(),
   phone: z.string().optional(),
   email: z.string().optional(),
@@ -28,7 +29,8 @@ export async function upsertManufacturer(_: unknown, formData: FormData) {
   const parsed = Upsert.safeParse({
     id: formData.get("id") ?? undefined,
     name: formData.get("name"),
-    is_active: formData.get("is_active") === "on",
+    is_active: formData.get("is_active") === "true", // Hidden input sends "true" or "false"
+    categoryId: formData.get("categoryId") || undefined,
     contact_person: formData.get("contact_person") || undefined,
     phone: formData.get("phone") || undefined,
     email: formData.get("email") || undefined,
@@ -69,6 +71,7 @@ export async function upsertManufacturer(_: unknown, formData: FormData) {
   const manufacturerData = {
     name: parsed.data.name,
     is_active: parsed.data.is_active,
+    category_id: parsed.data.categoryId || null,
     contact_person: parsed.data.contact_person || null,
     phone: parsed.data.phone || null,
     email: parsed.data.email || null,
@@ -96,7 +99,13 @@ export async function upsertManufacturer(_: unknown, formData: FormData) {
       .insert({ id, ...manufacturerData }));
   }
 
-  if (error) return { success: false, message: error.message };
+  if (error) {
+    // Handle unique constraint violation for manufacturer name
+    if (error.code === "23505" && error.message.includes("idx_manufacturers_name_lower_unique")) {
+      return { success: false, message: "Manufacturer name already exists. Please use a different name." };
+    }
+    return { success: false, message: error.message };
+  }
 
   revalidatePath("/master/manufacturers");
   return { success: true, id, logo_url };

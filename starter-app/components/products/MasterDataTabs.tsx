@@ -539,7 +539,7 @@ export function MasterDataTabs({ onCreateProduct }: { onCreateProduct?: () => vo
         <TabsContent value="categories" className="space-y-4">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <h2 className="text-2xl font-bold">Categories</h2>
-            <Button onClick={handleCreateCategory} variant="primary" className="w-full sm:w-auto">
+            <Button onClick={handleCreateCategory} variant="primary" className="w-full sm:w-auto" data-testid="cta-create-category">
               <Plus className="w-4 h-4 mr-2" />
               Add Category
             </Button>
@@ -571,7 +571,7 @@ export function MasterDataTabs({ onCreateProduct }: { onCreateProduct?: () => vo
         <TabsContent value="brands" className="space-y-4">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <h2 className="text-2xl font-bold">Brands</h2>
-            <Button onClick={handleCreateBrand} variant="primary" className="w-full sm:w-auto">
+            <Button onClick={handleCreateBrand} variant="primary" className="w-full sm:w-auto" data-testid="cta-create-brand">
               <Plus className="w-4 h-4 mr-2" />
               Add Brand
             </Button>
@@ -615,7 +615,7 @@ export function MasterDataTabs({ onCreateProduct }: { onCreateProduct?: () => vo
                 <TabsContent value="groups" className="space-y-4">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <h2 className="text-2xl font-bold">Product Groups</h2>
-            <Button onClick={handleCreateGroup} variant="primary" className="w-full sm:w-auto">
+            <Button onClick={handleCreateGroup} variant="primary" className="w-full sm:w-auto" data-testid="cta-create-group">
               <Plus className="w-4 h-4 mr-2" />
               Add Group
             </Button>
@@ -659,7 +659,7 @@ export function MasterDataTabs({ onCreateProduct }: { onCreateProduct?: () => vo
         <TabsContent value="subgroups" className="space-y-4">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <h2 className="text-2xl font-bold">Product Sub-Groups</h2>
-            <Button onClick={handleCreateSubGroup} variant="primary" className="w-full sm:w-auto">
+            <Button onClick={handleCreateSubGroup} variant="primary" className="w-full sm:w-auto" data-testid="cta-create-subgroup">
               <Plus className="w-4 h-4 mr-2" />
               Add Sub-Group
             </Button>
@@ -704,7 +704,7 @@ export function MasterDataTabs({ onCreateProduct }: { onCreateProduct?: () => vo
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <h2 className="text-2xl font-bold">Product Variants</h2>
             {products.length > 0 && (
-              <Button onClick={handleCreateVariant} variant="primary" className="w-full sm:w-auto">
+              <Button onClick={handleCreateVariant} variant="primary" className="w-full sm:w-auto" data-testid="cta-create-variant">
                 <Plus className="w-4 h-4 mr-2" />
                 Add Variant
               </Button>
@@ -766,7 +766,7 @@ export function MasterDataTabs({ onCreateProduct }: { onCreateProduct?: () => vo
         <TabsContent value="manufacturers" className="space-y-4">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <h2 className="text-2xl font-bold">Manufacturers</h2>
-            <Button onClick={handleCreateManufacturer} variant="primary" className="w-full sm:w-auto" size="sm">
+            <Button onClick={handleCreateManufacturer} variant="primary" className="w-full sm:w-auto" size="sm" data-testid="cta-create-manufacturer">
               <Plus className="w-4 h-4 mr-2" />
               Add Manufacturer
             </Button>
@@ -1073,6 +1073,7 @@ export function MasterDataTabs({ onCreateProduct }: { onCreateProduct?: () => vo
         onOpenChange={setShowManufacturerModal}
         onSuccess={handleManufacturerSuccess}
         manufacturer={editingManufacturer || undefined}
+        categories={categories}
       />
     </div>
   );

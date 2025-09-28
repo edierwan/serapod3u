@@ -6,6 +6,7 @@ export const iso3 = z.string().length(3, "Use 3-letter code").regex(/^[A-Za-z]{3
 export const manufacturerFormSchema = z.object({
   name: z.string().min(2, "Name is required"),
   is_active: z.boolean(),
+  categoryId: z.string().uuid().optional().nullable(),
 
   contact_person: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),

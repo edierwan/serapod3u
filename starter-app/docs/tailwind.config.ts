@@ -18,16 +18,16 @@ export default {
   				DEFAULT: 'hsl(var(--muted))',
   				foreground: 'hsl(var(--muted-foreground))'
   			},
-  			'muted-foreground': 'hsl(var(--muted-foreground))',
+  			'muted-foreground': 'rgb(var(--muted-foreground))',
   			primary: {
   				DEFAULT: 'hsl(var(--primary))',
   				foreground: 'hsl(var(--primary-foreground))'
   			},
   			border: 'hsl(var(--border))',
-  			success: 'hsl(var(--success))',
-  			warning: 'hsl(var(--warning))',
-  			info: 'hsl(var(--info))',
-  			neutral: 'hsl(var(--neutral))',
+  			success: 'rgb(var(--success))',
+  			warning: 'rgb(var(--warning))',
+  			info: 'rgb(var(--info))',
+  			neutral: 'rgb(var(--neutral))',
   			popover: {
   				DEFAULT: 'hsl(var(--popover))',
   				foreground: 'hsl(var(--popover-foreground))'

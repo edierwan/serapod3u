@@ -1,13 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { StatusToggle } from "@/components/ui/status-toggle";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { upsertManufacturer } from "@/app/(protected)/master/manufacturers/actions";
+import { Upload } from "lucide-react";
+import { toast } from "sonner";
+
+// Simple debounce utility
+function debounce(func: (name: string) => void, wait: number): (name: string) => void {
+  let timeout: NodeJS.Timeout;
+  return (name: string) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(name), wait);
+  };
+}
 
 type Manufacturer = {
   id?: string;
@@ -26,12 +38,19 @@ type Manufacturer = {
   website_url?: string;
   notes?: string;
   logo_url?: string | null;
+  category_id?: string | null;
 };
+
+interface Category {
+  id: string;
+  name: string;
+}
 
 interface ManufacturerFormModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   manufacturer?: Manufacturer;
+  categories: Category[];
   onSuccess?: () => void;
 }
 
@@ -39,10 +58,112 @@ export default function ManufacturerFormModal({
   open,
   onOpenChange,
   manufacturer,
+  categories,
   onSuccess
 }: ManufacturerFormModalProps) {
   const initialUrl = manufacturer?.logo_url ?? null;
   const [preview, setPreview] = useState<string | null>(initialUrl);
+  const [nameError, setNameError] = useState<string | null>(null);
+  const [isCheckingName, setIsCheckingName] = useState(false);
+  const [nameAvailable, setNameAvailable] = useState<boolean | null>(null);
+  const [formKey, setFormKey] = useState(0); // Key to reset file input
+  const [selectedFileName, setSelectedFileName] = useState<string>("");
+  const [fileError, setFileError] = useState<string | null>(null);
+  const [isActive, setIsActive] = useState(manufacturer?.is_active ?? true);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string>(manufacturer?.category_id ? manufacturer.category_id : "none");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Debounced name availability check
+  const debouncedCheckName = useMemo(
+    () => debounce(async (name: string) => {
+      if (!name.trim()) {
+        setNameError(null);
+        setNameAvailable(null);
+        return;
+      }
+
+      setIsCheckingName(true);
+      try {
+        const params = new URLSearchParams({
+          name: name.trim(),
+          ...(manufacturer?.id && { excludeId: manufacturer.id })
+        });
+
+        const response = await fetch(`/api/manufacturers/check-name?${params}`);
+        const result = await response.json();
+
+        if (result.available) {
+          setNameError(null);
+          setNameAvailable(true);
+        } else {
+          setNameError(result.message);
+          setNameAvailable(false);
+        }
+      } catch (error) {
+        console.error("Error checking name availability:", error);
+        setNameError("Couldn't verify name. We'll validate on save.");
+        setNameAvailable(null); // Allow save but show warning
+      } finally {
+        setIsCheckingName(false);
+      }
+    }, 500),
+    [manufacturer?.id]
+  );
+
+  // Reset state when modal opens/closes or manufacturer changes
+  useEffect(() => {
+    if (open) {
+      setNameError(null);
+      setNameAvailable(null);
+      setIsCheckingName(false);
+      setFileError(null);
+      setSelectedFileName("");
+      setPreview(manufacturer?.logo_url ?? null);
+      setIsActive(manufacturer?.is_active ?? true);
+      setSelectedCategoryId(manufacturer?.category_id ? manufacturer.category_id : "none");
+      // Reset form for create mode
+      if (!manufacturer) {
+        setFormKey(prev => prev + 1); // Remount file input to clear it
+      }
+    }
+  }, [open, manufacturer]);
+
+  const validateFile = (file: File): string | null => {
+    if (file.size > 2 * 1024 * 1024) {
+      return "Image must be 2MB or smaller";
+    }
+    if (!['image/jpeg', 'image/jpg', 'image/png', 'image/webp'].includes(file.type)) {
+      return "Unsupported file type. Please upload PNG, JPG, or WEBP";
+    }
+    return null;
+  };
+
+  const handleFileSelect = (file: File | null) => {
+    setFileError(null);
+    if (!file) {
+      setSelectedFileName("");
+      setPreview(manufacturer?.logo_url ?? null);
+      return;
+    }
+
+    const error = validateFile(file);
+    if (error) {
+      setFileError(error);
+      toast.error(error);
+      setSelectedFileName("");
+      setPreview(manufacturer?.logo_url ?? null);
+      // Clear the file input
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      return;
+    }
+
+    setSelectedFileName(file.name);
+    setPreview(URL.createObjectURL(file));
+  };
+
+  const triggerFileInput = () => {
+    fileInputRef.current?.click();
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -70,34 +191,73 @@ export default function ManufacturerFormModal({
         >
           {/* keep id on edit */}
           {manufacturer?.id && <input type="hidden" name="id" defaultValue={manufacturer.id} />}
+          {/* Controlled status toggle value */}
+          <input type="hidden" name="is_active" value={isActive ? "true" : "false"} />
+          {/* Category selection */}
+          <input type="hidden" name="categoryId" value={selectedCategoryId === "none" ? "" : selectedCategoryId} />
 
           {/* Logo Upload Section */}
-          <div className="flex items-center gap-4 p-4 border rounded-lg">
-            <div className="relative h-16 w-16 overflow-hidden rounded-full border">
-              {preview ? (
-                <Image src={preview} alt="Logo" fill sizes="64px" className="object-cover" />
-              ) : (
-                <div className="h-full w-full bg-gray-200 flex items-center justify-center text-gray-500 text-sm">
-                  Logo
+          <div className="p-4 border rounded-lg">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              {/* Avatar */}
+              <button
+                type="button"
+                onClick={triggerFileInput}
+                className="relative h-16 w-16 overflow-hidden rounded-full border cursor-pointer hover:bg-gray-50 transition-colors"
+                aria-label="Select logo image"
+              >
+                {preview ? (
+                  <Image src={preview} alt="Logo preview" fill sizes="64px" className="object-cover" />
+                ) : (
+                  <div className="h-full w-full bg-gray-200 flex items-center justify-center text-gray-500 text-sm">
+                    Logo
+                  </div>
+                )}
+              </button>
+
+              {/* File Input Controls */}
+              <div className="flex-1 min-w-0">
+                <label className="block text-sm font-medium mb-2">Logo</label>
+                <div className="flex items-center gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="default"
+                    onClick={triggerFileInput}
+                    className="h-10 px-4"
+                    aria-label="Select logo image"
+                    aria-describedby="logo-helper"
+                  >
+                    <Upload className="h-4 w-4 mr-2" />
+                    Select Image
+                  </Button>
+                  <span className={`text-sm truncate ${selectedFileName ? 'text-foreground' : 'text-muted-foreground'}`}>
+                    {selectedFileName || "No file selected"}
+                  </span>
                 </div>
-              )}
+                <p
+                  id="logo-helper"
+                  className={`text-xs mt-1 ${fileError ? 'text-red-600' : 'text-muted-foreground'}`}
+                >
+                  {fileError || "Upload a logo image (max 2MB)"}
+                </p>
+              </div>
             </div>
-            <div className="flex-1">
-              <label className="block text-sm font-medium mb-2">Logo</label>
-              <Input
-                type="file"
-                name="logo"
-                accept="image/*"
-                onChange={(e) => {
-                  const f = e.target.files?.[0];
-                  if (f) setPreview(URL.createObjectURL(f));
-                }}
-                className="w-full"
-              />
-              <p className="text-xs text-muted-foreground mt-1">
-                Upload a logo image (max 2MB)
-              </p>
-            </div>
+
+            {/* Hidden File Input */}
+            <input
+              ref={fileInputRef}
+              key={formKey}
+              type="file"
+              name="logo"
+              accept="image/png,image/jpeg,image/jpg,image/webp"
+              onChange={(e) => {
+                const file = e.target.files?.[0] || null;
+                handleFileSelect(file);
+              }}
+              className="sr-only"
+              aria-hidden="true"
+            />
           </div>
 
           {/* Basic Information */}
@@ -109,15 +269,42 @@ export default function ManufacturerFormModal({
                 defaultValue={manufacturer?.name ?? ""}
                 required
                 placeholder="Manufacturer name"
+                onChange={(e) => debouncedCheckName(e.target.value)}
+                className={nameError ? "border-red-500" : ""}
               />
+              {nameError && (
+                <p className="text-sm text-red-600 mt-1">{nameError}</p>
+              )}
+              {isCheckingName && (
+                <p className="text-sm text-gray-500 mt-1">Checking availability...</p>
+              )}
             </div>
             <div>
               <label className="block text-sm font-medium mb-1">Status</label>
               <StatusToggle
                 name="is_active"
-                defaultChecked={manufacturer?.is_active ?? true}
+                checked={isActive}
+                onCheckedChange={setIsActive}
               />
             </div>
+          </div>
+
+          {/* Category */}
+          <div>
+            <label className="block text-sm font-medium mb-1">Category</label>
+            <Select value={selectedCategoryId} onValueChange={setSelectedCategoryId}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select a category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="none">No category</SelectItem>
+                {categories.map((category) => (
+                  <SelectItem key={category.id} value={category.id}>
+                    {category.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Contact Information */}
@@ -258,7 +445,13 @@ export default function ManufacturerFormModal({
             <Button type="button" variant="outline" size="lg" onClick={() => onOpenChange(false)}>
               Cancel
             </Button>
-            <Button type="submit" variant="primary" size="lg">
+            <Button
+              type="submit"
+              variant="primary"
+              size="lg"
+              disabled={nameAvailable === false}
+              data-testid="cta-save"
+            >
               {manufacturer?.id ? "Update Manufacturer" : "Create Manufacturer"}
             </Button>
           </div>

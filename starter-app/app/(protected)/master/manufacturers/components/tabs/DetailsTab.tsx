@@ -5,15 +5,16 @@ import Image from "next/image";
 import { Edit, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ManufacturerFormModal from "@/components/products/ManufacturerFormModal";
-import { Manufacturer } from "@/lib/types/master";
+import { Manufacturer, Category } from "@/lib/types/master";
 
 interface DetailsTabProps {
   manufacturer: Manufacturer | null;
   canEdit: boolean;
   onRefresh?: () => void;
+  categories: Category[];
 }
 
-export default function DetailsTab({ manufacturer, canEdit, onRefresh }: DetailsTabProps) {
+export default function DetailsTab({ manufacturer, canEdit, onRefresh, categories }: DetailsTabProps) {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
 
@@ -43,6 +44,7 @@ export default function DetailsTab({ manufacturer, canEdit, onRefresh }: Details
           open={isCreateOpen}
           onOpenChange={setIsCreateOpen}
           manufacturer={undefined}
+          categories={categories}
         />
       </div>
     );
@@ -235,6 +237,7 @@ export default function DetailsTab({ manufacturer, canEdit, onRefresh }: Details
           onOpenChange={setIsCreateOpen}
           manufacturer={undefined}
           onSuccess={onRefresh}
+          categories={categories}
         />
 
         {/* Edit Modal */}
@@ -243,6 +246,7 @@ export default function DetailsTab({ manufacturer, canEdit, onRefresh }: Details
           onOpenChange={setIsEditOpen}
           manufacturer={manufacturer}
           onSuccess={onRefresh}
+          categories={categories}
         />
     </div>
   );

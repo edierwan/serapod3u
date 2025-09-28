@@ -101,6 +101,7 @@ export function FormDialog({
                 size="lg"
                 disabled={disableSubmit || busy}
                 className="min-h-[44px] min-w-[100px]"
+                data-testid="cta-save"
               >
                 {busy && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
                 {busy ? "Saving..." : submitLabel}
