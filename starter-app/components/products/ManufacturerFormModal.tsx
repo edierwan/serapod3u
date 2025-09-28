@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,15 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { upsertManufacturer } from "@/app/(protected)/master/manufacturers/actions";
 import { Upload } from "lucide-react";
 import { toast } from "sonner";
-
-// Simple debounce utility
-function debounce(func: (name: string) => void, wait: number): (name: string) => void {
-  let timeout: NodeJS.Timeout;
-  return (name: string) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func(name), wait);
-  };
-}
+import { useNameAvailability } from "@/lib/hooks/useNameAvailability";
 
 type Manufacturer = {
   id?: string;
@@ -61,11 +53,7 @@ export default function ManufacturerFormModal({
   categories,
   onSuccess
 }: ManufacturerFormModalProps) {
-  const initialUrl = manufacturer?.logo_url ?? null;
-  const [preview, setPreview] = useState<string | null>(initialUrl);
-  const [nameError, setNameError] = useState<string | null>(null);
-  const [isCheckingName, setIsCheckingName] = useState(false);
-  const [nameAvailable, setNameAvailable] = useState<boolean | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
   const [formKey, setFormKey] = useState(0); // Key to reset file input
   const [selectedFileName, setSelectedFileName] = useState<string>("");
   const [fileError, setFileError] = useState<string | null>(null);
@@ -73,49 +61,16 @@ export default function ManufacturerFormModal({
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>(manufacturer?.category_id ? manufacturer.category_id : "none");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Debounced name availability check
-  const debouncedCheckName = useMemo(
-    () => debounce(async (name: string) => {
-      if (!name.trim()) {
-        setNameError(null);
-        setNameAvailable(null);
-        return;
-      }
-
-      setIsCheckingName(true);
-      try {
-        const params = new URLSearchParams({
-          name: name.trim(),
-          ...(manufacturer?.id && { excludeId: manufacturer.id })
-        });
-
-        const response = await fetch(`/api/manufacturers/check-name?${params}`);
-        const result = await response.json();
-
-        if (result.available) {
-          setNameError(null);
-          setNameAvailable(true);
-        } else {
-          setNameError(result.message);
-          setNameAvailable(false);
-        }
-      } catch (error) {
-        console.error("Error checking name availability:", error);
-        setNameError("Couldn't verify name. We'll validate on save.");
-        setNameAvailable(null); // Allow save but show warning
-      } finally {
-        setIsCheckingName(false);
-      }
-    }, 500),
-    [manufacturer?.id]
-  );
+  // Name availability check hook
+  const [{ available: nameAvailable, error: nameError, isChecking: isCheckingName }, checkName] = useNameAvailability({
+    entity: "manufacturers",
+    excludeId: manufacturer?.id,
+    minLength: 2
+  });
 
   // Reset state when modal opens/closes or manufacturer changes
   useEffect(() => {
     if (open) {
-      setNameError(null);
-      setNameAvailable(null);
-      setIsCheckingName(false);
       setFileError(null);
       setSelectedFileName("");
       setPreview(manufacturer?.logo_url ?? null);
@@ -269,7 +224,7 @@ export default function ManufacturerFormModal({
                 defaultValue={manufacturer?.name ?? ""}
                 required
                 placeholder="Manufacturer name"
-                onChange={(e) => debouncedCheckName(e.target.value)}
+                onChange={(e) => checkName(e.target.value)}
                 className={nameError ? "border-red-500" : ""}
               />
               {nameError && (

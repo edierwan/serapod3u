@@ -1,117 +1,155 @@
 "use server";
 
-import { z } from "zod";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { uploadManufacturerLogo } from "@/lib/storage/uploadManufacturerLogo"; // Reuse for distributors
 
-// Updated Zod schema as requested
-const distributorSchema = z.object({
+const Upsert = z.object({
+  id: z.string().optional(),
   name: z.string().min(1, "Name is required"),
-  code: z.string().optional(),
-  email: z.string().email().optional().or(z.string().length(0)),
+  is_active: z.boolean(),
+  categoryId: z.string().uuid().optional().nullable(),
+  contact_person: z.string().optional(),
   phone: z.string().optional(),
+  email: z.string().optional(),
+  whatsapp: z.string().optional(),
+  address_line1: z.string().optional(),
+  address_line2: z.string().optional(),
+  city: z.string().optional(),
+  state_region: z.string().optional(),
+  postal_code: z.string().optional(),
   address: z.string().optional(),
-  country_code: z.string().length(2).optional().or(z.string().length(0)),
-  active: z.boolean().default(true),
+  website_url: z.string().optional(),
+  notes: z.string().optional(),
 });
 
-const updateDistributorSchema = distributorSchema.extend({
-  id: z.string().uuid(),
-});
+export async function upsertDistributor(_: unknown, formData: FormData) {
+  // Parse all form fields
+  const parsed = Upsert.safeParse({
+    id: formData.get("id") ?? undefined,
+    name: formData.get("name"),
+    is_active: formData.get("is_active") === "true",
+    categoryId: formData.get("categoryId") || undefined,
+    contact_person: formData.get("contact_person") || undefined,
+    phone: formData.get("phone") || undefined,
+    email: formData.get("email") || undefined,
+    whatsapp: formData.get("whatsapp") || undefined,
+    address_line1: formData.get("address_line1") || undefined,
+    address_line2: formData.get("address_line2") || undefined,
+    city: formData.get("city") || undefined,
+    state_region: formData.get("state_region") || undefined,
+    postal_code: formData.get("postal_code") || undefined,
+    address: formData.get("address") || undefined,
+    website_url: formData.get("website_url") || undefined,
+    notes: formData.get("notes") || undefined,
+  });
 
-const TABLE = "distributors";
-const LIST = "/(protected)/master/distributors";
-
-export async function createDistributor(formData: FormData) {
-  try {
-    const data = {
-      name: formData.get("name") as string,
-      code: formData.get("code") as string || undefined,
-      email: formData.get("email") as string || undefined,
-      phone: formData.get("phone") as string || undefined,
-      address: formData.get("address") as string || undefined,
-      country_code: formData.get("country_code") as string || undefined,
-      active: formData.get("active") === "on" || formData.get("active") === "true",
-    };
-
-    const parsed = distributorSchema.parse(data);
-    
-    // Map to actual table structure - using is_active instead of active
-    const insertData = {
-      name: parsed.name,
-      // Note: code, email, phone, address, country_code don't exist in current schema
-      // They would need to be added to the table or stored differently
-      is_active: parsed.active,
-    };
-    
-    const supabase = createSupabaseServerClient();
-    const { error } = await (await supabase)
-      .from(TABLE)
-      .insert([insertData]);
-
-    if (error) throw error;
-
-    revalidatePath(LIST);
-    return { success: true };
-  } catch (error) {
-    console.error("Error creating distributor:", error);
-    return { success: false, error: error instanceof Error ? error.message : "Unknown error" };
+  if (!parsed.success) {
+    return { success: false, errors: parsed.error.flatten().fieldErrors };
   }
-}
 
-export async function updateDistributor(formData: FormData) {
-  try {
-    const data = {
-      id: formData.get("id") as string,
-      name: formData.get("name") as string,
-      code: formData.get("code") as string || undefined,
-      email: formData.get("email") as string || undefined,
-      phone: formData.get("phone") as string || undefined,
-      address: formData.get("address") as string || undefined,
-      country_code: formData.get("country_code") as string || undefined,
-      active: formData.get("active") === "on" || formData.get("active") === "true",
-    };
+  const supabase = await createSupabaseServerClient();
+  const id = parsed.data.id ?? crypto.randomUUID();
 
-    const parsed = updateDistributorSchema.parse(data);
-    const { id, ...updateFields } = parsed;
-    
-    // Map to actual table structure
-    const updateData = {
-      name: updateFields.name,
-      is_active: updateFields.active,
-      updated_at: new Date().toISOString(),
-    };
-    
-    const supabase = createSupabaseServerClient();
-    const { error } = await (await supabase)
-      .from(TABLE)
-      .update(updateData)
-      .eq("id", id);
-
-    if (error) throw error;
-
-    revalidatePath(LIST);
-    return { success: true };
-  } catch (error) {
-    console.error("Error updating distributor:", error);
-    return { success: false, error: error instanceof Error ? error.message : "Unknown error" };
+  // Keep old logo if none uploaded
+  let logo_url: string | null = null;
+  if (parsed.data.id) {
+    const { data } = await supabase.from("distributors").select("logo_url").eq("id", id).single();
+    logo_url = data?.logo_url ?? null;
   }
+
+  // Handle logo upload
+  const file = formData.get("logo") as File | null;
+  if (file && file.size > 0) {
+    const up = await uploadManufacturerLogo(id, file); // Reuse upload function
+    if (!up.ok) return { success: false, message: up.error };
+    logo_url = up.url;
+  }
+
+  // Prepare data for database
+  const distributorData = {
+    name: parsed.data.name,
+    is_active: parsed.data.is_active,
+    category_id: parsed.data.categoryId || null,
+    contact_person: parsed.data.contact_person || null,
+    phone: parsed.data.phone || null,
+    email: parsed.data.email || null,
+    whatsapp: parsed.data.whatsapp || null,
+    address_line1: parsed.data.address_line1 || null,
+    address_line2: parsed.data.address_line2 || null,
+    city: parsed.data.city || null,
+    state_region: parsed.data.state_region || null,
+    postal_code: parsed.data.postal_code || null,
+    website_url: parsed.data.website_url || null,
+    notes: parsed.data.notes || null,
+    logo_url,
+  };
+
+  let error;
+  if (parsed.data.id) {
+    ({ error } = await supabase
+      .from("distributors")
+      .update(distributorData)
+      .eq("id", id));
+  } else {
+    ({ error } = await supabase
+      .from("distributors")
+      .insert({ id, ...distributorData }));
+  }
+
+  if (error) {
+    // Handle unique constraint violation for distributor name
+    if (error.code === "23505" && error.message.includes("distributors_name_ci_uidx")) {
+      return { success: false, message: "Distributor name already exists. Please use a different name." };
+    }
+    return { success: false, message: error.message };
+  }
+
+  revalidatePath("/master/distributors");
+  return { success: true, id, logo_url };
 }
 
 export async function deleteDistributor(id: string) {
   try {
-    const supabase = createSupabaseServerClient();
-    const { error } = await (await supabase)
-      .from(TABLE)
+    const supabase = await createSupabaseServerClient();
+
+    const { error } = await supabase
+      .from("distributors")
       .delete()
       .eq("id", id);
 
-    if (error) throw error;
+    if (error) {
+      if (error.code === "42501") {
+        throw new Error("You don't have permission to delete distributors");
+      }
+      throw error;
+    }
 
-    revalidatePath(LIST);
+    revalidatePath("/master/distributors");
     return { success: true };
   } catch (error) {
     console.error("Error deleting distributor:", error);
-    return { success: false, error: error instanceof Error ? error.message : "Unknown error" };
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown error"
+    };
+  }
+}
+
+// Get shops count for a distributor
+export async function getDistributorShopsCount(distributorId: string) {
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { count, error } = await supabase
+      .from("shops")
+      .select("*", { count: "exact", head: true })
+      .eq("distributor_id", distributorId);
+
+    if (error) throw error;
+    return { success: true, count: count || 0 };
+  } catch (error) {
+    console.error("Error getting shops count:", error);
+    return { success: false, count: 0 };
   }
 }
