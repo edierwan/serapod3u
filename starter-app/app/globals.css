@@ -3,20 +3,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Tokens */
-:root{
-  --card: 255 255 255;
-  --muted: 255 255 255;
-  --muted-foreground: 107 114 128;
-  --primary: 37 99 235;
-  --border: 229 231 235;
-  --success: 34 197 94;
-  --warning: 234 179 8;
-  --info: 59 130 246;
-  --neutral: 100 116 139;
-}
-html, body, #__next { height: 100%; background: white; }
-body { color: rgb(var(--foreground)); background: white; }
+html, body, #__next { height: 100%; background: hsl(var(--background)); }
+body { color: hsl(var(--foreground)); background: hsl(var(--background)); }
 
 @layer base {
   :root {
@@ -26,8 +14,8 @@ body { color: rgb(var(--foreground)); background: white; }
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 221 83% 53%;              /* Brand blue */
+    --primary-foreground: 0 0% 100%;     /* White text */
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
     --muted: 0 0% 96.1%;
@@ -38,7 +26,11 @@ body { color: rgb(var(--foreground)); background: white; }
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
+    --ring: 221 83% 53%;                  /* Match primary for focus rings */
+    --success: 142.1 70.6% 45.3%;               /* Green #22c55e */
+    --warning: 45.4 93.4% 47.5%;                /* Orange #eab308 */
+    --info: 217.2 91.2% 59.8%;                  /* Blue #3b82f6 */
+    --neutral: 215.4 16.3% 46.9%;               /* Gray #64748b */
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
@@ -66,6 +58,10 @@ body { color: rgb(var(--foreground)); background: white; }
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
+    --success: 142.1 70.6% 45.3%;
+    --warning: 45.4 93.4% 47.5%;
+    --info: 217.2 91.2% 59.8%;
+    --neutral: 215.4 16.3% 46.9%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
@@ -79,6 +75,6 @@ body { color: rgb(var(--foreground)); background: white; }
     @apply border-border;
   }
   body {
-    @apply bg-white text-foreground;
+    @apply text-foreground;
   }
 }

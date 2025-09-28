@@ -1,6 +1,7 @@
 "use server";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { uploadImage } from "@/lib/storage";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import type { ProductGroupWithCategory, ProductVariantWithProduct } from "@/lib/types/master";
@@ -59,7 +60,8 @@ const ProductSchema = z.object({
   sub_group_id: z.string().uuid("Valid sub-group is required"),
   manufacturer_id: z.string().uuid("Valid manufacturer is required"),
   price: z.number().nonnegative().optional(),
-  status: z.enum(["active", "inactive"]).default("active"),
+  is_active: z.boolean().default(true),
+  image_url: z.string().optional(),
 });
 
 const ProductVariantSchema = z.object({
@@ -687,7 +689,7 @@ export async function getProducts(search?: string) {
   let query = supabase
     .from("products")
     .select(`
-      id, name, sku, price, status, image_url, created_at, updated_at,
+      id, name, sku, price, is_active, image_url, created_at, updated_at,
       category:categories(id, name),
       brand:brands(id, name),
       group:product_groups(id, name),
@@ -727,6 +729,15 @@ export async function createProduct(formData: FormData): Promise<ActionResult> {
       return { ok: false, message: "You don't have permission to create products." };
     }
 
+    // Handle image upload first if provided
+    let imageUrl: string | undefined;
+    const imageFile = formData.get("image") as File;
+    if (imageFile && imageFile.size > 0) {
+      // Generate a temporary product ID for the image path
+      const tempProductId = crypto.randomUUID();
+      imageUrl = await uploadImage("product", tempProductId, imageFile);
+    }
+
     const data = {
       name: formData.get("name") as string,
       category_id: formData.get("category_id") as string,
@@ -735,21 +746,33 @@ export async function createProduct(formData: FormData): Promise<ActionResult> {
       sub_group_id: formData.get("sub_group_id") as string,
       manufacturer_id: formData.get("manufacturer_id") as string,
       price: formData.get("price") ? parseFloat(formData.get("price") as string) : undefined,
-      status: (formData.get("status") as string) || "active",
+      is_active: formData.get("is_active") === "true",
+      image_url: imageUrl,
     };
 
     const validated = ProductSchema.parse(data);
 
     const supabase = await createSupabaseServerClient();
-    const { error } = await supabase
+    const { data: insertedData, error } = await supabase
       .from("products")
-      .insert([validated]);
+      .insert([validated])
+      .select("id")
+      .single();
 
     if (error) {
       if (error.code === "23505") {
         return { ok: false, message: "A product with this combination already exists." };
       }
       throw error;
+    }
+
+    // If we uploaded an image with a temporary ID, update the path with the real product ID
+    if (imageUrl && insertedData?.id) {
+      const realImagePath = await uploadImage("product", insertedData.id, imageFile);
+      await supabase
+        .from("products")
+        .update({ image_url: realImagePath })
+        .eq("id", insertedData.id);
     }
 
     revalidatePath("/master/products");
@@ -766,6 +789,13 @@ export async function updateProduct(id: string, formData: FormData): Promise<Act
       return { ok: false, message: "You don't have permission to update products." };
     }
 
+    // Handle image upload if provided
+    let imageUrl: string | undefined;
+    const imageFile = formData.get("image") as File;
+    if (imageFile && imageFile.size > 0) {
+      imageUrl = await uploadImage("product", id, imageFile);
+    }
+
     const data = {
       name: formData.get("name") as string,
       category_id: formData.get("category_id") as string,
@@ -774,7 +804,8 @@ export async function updateProduct(id: string, formData: FormData): Promise<Act
       sub_group_id: formData.get("sub_group_id") as string,
       manufacturer_id: formData.get("manufacturer_id") as string,
       price: formData.get("price") ? parseFloat(formData.get("price") as string) : undefined,
-      status: formData.get("status") as string,
+      is_active: formData.get("is_active") === "true",
+      ...(imageUrl && { image_url: imageUrl }),
     };
 
     const validated = ProductSchema.parse(data);

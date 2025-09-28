@@ -4,6 +4,7 @@ import React, { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createVariant, updateVariant, deleteVariant } from "./actions";
+import { Button } from "@/components/ui/button";
 
 interface Variant {
   id: string;
@@ -191,13 +192,14 @@ export default function VariantsClient({ variants, products, productId }: Varian
               </label>
             </div>
           </div>
-          <button
+          <Button
             type="submit"
+            variant="primary"
+            size="lg"
             disabled={isPending}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
           >
             {isPending ? "Creating..." : "Create Variant"}
-          </button>
+          </Button>
         </form>
       </div>
 
@@ -267,19 +269,21 @@ export default function VariantsClient({ variants, products, productId }: Varian
                           />
                           Active
                         </label>
-                        <button
+                        <Button
                           type="submit"
-                          className="text-green-600 hover:text-green-900 px-2 py-1 border border-green-600 rounded"
+                          variant="primary"
+                          size="sm"
                         >
                           Save
-                        </button>
-                        <button
+                        </Button>
+                        <Button
                           type="button"
+                          variant="outline"
+                          size="sm"
                           onClick={() => setEditingId(null)}
-                          className="text-gray-600 hover:text-gray-900 px-2 py-1 border border-gray-600 rounded"
                         >
                           Cancel
-                        </button>
+                        </Button>
                       </form>
                     </td>
                   </>
@@ -306,18 +310,21 @@ export default function VariantsClient({ variants, products, productId }: Varian
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button
+                      <Button
                         onClick={() => setEditingId(variant.id)}
-                        className="text-indigo-600 hover:text-indigo-900 mr-2"
+                        variant="outline"
+                        size="sm"
+                        className="mr-2"
                       >
                         Edit
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         onClick={() => handleDelete(variant.id)}
-                        className="text-red-600 hover:text-red-900"
+                        variant="destructive"
+                        size="sm"
                       >
                         Delete
-                      </button>
+                      </Button>
                     </td>
                   </>
                 )}

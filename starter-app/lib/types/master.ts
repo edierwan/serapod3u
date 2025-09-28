@@ -71,6 +71,7 @@ export interface ProductRow {
   sku?: string;
   price?: number;
   status?: string;
+  is_active?: boolean;
   image_url?: string;
   manufacturer_id?: string;
   category_id?: string;

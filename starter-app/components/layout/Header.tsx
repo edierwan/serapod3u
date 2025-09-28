@@ -2,6 +2,7 @@
 "use client";
 import { LogOut } from "lucide-react";
 import { useTransition } from "react";
+import { Button } from "@/components/ui/button";
 import type { User } from "@supabase/supabase-js";
 
 interface Profile {
@@ -52,15 +53,16 @@ export default function Header({
     <header className="w-full border-b border-border px-4 py-2 flex items-center justify-between">
       <div className="font-semibold">Serapod2u</div>
       <div className="flex flex-col items-end">
-        <button
+        <Button
           onClick={() => start(onSignOut)}
-          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border text-sm"
+          variant="secondary"
+          size="sm"
           aria-label="Sign Out"
           title="Sign Out"
         >
           <LogOut className="h-4 w-4" />
           {pending ? "Signing out..." : "Sign Out"}
-        </button>
+        </Button>
         {displayText && (
           <div className="mt-1 text-sm text-muted-foreground">
             Logged in as: {displayText}

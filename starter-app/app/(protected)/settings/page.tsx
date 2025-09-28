@@ -1,5 +1,6 @@
 
 import { LogOut } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function SettingsPage(){
   return (
@@ -19,9 +20,9 @@ export default function SettingsPage(){
       </div>
       <div className="space-y-2">
         <div className="text-sm text-muted-foreground">Sign Out</div>
-        <button className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-border">
-          <LogOut className="w-4 h-4" /> Sign Out
-        </button>
+        <Button variant="secondary">
+          <LogOut className="w-4 h-4 mr-2" /> Sign Out
+        </Button>
       </div>
     </div>
   )

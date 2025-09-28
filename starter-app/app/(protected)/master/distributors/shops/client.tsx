@@ -2,6 +2,7 @@
 
 import React, { useState, useTransition } from "react";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 import { createShop, updateShop, deleteShop } from "./actions";
 
 interface Shop {
@@ -196,13 +197,14 @@ export default function ShopsClient({ distributorId, shops }: ShopsClientProps) 
               </label>
             </div>
           </div>
-          <button
+          <Button
             type="submit"
+            variant="primary"
+            size="lg"
             disabled={isPending}
-            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
           >
             {isPending ? "Creating..." : "Create Shop"}
-          </button>
+          </Button>
         </form>
       </div>
 
@@ -250,19 +252,21 @@ export default function ShopsClient({ distributorId, shops }: ShopsClientProps) 
                           />
                           Active
                         </label>
-                        <button
+                        <Button
                           type="submit"
-                          className="text-green-600 hover:text-green-900 px-2 py-1 border border-green-600 rounded"
+                          variant="primary"
+                          size="sm"
                         >
                           Save
-                        </button>
-                        <button
+                        </Button>
+                        <Button
                           type="button"
+                          variant="outline"
+                          size="sm"
                           onClick={() => setEditingId(null)}
-                          className="text-gray-600 hover:text-gray-900 px-2 py-1 border border-gray-600 rounded"
                         >
                           Cancel
-                        </button>
+                        </Button>
                       </form>
                     </td>
                   </>
@@ -286,18 +290,21 @@ export default function ShopsClient({ distributorId, shops }: ShopsClientProps) 
                       {new Date(shop.created_at).toLocaleDateString()}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button
+                      <Button
                         onClick={() => setEditingId(shop.id)}
-                        className="text-indigo-600 hover:text-indigo-900 mr-2"
+                        variant="outline"
+                        size="sm"
+                        className="mr-2"
                       >
                         Edit
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         onClick={() => handleDelete(shop.id)}
-                        className="text-red-600 hover:text-red-900"
+                        variant="destructive"
+                        size="sm"
                       >
                         Delete
-                      </button>
+                      </Button>
                     </td>
                   </>
                 )}

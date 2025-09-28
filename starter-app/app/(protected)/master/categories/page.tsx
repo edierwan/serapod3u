@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Plus, Edit, Eye } from "lucide-react";
 import DeleteCategoryButton from "./DeleteCategoryButton";
+import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/ui/empty-state";
 
 export default async function CategoriesPage() {
   const supabase = await createSupabaseServerClient();
@@ -29,13 +31,12 @@ export default async function CategoriesPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold text-gray-900">Product Categories</h1>
         {canModify && (
-          <Link 
-            href="/master/categories/create"
-            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
-            <Plus className="h-4 w-4" />
-            Add Category
-          </Link>
+          <Button asChild variant="primary">
+            <Link href="/master/categories/create">
+              <Plus className="h-4 w-4" />
+              Add Category
+            </Link>
+          </Button>
         )}
       </div>
 
@@ -79,22 +80,20 @@ export default async function CategoriesPage() {
                         {new Date(category.created_at).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                        <Link 
-                          href={`/master/categories/${category.id}`}
-                          className="text-blue-600 hover:text-blue-900 inline-flex items-center gap-1"
-                        >
-                          <Eye className="h-4 w-4" />
-                          View
-                        </Link>
+                        <Button asChild variant="outline" size="sm">
+                          <Link href={`/master/categories/${category.id}`}>
+                            <Eye className="h-4 w-4" />
+                            View
+                          </Link>
+                        </Button>
                         {canModify && (
                           <>
-                            <Link 
-                              href={`/master/categories/${category.id}/edit`}
-                              className="text-indigo-600 hover:text-indigo-900 inline-flex items-center gap-1"
-                            >
-                              <Edit className="h-4 w-4" />
-                              Edit
-                            </Link>
+                            <Button asChild variant="outline" size="sm">
+                              <Link href={`/master/categories/${category.id}/edit`}>
+                                <Edit className="h-4 w-4" />
+                                Edit
+                              </Link>
+                            </Button>
                             <DeleteCategoryButton 
                               categoryId={category.id}
                               categoryName={category.name}
@@ -109,16 +108,15 @@ export default async function CategoriesPage() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-gray-500 mb-4">No categories found</p>
-              {canModify && (
-                <Link 
-                  href="/master/categories/create"
-                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                >
-                  <Plus className="h-4 w-4" />
-                  Create your first category
-                </Link>
-              )}
+              <EmptyState
+                icon={Plus}
+                title="No categories found"
+                body="Get started by creating your first product category."
+                primaryCta={canModify ? {
+                  label: "Create Category",
+                  onClick: () => window.location.href = "/master/categories/create"
+                } : undefined}
+              />
             </div>
           )}
         </div>

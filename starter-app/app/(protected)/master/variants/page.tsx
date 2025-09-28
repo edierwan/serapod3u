@@ -1,7 +1,10 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { getProductVariants } from "../products/actions";
+import { getProductVariants, getProducts } from "../products/actions";
+import { EmptyState } from "@/components/ui/empty-state";
+import { Box } from "lucide-react";
 import type { ProductVariantWithProduct } from "@/lib/types/master";
+import { Button } from "@/components/ui/button";
 
 export default async function VariantsPage() {
   const supabase = await createSupabaseServerClient();
@@ -17,8 +20,11 @@ export default async function VariantsPage() {
 
   const canModify = profile?.role_code === "hq_admin" || profile?.role_code === "power_user";
 
-  // Fetch variants with product information
-  const variants = await getProductVariants();
+  // Fetch variants and products
+  const [variants, products] = await Promise.all([
+    getProductVariants(),
+    getProducts()
+  ]);
 
   const typedVariants: ProductVariantWithProduct[] = variants;
 
@@ -27,13 +33,9 @@ export default async function VariantsPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold text-gray-900">Product Variants</h1>
         {canModify && (
-          <button
-            disabled
-            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-400 bg-gray-100 border border-gray-200 rounded-md cursor-not-allowed"
-            title="Variant creation is handled through product management"
-          >
+          <Button disabled variant="secondary" title="Variant creation is handled through product management">
             Add Variant (via Products)
-          </button>
+          </Button>
         )}
       </div>
 
@@ -115,6 +117,20 @@ export default async function VariantsPage() {
                 </tbody>
               </table>
             </div>
+          ) : products.length === 0 ? (
+            <EmptyState
+              icon={Box}
+              title="Create a product first"
+              body="Variants belong to a product. Add your first product, then come back to create its variants (flavor, nicotine strength, packaging)."
+              primaryCta={{
+                label: "Create Product",
+                href: "/master/products"
+              }}
+              secondaryCta={{
+                label: "Back to Products",
+                href: "/master/products"
+              }}
+            />
           ) : (
             <div className="text-center py-12">
               <p className="text-gray-500 mb-4">No product variants found</p>
