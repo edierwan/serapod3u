@@ -1,6 +1,7 @@
 "use server";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createServiceClient } from "@/lib/supabase/service";
 import { uploadImage } from "@/lib/storage";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
@@ -683,7 +684,7 @@ export async function deleteManufacturer(id: string): Promise<ActionResult> {
 
 // ==================== PRODUCTS ====================
 
-export async function getProducts(search?: string) {
+export async function getProducts(search?: string, showInactive?: boolean) {
   const supabase = await createSupabaseServerClient();
 
   let query = supabase
@@ -695,8 +696,12 @@ export async function getProducts(search?: string) {
       group:product_groups(id, name),
       sub_group:product_subgroups(id, name),
       manufacturer:manufacturers(id, name)
-    `)
-    .eq("is_active", true);
+    `);
+
+  // Only filter by active status if not showing inactive
+  if (!showInactive) {
+    query = query.eq("is_active", true).eq("status", "active");
+  }
 
   if (search) {
     query = query.ilike("name", `%${search}%`);
@@ -751,15 +756,26 @@ export async function createProduct(formData: FormData): Promise<ActionResult> {
     };
 
     const validated = ProductSchema.parse(data);
+    const payload = {
+      ...validated,
+      status: validated.is_active ? "active" : "inactive",
+    };
 
     const supabase = await createSupabaseServerClient();
     const { data: insertedData, error } = await supabase
       .from("products")
-      .insert([validated])
+      .insert([payload])
       .select("id")
       .single();
 
     if (error) {
+      console.error("Create product database error:", {
+        code: error.code,
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        payload
+      });
       if (error.code === "23505") {
         return { ok: false, message: "A product with this combination already exists." };
       }
@@ -809,11 +825,15 @@ export async function updateProduct(id: string, formData: FormData): Promise<Act
     };
 
     const validated = ProductSchema.parse(data);
+    const payload = {
+      ...validated,
+      status: validated.is_active ? "active" : "inactive",
+    };
 
     const supabase = await createSupabaseServerClient();
     const { error } = await supabase
       .from("products")
-      .update(validated)
+      .update(payload)
       .eq("id", id);
 
     if (error) {
@@ -837,13 +857,21 @@ export async function deleteProduct(id: string): Promise<ActionResult> {
       return { ok: false, message: "You don't have permission to delete products." };
     }
 
-    const supabase = await createSupabaseServerClient();
+    // Use service role client for delete operations
+    const supabase = createServiceClient();
+
     const { error } = await supabase
       .from("products")
-      .update({ is_active: false })
+      .update({ is_active: false, status: "inactive" })
       .eq("id", id);
 
     if (error) {
+      // Map PostgreSQL error codes to user-friendly messages
+      if (error.code === "23503") {
+        return { ok: false, message: "Cannot delete: this product is used elsewhere." };
+      } else if (error.code === "42501") {
+        return { ok: false, message: "You don't have permission to delete this product." };
+      }
       throw error;
     }
 
@@ -979,5 +1007,135 @@ export async function deleteProductVariant(id: string): Promise<ActionResult> {
   } catch (error) {
     console.error("Delete product variant error:", error);
     return { ok: false, message: "Failed to delete product variant" };
+  }
+}
+
+// ==================== CHECK ACTIVE COLLISION ====================
+
+export async function checkActiveCollision(payload: {
+  manufacturer_id: string;
+  category_id: string;
+  brand_id: string;
+  group_id: string;
+  sub_group_id: string;
+  is_active: boolean;
+  exclude_product_id?: string;
+}): Promise<{ conflict: boolean; product?: { id: string; name: string } }> {
+  try {
+    // If not active, no conflict
+    if (!payload.is_active) {
+      return { conflict: false };
+    }
+
+    const supabase = await createSupabaseServerClient();
+
+    // Check for conflicts with ux_products_active_combo_status (status = 'active')
+    let statusQuery = supabase
+      .from("products")
+      .select("id, name")
+      .eq("manufacturer_id", payload.manufacturer_id)
+      .eq("category_id", payload.category_id)
+      .eq("brand_id", payload.brand_id)
+      .eq("group_id", payload.group_id)
+      .eq("sub_group_id", payload.sub_group_id)
+      .eq("status", "active");
+
+    // Check for conflicts with ux_products_active_combo_is_active (is_active = true)
+    let activeQuery = supabase
+      .from("products")
+      .select("id, name")
+      .eq("manufacturer_id", payload.manufacturer_id)
+      .eq("category_id", payload.category_id)
+      .eq("brand_id", payload.brand_id)
+      .eq("group_id", payload.group_id)
+      .eq("sub_group_id", payload.sub_group_id)
+      .eq("is_active", true);
+
+    // Exclude current product when editing
+    if (payload.exclude_product_id) {
+      statusQuery = statusQuery.neq("id", payload.exclude_product_id);
+      activeQuery = activeQuery.neq("id", payload.exclude_product_id);
+    }
+
+    const [statusResult, activeResult] = await Promise.all([
+      statusQuery.limit(1),
+      activeQuery.limit(1)
+    ]);
+
+    console.log("Collision check queries:", {
+      manufacturer_id: payload.manufacturer_id,
+      category_id: payload.category_id,
+      brand_id: payload.brand_id,
+      group_id: payload.group_id,
+      sub_group_id: payload.sub_group_id,
+      is_active: payload.is_active,
+      statusResult: statusResult.data,
+      activeResult: activeResult.data,
+      statusError: statusResult.error,
+      activeError: activeResult.error
+    });
+
+    if (statusResult.error || activeResult.error) {
+      console.error("Error checking active collision:", statusResult.error || activeResult.error);
+      // On error, assume no conflict to avoid blocking users
+      return { conflict: false };
+    }
+
+    const statusConflict = statusResult.data && statusResult.data.length > 0;
+    const activeConflict = activeResult.data && activeResult.data.length > 0;
+
+    if (statusConflict || activeConflict) {
+      // Return the first conflict found
+      const conflictingProduct = statusConflict ? statusResult.data[0] : activeResult.data[0];
+      return {
+        conflict: true,
+        product: { id: conflictingProduct.id, name: conflictingProduct.name }
+      };
+    }
+
+    return { conflict: false };
+  } catch (error) {
+    console.error("checkActiveCollision error:", error);
+    // On error, assume no conflict to avoid blocking users
+    return { conflict: false };
+  }
+}
+
+// ==================== ACTIVE COMBINATIONS ====================
+
+export async function getActiveCombosForManufacturer(manufacturerId: string): Promise<Array<{
+  category_id: string;
+  brand_id: string;
+  group_id: string;
+  sub_group_id: string;
+  product_id: string;
+  product_name: string;
+}>> {
+  try {
+    const supabase = await createSupabaseServerClient();
+
+    const { data, error } = await supabase
+      .from("products")
+      .select("id, name, category_id, brand_id, group_id, sub_group_id")
+      .eq("manufacturer_id", manufacturerId)
+      .eq("is_active", true)
+      .eq("status", "active");
+
+    if (error) {
+      console.error("Error fetching active combos:", error);
+      return [];
+    }
+
+    return (data || []).map(product => ({
+      category_id: product.category_id,
+      brand_id: product.brand_id,
+      group_id: product.group_id,
+      sub_group_id: product.sub_group_id,
+      product_id: product.id,
+      product_name: product.name,
+    }));
+  } catch (error) {
+    console.error("getActiveCombosForManufacturer error:", error);
+    return [];
   }
 }

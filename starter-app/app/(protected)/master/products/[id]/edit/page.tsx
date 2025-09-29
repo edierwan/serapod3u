@@ -1,4 +1,3 @@
-// Product creation form with hierarchical data selection
 "use client";
 
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
@@ -13,13 +12,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { StatusToggle } from "@/components/ui/status-toggle";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2, Package, ArrowLeft, AlertCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import {
   getCategories,
   getBrands,
   getManufacturers,
-  createProduct,
+  updateProduct,
   checkActiveCollision,
-} from "../../app/(protected)/master/products/actions";
+  getActiveCombosForManufacturer,
+} from "../../actions";
 import type { Category, BrandWithCategory, Manufacturer } from "@/lib/types/master";
 
 const productSchema = z.object({
@@ -46,23 +48,37 @@ interface SubGroupOption {
   name: string;
 }
 
-interface ProductCreateFormProps {
-  onSuccess?: () => void;
-  onCancel?: () => void;
+interface ActiveHierarchyCombo {
+  category_id: string;
+  brand_id: string;
+  group_id: string;
+  sub_group_id: string;
+  product_id: string;
+  product_name: string;
 }
 
-export function ProductCreateForm({ onSuccess, onCancel }: ProductCreateFormProps) {
+export default function ProductEditPage() {
+  const router = useRouter();
+  const params = useParams();
+  const productId = params.id as string;
+
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
   const [categories, setCategories] = useState<Category[]>([]);
   const [brands, setBrands] = useState<BrandWithCategory[]>([]);
   const [manufacturers, setManufacturers] = useState<Manufacturer[]>([]);
 
+  // Cascading selects state
   const [groups, setGroups] = useState<GroupOption[]>([]);
   const [subGroups, setSubGroups] = useState<SubGroupOption[]>([]);
   const [groupsLoading, setGroupsLoading] = useState(false);
   const [subGroupsLoading, setSubGroupsLoading] = useState(false);
   const [groupsError, setGroupsError] = useState<string | null>(null);
   const [subGroupsError, setSubGroupsError] = useState<string | null>(null);
+
+  const [activeCombos, setActiveCombos] = useState<ActiveHierarchyCombo[]>([]);
+  const [activeCombosLoading, setActiveCombosLoading] = useState(false);
+  const [activeCombosError, setActiveCombosError] = useState<string | null>(null);
 
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -75,6 +91,16 @@ export function ProductCreateForm({ onSuccess, onCancel }: ProductCreateFormProp
   }>({ conflict: false, loading: false });
   const collisionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Original product data for comparison
+  const [originalProduct, setOriginalProduct] = useState<{
+    manufacturer_id: string;
+    category_id: string;
+    brand_id: string;
+    group_id: string;
+    sub_group_id: string;
+    is_active: boolean;
+  } | null>(null);
+
   const {
     register,
     handleSubmit,
@@ -85,9 +111,6 @@ export function ProductCreateForm({ onSuccess, onCancel }: ProductCreateFormProp
     formState: { errors },
   } = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
-    defaultValues: {
-      is_active: true,
-    },
   });
 
   // Watch collision check fields
@@ -105,6 +128,70 @@ export function ProductCreateForm({ onSuccess, onCancel }: ProductCreateFormProp
 
   const restrictHierarchyForActive = watchedIsActive ?? true;
 
+  const normalizedCombos = useMemo(() => {
+    if (!productId) {
+      return activeCombos;
+    }
+    return activeCombos.filter(combo => combo.product_id !== productId);
+  }, [activeCombos, productId]);
+
+  const combosForCategory = useMemo(() => {
+    if (!watchedCategoryId) {
+      return normalizedCombos;
+    }
+    return normalizedCombos.filter(combo => combo.category_id === watchedCategoryId);
+  }, [normalizedCombos, watchedCategoryId]);
+
+  const brandConflictMap = useMemo(() => {
+    const map = new Map<string, ActiveHierarchyCombo>();
+    if (!watchedCategoryId) {
+      return map;
+    }
+
+    combosForCategory.forEach(combo => {
+      if (combo.brand_id && !map.has(combo.brand_id)) {
+        map.set(combo.brand_id, combo);
+      }
+    });
+
+    return map;
+  }, [combosForCategory, watchedCategoryId]);
+
+  const groupConflictMap = useMemo(() => {
+    const map = new Map<string, ActiveHierarchyCombo>();
+    if (!watchedCategoryId || !watchedBrandId) {
+      return map;
+    }
+
+    combosForCategory.forEach(combo => {
+      if (combo.brand_id === watchedBrandId && combo.group_id && !map.has(combo.group_id)) {
+        map.set(combo.group_id, combo);
+      }
+    });
+
+    return map;
+  }, [combosForCategory, watchedBrandId, watchedCategoryId]);
+
+  const subGroupConflictMap = useMemo(() => {
+    const map = new Map<string, ActiveHierarchyCombo>();
+    if (!watchedCategoryId || !watchedBrandId || !watchedGroupId) {
+      return map;
+    }
+
+    combosForCategory.forEach(combo => {
+      if (
+        combo.brand_id === watchedBrandId &&
+        combo.group_id === watchedGroupId &&
+        combo.sub_group_id &&
+        !map.has(combo.sub_group_id)
+      ) {
+        map.set(combo.sub_group_id, combo);
+      }
+    });
+
+    return map;
+  }, [combosForCategory, watchedBrandId, watchedCategoryId, watchedGroupId]);
+
   const filteredBrands = useMemo(() => {
     if (!watchedCategoryId) {
       return brands;
@@ -112,8 +199,32 @@ export function ProductCreateForm({ onSuccess, onCancel }: ProductCreateFormProp
     return brands.filter(brand => brand.category?.id === watchedCategoryId);
   }, [brands, watchedCategoryId]);
 
-  const isComboLoadingForCurrent = false;
-  const comboFetchErrorForCurrent = null;
+  const combosReady = restrictHierarchyForActive && watchedManufacturerId && !activeCombosLoading;
+
+  const brandOptionsBlocked =
+    combosReady &&
+    filteredBrands.length > 0 &&
+    filteredBrands.every(brand => brandConflictMap.has(brand.id));
+
+  const groupOptionsBlocked =
+    combosReady &&
+    watchedBrandId &&
+    groups.length > 0 &&
+    groups.every(group => groupConflictMap.has(group.id));
+
+  const subGroupOptionsBlocked =
+    combosReady &&
+    watchedBrandId &&
+    watchedGroupId &&
+    subGroups.length > 0 &&
+    subGroups.every(subGroup => subGroupConflictMap.has(subGroup.id));
+
+  const hierarchyBlocked = brandOptionsBlocked || groupOptionsBlocked || subGroupOptionsBlocked;
+
+  const isComboLoadingForCurrent =
+    restrictHierarchyForActive && Boolean(watchedManufacturerId) && activeCombosLoading;
+  const comboFetchErrorForCurrent =
+    restrictHierarchyForActive && watchedManufacturerId ? activeCombosError : null;
 
   // Fetch groups when category changes
   const fetchGroups = useCallback(async (categoryId: string) => {
@@ -165,7 +276,6 @@ export function ProductCreateForm({ onSuccess, onCancel }: ProductCreateFormProp
     }
   }, []);
 
-  // Debounced collision check
   const debouncedCheckCollision = useCallback((payload: {
     manufacturer_id: string;
     category_id: string;
@@ -192,7 +302,10 @@ export function ProductCreateForm({ onSuccess, onCancel }: ProductCreateFormProp
       setCollisionCheck(prev => (prev.loading ? prev : { ...prev, loading: true }));
 
       try {
-        const result = await checkActiveCollision(payload);
+        const result = await checkActiveCollision({
+          ...payload,
+          exclude_product_id: productId,
+        });
 
         setCollisionCheck(prev => {
           const sameConflict = prev.conflict === result.conflict;
@@ -220,7 +333,7 @@ export function ProductCreateForm({ onSuccess, onCancel }: ProductCreateFormProp
         collisionTimeoutRef.current = null;
       }
     }, 250);
-  }, []);
+  }, [productId]);
 
   useEffect(() => {
     return () => {
@@ -231,43 +344,11 @@ export function ProductCreateForm({ onSuccess, onCancel }: ProductCreateFormProp
   }, []);
 
   useEffect(() => {
-    loadInitialData();
-  }, []);
-
-  // Manufacturer change effect
-  useEffect(() => {
-    const previous = previousManufacturerRef.current;
-    if (previous === watchedManufacturerId) {
+    if (initialLoading) {
+      previousCategoryRef.current = watchedCategoryId || undefined;
       return;
     }
 
-    previousManufacturerRef.current = watchedManufacturerId ?? undefined;
-
-    if (previous || watchedManufacturerId) {
-      const currentValues = getValues();
-
-      if (currentValues.category_id) {
-        setValue("category_id", "");
-      }
-      if (currentValues.brand_id) {
-        setValue("brand_id", "");
-      }
-      if (currentValues.group_id) {
-        setValue("group_id", "");
-      }
-      if (currentValues.sub_group_id) {
-        setValue("sub_group_id", "");
-      }
-
-      setGroups([]);
-      setSubGroups([]);
-      setGroupsError(null);
-      setSubGroupsError(null);
-    }
-  }, [watchedManufacturerId, getValues, setValue]);
-
-  // Category change effect
-  useEffect(() => {
     const previous = previousCategoryRef.current;
     if (previous === watchedCategoryId) {
       return;
@@ -297,10 +378,14 @@ export function ProductCreateForm({ onSuccess, onCancel }: ProductCreateFormProp
     if (watchedCategoryId) {
       fetchGroups(watchedCategoryId);
     }
-  }, [watchedCategoryId, fetchGroups, getValues, setValue]);
+  }, [watchedCategoryId, fetchGroups, getValues, setValue, initialLoading]);
 
-  // Group change effect
   useEffect(() => {
+    if (initialLoading) {
+      previousGroupRef.current = watchedGroupId || undefined;
+      return;
+    }
+
     const previous = previousGroupRef.current;
     if (previous === watchedGroupId) {
       return;
@@ -319,19 +404,74 @@ export function ProductCreateForm({ onSuccess, onCancel }: ProductCreateFormProp
     if (watchedGroupId) {
       fetchSubGroups(watchedGroupId);
     }
-  }, [watchedGroupId, fetchSubGroups, getValues, setValue]);
+  }, [watchedGroupId, fetchSubGroups, getValues, setValue, initialLoading]);
 
-  // Collision check effect
   useEffect(() => {
-    if (watchedManufacturerId && watchedCategoryId && watchedBrandId && watchedGroupId && watchedSubGroupId) {
-      debouncedCheckCollision({
+    if (initialLoading || !originalProduct) {
+      return;
+    }
+
+    if (!restrictHierarchyForActive) {
+      if (collisionTimeoutRef.current) {
+        clearTimeout(collisionTimeoutRef.current);
+        collisionTimeoutRef.current = null;
+      }
+      setCollisionCheck(prev => {
+        if (!prev.conflict && !prev.loading) {
+          return prev;
+        }
+        return { conflict: false, loading: false };
+      });
+      return;
+    }
+
+    if (
+      watchedManufacturerId &&
+      watchedCategoryId &&
+      watchedBrandId &&
+      watchedGroupId &&
+      watchedSubGroupId
+    ) {
+      const currentCombo = {
         manufacturer_id: watchedManufacturerId,
         category_id: watchedCategoryId,
         brand_id: watchedBrandId,
         group_id: watchedGroupId,
         sub_group_id: watchedSubGroupId,
-        is_active: watchedIsActive,
+      };
+
+      const originalCombo = {
+        manufacturer_id: originalProduct.manufacturer_id,
+        category_id: originalProduct.category_id,
+        brand_id: originalProduct.brand_id,
+        group_id: originalProduct.group_id,
+        sub_group_id: originalProduct.sub_group_id,
+      };
+
+      const comboChanged = Object.entries(currentCombo).some(([key, value]) => {
+        return value !== (originalCombo as Record<string, string | null>)[key];
       });
+
+      const activationChange = !originalProduct.is_active && (watchedIsActive ?? true);
+      const shouldCheck = (watchedIsActive ?? true) && (comboChanged || activationChange);
+
+      if (shouldCheck) {
+        debouncedCheckCollision({
+          ...currentCombo,
+          is_active: watchedIsActive ?? true,
+        });
+      } else {
+        if (collisionTimeoutRef.current) {
+          clearTimeout(collisionTimeoutRef.current);
+          collisionTimeoutRef.current = null;
+        }
+        setCollisionCheck(prev => {
+          if (!prev.conflict && !prev.loading) {
+            return prev;
+          }
+          return { conflict: false, loading: false };
+        });
+      }
     } else {
       if (collisionTimeoutRef.current) {
         clearTimeout(collisionTimeoutRef.current);
@@ -352,43 +492,223 @@ export function ProductCreateForm({ onSuccess, onCancel }: ProductCreateFormProp
     watchedSubGroupId,
     watchedIsActive,
     debouncedCheckCollision,
+    originalProduct,
+    restrictHierarchyForActive,
+    initialLoading,
   ]);
 
-  const loadInitialData = async () => {
+  const loadInitialData = useCallback(async () => {
     try {
+      setInitialLoading(true);
+
+      // Load master data
       const [categoriesData, brandsData, manufacturersData] = await Promise.all([
         getCategories(),
         getBrands(),
         getManufacturers(),
       ]);
       setCategories(categoriesData);
-      // Transform brands data to match expected interface
-      const transformedBrands = brandsData.map(brand => ({
+      const transformedBrands = brandsData.map((brand: any) => ({
         ...brand,
         category: Array.isArray(brand.category) ? brand.category[0] : brand.category,
       }));
       setBrands(transformedBrands);
       setManufacturers(manufacturersData);
+
+      // Load product data
+      const response = await fetch(`/api/master/products/${productId}`);
+      const result = await response.json();
+
+      if (!result.ok) {
+        throw new Error(result.message || "Failed to load product");
+      }
+
+      const product = result.data;
+
+      // Store original product data for collision checking
+      setOriginalProduct({
+        manufacturer_id: product.manufacturer_id,
+        category_id: product.category_id,
+        brand_id: product.brand_id,
+        group_id: product.group_id,
+        sub_group_id: product.sub_group_id,
+        is_active: product.is_active ?? true,
+      });
+
+      // Prefill form
+      setValue("name", product.name);
+      setValue("category_id", product.category_id);
+      setValue("brand_id", product.brand_id);
+      setValue("group_id", product.group_id);
+      setValue("sub_group_id", product.sub_group_id);
+      setValue("manufacturer_id", product.manufacturer_id);
+      setValue("price", product.price?.toString() || "");
+      setValue("is_active", product.is_active ?? true);
+
+      if (product.image_url) {
+        setImagePreview(product.image_url);
+      }
+
+      // Load groups and sub-groups for the selected category/group
+      if (product.category_id) {
+        await fetchGroups(product.category_id);
+      }
+      if (product.group_id) {
+        await fetchSubGroups(product.group_id);
+      }
+
+      previousManufacturerRef.current = product.manufacturer_id || undefined;
+      previousCategoryRef.current = product.category_id || undefined;
+      previousGroupRef.current = product.group_id || undefined;
+      setActiveCombos([]);
+      setActiveCombosError(null);
+
     } catch (error) {
-      console.error("Failed to load initial data:", error);
+      console.error("Failed to load data:", error);
+      alert("Failed to load product data");
+      router.push("/master/products");
+    } finally {
+      setInitialLoading(false);
     }
-  };  
+  }, [productId, setValue, fetchGroups, fetchSubGroups, router]);
+
+  // Load initial data and product
+  useEffect(() => {
+    loadInitialData();
+  }, [loadInitialData]);
+
+  // Listen for product deletion events to refresh active combos
+  useEffect(() => {
+    const handleProductDeleted = () => {
+      // If the form is currently showing combos for a manufacturer, refresh them
+      if (watchedManufacturerId && restrictHierarchyForActive && !initialLoading) {
+        getActiveCombosForManufacturer(watchedManufacturerId)
+          .then(result => {
+            const sanitized = result.filter(combo => combo.product_id !== productId);
+            setActiveCombos(sanitized);
+          })
+          .catch(error => {
+            console.error("Failed to refresh active product combos after delete:", error);
+            setActiveCombos([]);
+            setActiveCombosError("Unable to check existing products right now.");
+          });
+      }
+    };
+
+    window.addEventListener('products:deleted', handleProductDeleted);
+    return () => {
+      window.removeEventListener('products:deleted', handleProductDeleted);
+    };
+  }, [watchedManufacturerId, restrictHierarchyForActive, initialLoading, productId]);
+
+  useEffect(() => {
+    if (initialLoading) {
+      previousManufacturerRef.current = watchedManufacturerId || undefined;
+      return;
+    }
+
+    const previous = previousManufacturerRef.current;
+    if (previous === watchedManufacturerId) {
+      return;
+    }
+
+    previousManufacturerRef.current = watchedManufacturerId ?? undefined;
+
+    if (previous || watchedManufacturerId) {
+      const currentValues = getValues();
+
+      if (currentValues.category_id) {
+        setValue("category_id", "");
+      }
+      if (currentValues.brand_id) {
+        setValue("brand_id", "");
+      }
+      if (currentValues.group_id) {
+        setValue("group_id", "");
+      }
+      if (currentValues.sub_group_id) {
+        setValue("sub_group_id", "");
+      }
+
+      setGroups([]);
+      setSubGroups([]);
+      setGroupsError(null);
+      setSubGroupsError(null);
+    }
+
+    setActiveCombos([]);
+    setActiveCombosError(null);
+    setActiveCombosLoading(false);
+  }, [watchedManufacturerId, getValues, setValue, initialLoading]);
+
+  useEffect(() => {
+    if (!restrictHierarchyForActive || !watchedManufacturerId || initialLoading) {
+      setActiveCombos([]);
+      setActiveCombosError(null);
+      setActiveCombosLoading(false);
+      return;
+    }
+
+    let cancelled = false;
+    setActiveCombosLoading(true);
+    setActiveCombosError(null);
+
+    getActiveCombosForManufacturer(watchedManufacturerId)
+      .then(result => {
+        if (cancelled) return;
+        const sanitized = result.filter(combo => combo.product_id !== productId);
+        setActiveCombos(sanitized);
+      })
+      .catch(error => {
+        if (cancelled) return;
+        console.error("Failed to fetch active product combos:", error);
+        setActiveCombos([]);
+        setActiveCombosError("Unable to check existing products right now.");
+      })
+      .finally(() => {
+        if (cancelled) return;
+        setActiveCombosLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [restrictHierarchyForActive, watchedManufacturerId, initialLoading, productId]);
 
   const onSubmit = async (data: ProductFormData) => {
-    // Final collision check before submit
-    if (data.is_active) {
-      const finalCheck = await checkActiveCollision({
+    // Check for collision if activating or changing combination while active
+    if (data.is_active && originalProduct) {
+      const currentCombo = {
         manufacturer_id: data.manufacturer_id,
         category_id: data.category_id,
         brand_id: data.brand_id,
         group_id: data.group_id,
-        sub_group_id: data.sub_group_id,
-        is_active: data.is_active,
-      });
+        sub_group_id: data.sub_group_id
+      };
+      const originalCombo = {
+        manufacturer_id: originalProduct.manufacturer_id,
+        category_id: originalProduct.category_id,
+        brand_id: originalProduct.brand_id,
+        group_id: originalProduct.group_id,
+        sub_group_id: originalProduct.sub_group_id
+      };
 
-      if (finalCheck.conflict) {
-        setCollisionCheck({ conflict: true, product: finalCheck.product, loading: false });
-        return; // Don't submit
+      const comboChanged = JSON.stringify(currentCombo) !== JSON.stringify(originalCombo);
+
+      if (comboChanged || (!originalProduct.is_active && data.is_active)) {
+        const finalCheck = await checkActiveCollision({
+          manufacturer_id: data.manufacturer_id,
+          category_id: data.category_id,
+          brand_id: data.brand_id,
+          group_id: data.group_id,
+          sub_group_id: data.sub_group_id,
+          is_active: data.is_active,
+        });
+
+        if (finalCheck.conflict) {
+          setCollisionCheck({ conflict: true, product: finalCheck.product, loading: false });
+          return; // Don't submit
+        }
       }
     }
 
@@ -408,15 +728,15 @@ export function ProductCreateForm({ onSuccess, onCancel }: ProductCreateFormProp
         formData.append("image", data.image);
       }
 
-      const result = await createProduct(formData);
+      const result = await updateProduct(productId, formData);
       if (result.ok) {
-        onSuccess?.();
+        router.push(`/master/products/${productId}`);
       } else {
-        alert(result.message || "Failed to create product");
+        alert(result.message || "Failed to update product");
       }
     } catch (error) {
-      console.error("Create product error:", error);
-      alert("Failed to create product");
+      console.error("Update product error:", error);
+      alert("Failed to update product");
     } finally {
       setLoading(false);
     }
@@ -444,35 +764,43 @@ export function ProductCreateForm({ onSuccess, onCancel }: ProductCreateFormProp
         formData.append("image", inactiveData.image);
       }
 
-      const result = await createProduct(formData);
+      const result = await updateProduct(productId, formData);
       if (result.ok) {
-        onSuccess?.();
+        router.push(`/master/products/${productId}`);
       } else {
-        alert(result.message || "Failed to create product");
+        alert(result.message || "Failed to update product");
       }
     } catch (error) {
-      console.error("Create product error:", error);
-      alert("Failed to create product");
+      console.error("Update product error:", error);
+      alert("Failed to update product");
     } finally {
       setLoading(false);
     }
   };
 
+  if (initialLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-96">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex items-center space-x-4">
-        <Button variant="ghost" onClick={onCancel}>
+        <Button variant="ghost" onClick={() => router.push(`/master/products/${productId}`)}>
           <ArrowLeft className="h-4 w-4 mr-2" />
-          Back
+          Back to Product
         </Button>
         <div>
-          <h2 className="text-xl font-semibold">Create New Product</h2>
-          <p className="text-sm text-gray-500">Fill in the details to create a new product</p>
+          <h2 className="text-xl font-semibold">Edit Product</h2>
+          <p className="text-sm text-gray-500">Update product information</p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {/* Image Upload Section - At the top like Manufacturer */}
+        {/* Image Upload Section */}
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center gap-4">
@@ -818,46 +1146,53 @@ export function ProductCreateForm({ onSuccess, onCancel }: ProductCreateFormProp
               </div>
             </div>
 
-            {/* Collision warning */}
-            {restrictHierarchyForActive && collisionCheck.conflict && (
+            {restrictHierarchyForActive && (collisionCheck.conflict || hierarchyBlocked) && (
               <div className="rounded-md border border-muted-foreground/30 bg-muted/20 p-3 text-sm leading-5 text-muted-foreground">
-                <p>
-                  That exact combination already exists as an active product
-                  {collisionCheck.product?.name ? ` (${collisionCheck.product.name})` : ""}.
-                </p>
-                <p className="mt-2">
-                  Adjust the hierarchy selections or save this product as inactive instead.
-                </p>
-                <div className="mt-3 flex flex-wrap gap-3">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={onSaveAsInactive}
-                    disabled={loading}
-                  >
-                    {loading ? "Saving..." : "Save as Inactive"}
-                  </Button>
-                  {collisionCheck.product && (
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => {
-                        window.open(`/master/products/${collisionCheck.product!.id}`, "_blank");
-                      }}
-                    >
-                      View active product
-                    </Button>
-                  )}
-                </div>
+                {collisionCheck.conflict ? (
+                  <>
+                    <p>
+                      That exact combination already exists as an active product
+                      {collisionCheck.product ? ` (${collisionCheck.product.name})` : ""}.
+                    </p>
+                    <p className="mt-2">
+                      Update the hierarchy selections or save this product as inactive to avoid the conflict.
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-3">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={onSaveAsInactive}
+                        disabled={loading}
+                      >
+                        {loading ? "Saving..." : "Save as Inactive"}
+                      </Button>
+                      {collisionCheck.product && (
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            window.open(`/master/products/${collisionCheck.product!.id}`, "_blank");
+                          }}
+                        >
+                          View active product
+                        </Button>
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <p>
+                    This combination is already used by another active product. Adjust Category, Brand, or Group or switch the product to inactive to continue.
+                  </p>
+                )}
               </div>
             )}
           </CardContent>
         </Card>
 
         <div className="flex justify-end space-x-4">
-          <Button type="button" variant="outline" onClick={onCancel}>
+          <Button type="button" variant="outline" onClick={() => router.push(`/master/products/${productId}`)}>
             Cancel
           </Button>
           <Button
@@ -876,10 +1211,9 @@ export function ProductCreateForm({ onSuccess, onCancel }: ProductCreateFormProp
             variant="primary"
           >
             {loading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-            Create Product
+            Update Product
           </Button>
         </div>
-
       </form>
     </div>
   );

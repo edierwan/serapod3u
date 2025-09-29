@@ -35,7 +35,7 @@ export default function ProductsPage() {
         </OvalTabsList>
         
         <TabsContent value="products" className="space-y-0">
-          <ProductsList />
+          <ProductsList onCreateProduct={() => setActiveTab("create")} />
         </TabsContent>
         
         <TabsContent value="create" className="space-y-0">

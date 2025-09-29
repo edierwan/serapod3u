@@ -124,6 +124,33 @@ export async function deleteManufacturer(id: string) {
       if (error.code === "42501") { // insufficient privilege
         throw new Error("You don't have permission to delete manufacturers");
       }
+      if (error.code === "23503") { // foreign key violation
+        // Check what tables are referencing this manufacturer
+        const supabase = await createSupabaseServerClient();
+        
+        const [productsCount, ordersCount, purchaseOrdersCount] = await Promise.all([
+          supabase.from("products").select("id", { count: "exact", head: true }).eq("manufacturer_id", id),
+          supabase.from("orders").select("id", { count: "exact", head: true }).eq("manufacturer_id", id),
+          supabase.from("purchase_orders").select("id", { count: "exact", head: true }).eq("manufacturer_id", id)
+        ]);
+
+        const messages = [];
+        if (productsCount.count && productsCount.count > 0) {
+          messages.push(`${productsCount.count} product(s)`);
+        }
+        if (ordersCount.count && ordersCount.count > 0) {
+          messages.push(`${ordersCount.count} order(s)`);
+        }
+        if (purchaseOrdersCount.count && purchaseOrdersCount.count > 0) {
+          messages.push(`${purchaseOrdersCount.count} purchase order(s)`);
+        }
+
+        const message = messages.length > 0 
+          ? `Cannot delete. This manufacturer has ${messages.join(", ")} linked to it.`
+          : "Cannot delete. There are records linked to this manufacturer.";
+          
+        throw new Error(message);
+      }
       throw error;
     }
 

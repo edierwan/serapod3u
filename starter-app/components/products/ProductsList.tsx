@@ -5,6 +5,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { Search, Package, Plus, Edit, Trash2, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,35 +13,80 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { EmptyState } from "@/components/ui/empty-state";
-import { getProducts } from "../../app/(protected)/master/products/actions";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { getProducts, deleteProduct } from "../../app/(protected)/master/products/actions";
 import type { Product } from "@/lib/types/master";
 
 interface ProductsListProps {
   onCreateProduct?: () => void;
-  onEditProduct?: (product: Product) => void;
-  onViewProduct?: (product: Product) => void;
 }
 
-export function ProductsList({ onCreateProduct, onEditProduct, onViewProduct }: ProductsListProps) {
+export function ProductsList({ onCreateProduct }: ProductsListProps) {
+  const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [showInactive, setShowInactive] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const loadProducts = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await getProducts(searchTerm);
+      const data = await getProducts(searchTerm, showInactive);
       setProducts(data as Product[]);
     } catch (error) {
       console.error("Failed to load products:", error);
     } finally {
       setLoading(false);
     }
-  }, [searchTerm]);
+  }, [searchTerm, showInactive]);
 
   useEffect(() => {
     loadProducts();
-  }, [loadProducts]);
+  }, [loadProducts, router]);
+
+  const handleViewProduct = useCallback((product: Product) => {
+    router.push(`/master/products/${product.id}`);
+  }, [router]);
+
+  const handleEditProduct = useCallback((product: Product) => {
+    router.push(`/master/products/${product.id}/edit`);
+  }, [router]);
+
+  const handleDeleteProduct = useCallback(async (product: Product) => {
+    if (!confirm(`Are you sure you want to delete "${product.name}"? This action cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      setDeletingId(product.id);
+      const result = await deleteProduct(product.id);
+      if (result.ok) {
+        // Refresh the products list
+        loadProducts();
+        router.refresh();
+        // Dispatch event to notify other components (like forms) to refresh active combos
+        window.dispatchEvent(new CustomEvent('products:deleted', { 
+          detail: { manufacturerId: product.manufacturer?.id } 
+        }));
+      } else {
+        // Map error codes to user-friendly messages
+        let errorMessage = result.message;
+        if (result.message.includes("23503")) {
+          errorMessage = "Cannot delete: this product is used elsewhere.";
+        } else if (result.message.includes("42501")) {
+          errorMessage = "You don't have permission to delete this product.";
+        }
+        alert(`Failed to delete product: ${errorMessage}`);
+      }
+    } catch (error) {
+      console.error("Delete product error:", error);
+      alert("Failed to delete product");
+    } finally {
+      setDeletingId(null);
+    }
+  }, [loadProducts, router]);
 
   const formatPrice = (price: number | null) => {
     if (price === null) return "N/A";
@@ -106,6 +152,7 @@ export function ProductsList({ onCreateProduct, onEditProduct, onViewProduct }: 
           <h2 className="text-xl font-semibold">Products</h2>
           <p className="text-sm text-gray-500">
             {products.length} product{products.length !== 1 ? "s" : ""} found
+            {showInactive && " (including inactive)"}
           </p>
         </div>
         <Button onClick={onCreateProduct} variant="primary" data-testid="cta-create-product">
@@ -122,6 +169,16 @@ export function ProductsList({ onCreateProduct, onEditProduct, onViewProduct }: 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10"
+          />
+        </div>
+        <div className="flex items-center space-x-2">
+          <Label htmlFor="show-inactive" className="text-sm font-medium">
+            Show Inactive
+          </Label>
+          <Switch
+            id="show-inactive"
+            checked={showInactive}
+            onCheckedChange={setShowInactive}
           />
         </div>
       </div>
@@ -189,7 +246,9 @@ export function ProductsList({ onCreateProduct, onEditProduct, onViewProduct }: 
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => onViewProduct?.(product)}
+                    onClick={() => handleViewProduct(product)}
+                    title="View product details"
+                    aria-label={`View ${product.name}`}
                   >
                     <Eye className="h-4 w-4 mr-1" />
                     View
@@ -198,14 +257,20 @@ export function ProductsList({ onCreateProduct, onEditProduct, onViewProduct }: 
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => onEditProduct?.(product)}
+                      onClick={() => handleEditProduct(product)}
+                      title="Edit product"
+                      aria-label={`Edit ${product.name}`}
                     >
                       <Edit className="h-4 w-4" />
                     </Button>
                     <Button
                       variant="ghost"
                       size="sm"
+                      onClick={() => handleDeleteProduct(product)}
+                      disabled={deletingId === product.id}
                       className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                      title="Delete product"
+                      aria-label={`Delete ${product.name}`}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>

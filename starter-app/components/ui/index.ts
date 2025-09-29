@@ -1,4 +1,5 @@
 export { Avatar, AvatarImage, AvatarFallback } from "./avatar"
+export { Alert, AlertTitle, AlertDescription } from "./alert"
 export { Badge } from "./badge"
 export { Button, buttonVariants } from "./button"
 export { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "./card"

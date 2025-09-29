@@ -85,26 +85,54 @@ export async function devFastLogin(role_code: string) {
         full_name: acct.full_name ?? null,
       }, { onConflict: "id" });
     } else {
-      // Create new user
-      const { data: newUser, error: createError } = await svc.auth.admin.createUser({
-        email,
-        password,
-        email_confirm: true,
-        user_metadata: { role_code }
-      });
-      
-      if (createError) {
-        console.error(`Failed to create user for ${email}:`, createError);
-        throw new Error(`Failed to create user: ${createError.message}`);
-      }
-      
-      // Create profile for new user
-      if (newUser.user) {
-        await svc.from("profiles").upsert({
-          id: newUser.user.id,
-          role_code,
-          full_name: acct.full_name ?? null,
-        }, { onConflict: "id" });
+      // Try to create new user, but handle the case where user already exists
+      try {
+        const { data: newUser, error: createError } = await svc.auth.admin.createUser({
+          email,
+          password,
+          email_confirm: true,
+          user_metadata: { role_code }
+        });
+        
+        if (createError) {
+          // If user already exists, try to update instead
+          if (createError.message?.includes("already been registered") || createError.message?.includes("already exists")) {
+            // Find the existing user and update them
+            const { data: userList } = await svc.auth.admin.listUsers();
+            const existingUser = userList?.users?.find(user => user.email === email);
+            
+            if (existingUser) {
+              await svc.auth.admin.updateUserById(existingUser.id, {
+                password,
+                user_metadata: { role_code }
+              });
+              
+              // Ensure profile exists
+              await svc.from("profiles").upsert({
+                id: existingUser.id,
+                role_code,
+                full_name: acct.full_name ?? null,
+              }, { onConflict: "id" });
+            } else {
+              throw new Error(`User exists but cannot be found: ${createError.message}`);
+            }
+          } else {
+            console.error(`Failed to create user for ${email}:`, createError);
+            throw new Error(`Failed to create user: ${createError.message}`);
+          }
+        } else {
+          // Create profile for new user
+          if (newUser.user) {
+            await svc.from("profiles").upsert({
+              id: newUser.user.id,
+              role_code,
+              full_name: acct.full_name ?? null,
+            }, { onConflict: "id" });
+          }
+        }
+      } catch (createError) {
+        console.error(`Failed to create/update user for ${email}:`, createError);
+        throw new Error(`Failed to create/update user: ${createError instanceof Error ? createError.message : 'Unknown error'}`);
       }
     }
 

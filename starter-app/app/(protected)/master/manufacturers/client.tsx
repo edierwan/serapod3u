@@ -139,30 +139,22 @@ export default function ManufacturersPageClient({
     if (!deletingManufacturer) return;
 
     try {
-      // Check if manufacturer has products
-      const supabase = createClient();
-      const { data: products } = await supabase
-        .from("products")
-        .select("id")
-        .eq("manufacturer_id", deletingManufacturer.id)
-        .limit(1);
+      // Use the server action for deletion
+      const result = await fetch('/api/manufacturers/delete', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: deletingManufacturer.id }),
+      });
 
-      if (products && products.length > 0) {
-        toast.error(`Cannot delete. There are products linked to this manufacturer.`);
-        setDeletingManufacturer(null);
-        return;
-      }
+      const data = await result.json();
 
-      const { error } = await supabase
-        .from("manufacturers")
-        .delete()
-        .eq("id", deletingManufacturer.id);
-
-      if (error) {
-        toast.error("Failed to delete manufacturer");
-      } else {
+      if (data.success) {
         toast.success("Manufacturer deleted successfully");
         refreshManufacturers();
+      } else {
+        toast.error(data.error || "Failed to delete manufacturer");
       }
     } catch {
       toast.error("Delete failed");

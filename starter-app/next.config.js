@@ -12,7 +12,21 @@ const nextConfig = {
   },
   experimental: {
     serverActions: { bodySizeLimit: "2mb" }
-  }
+  },
+  async redirects() {
+    return [
+      {
+        source: '/products',
+        destination: '/master/products',
+        permanent: true,
+      },
+      {
+        source: '/products/:path*',
+        destination: '/master/products/:path*',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

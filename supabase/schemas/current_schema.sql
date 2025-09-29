@@ -2,12 +2,12 @@
 -- PostgreSQL database dump
 --
 
-\restrict SgTdZxUapFcpeuijmN6DP5WVmeLBu4Sqee7OCWspt21tntgT7vFR1gm4IdObLXJ
+\restrict SxxrzlKFWGyJvJdQa9cIRiiaTlNCRQ5eDVXABhbl9LCcz338FTsbB0Mpt72wFbC
 
 -- Dumped from database version 17.4
 -- Dumped by pg_dump version 17.6
 
--- Started on 2025-09-28 21:57:47 +08
+-- Started on 2025-09-29 08:20:26 +08
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -30,7 +30,7 @@ CREATE SCHEMA public;
 
 
 --
--- TOC entry 4910 (class 0 OID 0)
+-- TOC entry 4912 (class 0 OID 0)
 -- Dependencies: 13
 -- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: -
 --
@@ -3573,7 +3573,7 @@ $$;
 
 
 --
--- TOC entry 4911 (class 0 OID 0)
+-- TOC entry 4913 (class 0 OID 0)
 -- Dependencies: 683
 -- Name: FUNCTION reject_product(product_id_param uuid, reason_param text, comment_param text); Type: COMMENT; Schema: public; Owner: -
 --
@@ -4025,7 +4025,7 @@ $$;
 
 
 --
--- TOC entry 4912 (class 0 OID 0)
+-- TOC entry 4914 (class 0 OID 0)
 -- Dependencies: 579
 -- Name: FUNCTION submit_product_for_approval(product_id_param uuid, comment_param text); Type: COMMENT; Schema: public; Owner: -
 --
@@ -4438,7 +4438,7 @@ $$;
 
 
 --
--- TOC entry 4913 (class 0 OID 0)
+-- TOC entry 4915 (class 0 OID 0)
 -- Dependencies: 520
 -- Name: FUNCTION upsert_hq_info(p_customer_name text, p_customer_email text, p_customer_contact_no text, p_delivery_address text); Type: COMMENT; Schema: public; Owner: -
 --
@@ -5541,7 +5541,7 @@ CREATE TABLE public.audit_log (
 
 
 --
--- TOC entry 4914 (class 0 OID 0)
+-- TOC entry 4916 (class 0 OID 0)
 -- Dependencies: 425
 -- Name: TABLE audit_log; Type: COMMENT; Schema: public; Owner: -
 --
@@ -5779,7 +5779,7 @@ CREATE TABLE public.manufacturers (
 
 
 --
--- TOC entry 4915 (class 0 OID 0)
+-- TOC entry 4917 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.legal_name; Type: COMMENT; Schema: public; Owner: -
 --
@@ -5788,7 +5788,7 @@ COMMENT ON COLUMN public.manufacturers.legal_name IS 'Registered legal name';
 
 
 --
--- TOC entry 4916 (class 0 OID 0)
+-- TOC entry 4918 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.brand_name; Type: COMMENT; Schema: public; Owner: -
 --
@@ -5797,7 +5797,7 @@ COMMENT ON COLUMN public.manufacturers.brand_name IS 'Marketing/brand display na
 
 
 --
--- TOC entry 4917 (class 0 OID 0)
+-- TOC entry 4919 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.registration_number; Type: COMMENT; Schema: public; Owner: -
 --
@@ -5806,7 +5806,7 @@ COMMENT ON COLUMN public.manufacturers.registration_number IS 'Company/business 
 
 
 --
--- TOC entry 4918 (class 0 OID 0)
+-- TOC entry 4920 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.tax_id; Type: COMMENT; Schema: public; Owner: -
 --
@@ -5815,7 +5815,7 @@ COMMENT ON COLUMN public.manufacturers.tax_id IS 'Tax/VAT/GST identifier';
 
 
 --
--- TOC entry 4919 (class 0 OID 0)
+-- TOC entry 4921 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.country_code; Type: COMMENT; Schema: public; Owner: -
 --
@@ -5824,7 +5824,7 @@ COMMENT ON COLUMN public.manufacturers.country_code IS 'ISO-3166-1 alpha-2';
 
 
 --
--- TOC entry 4920 (class 0 OID 0)
+-- TOC entry 4922 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.language_code; Type: COMMENT; Schema: public; Owner: -
 --
@@ -5833,7 +5833,7 @@ COMMENT ON COLUMN public.manufacturers.language_code IS 'ISO-639-1';
 
 
 --
--- TOC entry 4921 (class 0 OID 0)
+-- TOC entry 4923 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.currency_code; Type: COMMENT; Schema: public; Owner: -
 --
@@ -5842,7 +5842,7 @@ COMMENT ON COLUMN public.manufacturers.currency_code IS 'ISO-4217';
 
 
 --
--- TOC entry 4922 (class 0 OID 0)
+-- TOC entry 4924 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.support_email; Type: COMMENT; Schema: public; Owner: -
 --
@@ -5851,7 +5851,7 @@ COMMENT ON COLUMN public.manufacturers.support_email IS 'Support contact email';
 
 
 --
--- TOC entry 4923 (class 0 OID 0)
+-- TOC entry 4925 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.support_phone; Type: COMMENT; Schema: public; Owner: -
 --
@@ -5860,7 +5860,7 @@ COMMENT ON COLUMN public.manufacturers.support_phone IS 'Support phone';
 
 
 --
--- TOC entry 4924 (class 0 OID 0)
+-- TOC entry 4926 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.whatsapp; Type: COMMENT; Schema: public; Owner: -
 --
@@ -5869,7 +5869,7 @@ COMMENT ON COLUMN public.manufacturers.whatsapp IS 'WhatsApp contact';
 
 
 --
--- TOC entry 4925 (class 0 OID 0)
+-- TOC entry 4927 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.address_line1; Type: COMMENT; Schema: public; Owner: -
 --
@@ -5878,7 +5878,7 @@ COMMENT ON COLUMN public.manufacturers.address_line1 IS 'Address line 1';
 
 
 --
--- TOC entry 4926 (class 0 OID 0)
+-- TOC entry 4928 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.address_line2; Type: COMMENT; Schema: public; Owner: -
 --
@@ -5887,7 +5887,7 @@ COMMENT ON COLUMN public.manufacturers.address_line2 IS 'Address line 2';
 
 
 --
--- TOC entry 4927 (class 0 OID 0)
+-- TOC entry 4929 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.state_region; Type: COMMENT; Schema: public; Owner: -
 --
@@ -5896,7 +5896,7 @@ COMMENT ON COLUMN public.manufacturers.state_region IS 'State/Region';
 
 
 --
--- TOC entry 4928 (class 0 OID 0)
+-- TOC entry 4930 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.social_links; Type: COMMENT; Schema: public; Owner: -
 --
@@ -5905,7 +5905,7 @@ COMMENT ON COLUMN public.manufacturers.social_links IS 'JSON of social links';
 
 
 --
--- TOC entry 4929 (class 0 OID 0)
+-- TOC entry 4931 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.certifications; Type: COMMENT; Schema: public; Owner: -
 --
@@ -5914,7 +5914,7 @@ COMMENT ON COLUMN public.manufacturers.certifications IS 'JSON array of certific
 
 
 --
--- TOC entry 4930 (class 0 OID 0)
+-- TOC entry 4932 (class 0 OID 0)
 -- Dependencies: 404
 -- Name: COLUMN manufacturers.status; Type: COMMENT; Schema: public; Owner: -
 --
@@ -6444,7 +6444,7 @@ CREATE SEQUENCE public.shop_points_ledger_id_seq
 
 
 --
--- TOC entry 4931 (class 0 OID 0)
+-- TOC entry 4933 (class 0 OID 0)
 -- Dependencies: 414
 -- Name: shop_points_ledger_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
@@ -6750,7 +6750,7 @@ CREATE TABLE storage.buckets (
 
 
 --
--- TOC entry 4932 (class 0 OID 0)
+-- TOC entry 4934 (class 0 OID 0)
 -- Dependencies: 361
 -- Name: COLUMN buckets.owner; Type: COMMENT; Schema: storage; Owner: -
 --
@@ -6808,7 +6808,7 @@ CREATE TABLE storage.objects (
 
 
 --
--- TOC entry 4933 (class 0 OID 0)
+-- TOC entry 4935 (class 0 OID 0)
 -- Dependencies: 362
 -- Name: COLUMN objects.owner; Type: COMMENT; Schema: storage; Owner: -
 --
@@ -6876,7 +6876,7 @@ ALTER TABLE ONLY public.shop_points_ledger ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
--- TOC entry 4472 (class 2606 OID 85975)
+-- TOC entry 4474 (class 2606 OID 85975)
 -- Name: audit_log audit_log_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6903,7 +6903,7 @@ ALTER TABLE ONLY public.brands
 
 
 --
--- TOC entry 4503 (class 2606 OID 88407)
+-- TOC entry 4505 (class 2606 OID 88407)
 -- Name: cases cases_code_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6912,7 +6912,7 @@ ALTER TABLE ONLY public.cases
 
 
 --
--- TOC entry 4505 (class 2606 OID 88405)
+-- TOC entry 4507 (class 2606 OID 88405)
 -- Name: cases cases_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6921,7 +6921,7 @@ ALTER TABLE ONLY public.cases
 
 
 --
--- TOC entry 4507 (class 2606 OID 88409)
+-- TOC entry 4509 (class 2606 OID 88409)
 -- Name: cases cases_rfid_uid_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6948,7 +6948,7 @@ ALTER TABLE ONLY public.categories
 
 
 --
--- TOC entry 4465 (class 2606 OID 83101)
+-- TOC entry 4467 (class 2606 OID 83101)
 -- Name: dev_fastlogin_accounts dev_fastlogin_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6966,7 +6966,7 @@ ALTER TABLE ONLY public.distributors
 
 
 --
--- TOC entry 4566 (class 2606 OID 89421)
+-- TOC entry 4568 (class 2606 OID 89421)
 -- Name: hq_info hq_info_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6975,7 +6975,7 @@ ALTER TABLE ONLY public.hq_info
 
 
 --
--- TOC entry 4542 (class 2606 OID 88801)
+-- TOC entry 4544 (class 2606 OID 88801)
 -- Name: lucky_draw_campaigns lucky_draw_campaigns_code_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6984,7 +6984,7 @@ ALTER TABLE ONLY public.lucky_draw_campaigns
 
 
 --
--- TOC entry 4544 (class 2606 OID 88799)
+-- TOC entry 4546 (class 2606 OID 88799)
 -- Name: lucky_draw_campaigns lucky_draw_campaigns_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6993,7 +6993,7 @@ ALTER TABLE ONLY public.lucky_draw_campaigns
 
 
 --
--- TOC entry 4547 (class 2606 OID 88811)
+-- TOC entry 4549 (class 2606 OID 88811)
 -- Name: lucky_draw_participants lucky_draw_participants_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7038,7 +7038,7 @@ ALTER TABLE ONLY public.manufacturers
 
 
 --
--- TOC entry 4461 (class 2606 OID 83005)
+-- TOC entry 4463 (class 2606 OID 83005)
 -- Name: master_daerah master_daerah_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7047,7 +7047,7 @@ ALTER TABLE ONLY public.master_daerah
 
 
 --
--- TOC entry 4457 (class 2606 OID 82998)
+-- TOC entry 4459 (class 2606 OID 82998)
 -- Name: master_negeri master_negeri_code_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7056,7 +7056,7 @@ ALTER TABLE ONLY public.master_negeri
 
 
 --
--- TOC entry 4459 (class 2606 OID 82996)
+-- TOC entry 4461 (class 2606 OID 82996)
 -- Name: master_negeri master_negeri_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7065,7 +7065,7 @@ ALTER TABLE ONLY public.master_negeri
 
 
 --
--- TOC entry 4539 (class 2606 OID 88713)
+-- TOC entry 4541 (class 2606 OID 88713)
 -- Name: movement_events movement_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7074,7 +7074,7 @@ ALTER TABLE ONLY public.movement_events
 
 
 --
--- TOC entry 4558 (class 2606 OID 89237)
+-- TOC entry 4560 (class 2606 OID 89237)
 -- Name: notification_outbox notification_outbox_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7083,7 +7083,7 @@ ALTER TABLE ONLY public.notification_outbox
 
 
 --
--- TOC entry 4562 (class 2606 OID 89256)
+-- TOC entry 4564 (class 2606 OID 89256)
 -- Name: notification_preferences_user notification_preferences_user_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7092,7 +7092,7 @@ ALTER TABLE ONLY public.notification_preferences_user
 
 
 --
--- TOC entry 4564 (class 2606 OID 89258)
+-- TOC entry 4566 (class 2606 OID 89258)
 -- Name: notification_preferences_user notification_preferences_user_user_id_channel_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7101,7 +7101,7 @@ ALTER TABLE ONLY public.notification_preferences_user
 
 
 --
--- TOC entry 4560 (class 2606 OID 89247)
+-- TOC entry 4562 (class 2606 OID 89247)
 -- Name: notification_settings_org notification_settings_org_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7110,7 +7110,7 @@ ALTER TABLE ONLY public.notification_settings_org
 
 
 --
--- TOC entry 4487 (class 2606 OID 88218)
+-- TOC entry 4489 (class 2606 OID 88218)
 -- Name: order_items order_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7119,7 +7119,7 @@ ALTER TABLE ONLY public.order_items
 
 
 --
--- TOC entry 4481 (class 2606 OID 88203)
+-- TOC entry 4483 (class 2606 OID 88203)
 -- Name: orders orders_order_no_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7128,7 +7128,7 @@ ALTER TABLE ONLY public.orders
 
 
 --
--- TOC entry 4483 (class 2606 OID 88201)
+-- TOC entry 4485 (class 2606 OID 88201)
 -- Name: orders orders_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7137,7 +7137,7 @@ ALTER TABLE ONLY public.orders
 
 
 --
--- TOC entry 4519 (class 2606 OID 88500)
+-- TOC entry 4521 (class 2606 OID 88500)
 -- Name: pack_events pack_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7146,7 +7146,7 @@ ALTER TABLE ONLY public.pack_events
 
 
 --
--- TOC entry 4501 (class 2606 OID 88312)
+-- TOC entry 4503 (class 2606 OID 88312)
 -- Name: po_status_history po_status_history_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7155,7 +7155,7 @@ ALTER TABLE ONLY public.po_status_history
 
 
 --
--- TOC entry 4553 (class 2606 OID 88928)
+-- TOC entry 4555 (class 2606 OID 88928)
 -- Name: points_config points_config_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7164,7 +7164,7 @@ ALTER TABLE ONLY public.points_config
 
 
 --
--- TOC entry 4555 (class 2606 OID 88938)
+-- TOC entry 4557 (class 2606 OID 88938)
 -- Name: points_rules points_rules_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7191,7 +7191,7 @@ ALTER TABLE ONLY public.product_subgroups
 
 
 --
--- TOC entry 4453 (class 2606 OID 82959)
+-- TOC entry 4455 (class 2606 OID 82959)
 -- Name: product_variants product_variants_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7227,7 +7227,7 @@ ALTER TABLE ONLY public.profiles
 
 
 --
--- TOC entry 4498 (class 2606 OID 88302)
+-- TOC entry 4500 (class 2606 OID 88302)
 -- Name: purchase_order_items purchase_order_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7236,7 +7236,7 @@ ALTER TABLE ONLY public.purchase_order_items
 
 
 --
--- TOC entry 4493 (class 2606 OID 88283)
+-- TOC entry 4495 (class 2606 OID 88283)
 -- Name: purchase_orders purchase_orders_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7245,7 +7245,7 @@ ALTER TABLE ONLY public.purchase_orders
 
 
 --
--- TOC entry 4495 (class 2606 OID 88285)
+-- TOC entry 4497 (class 2606 OID 88285)
 -- Name: purchase_orders purchase_orders_po_no_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7254,7 +7254,7 @@ ALTER TABLE ONLY public.purchase_orders
 
 
 --
--- TOC entry 4550 (class 2606 OID 88823)
+-- TOC entry 4552 (class 2606 OID 88823)
 -- Name: redeem_claims redeem_claims_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7263,7 +7263,7 @@ ALTER TABLE ONLY public.redeem_claims
 
 
 --
--- TOC entry 4527 (class 2606 OID 88689)
+-- TOC entry 4529 (class 2606 OID 88689)
 -- Name: shipment_cases shipment_cases_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7272,7 +7272,7 @@ ALTER TABLE ONLY public.shipment_cases
 
 
 --
--- TOC entry 4529 (class 2606 OID 88691)
+-- TOC entry 4531 (class 2606 OID 88691)
 -- Name: shipment_cases shipment_cases_shipment_id_case_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7281,7 +7281,7 @@ ALTER TABLE ONLY public.shipment_cases
 
 
 --
--- TOC entry 4532 (class 2606 OID 88699)
+-- TOC entry 4534 (class 2606 OID 88699)
 -- Name: shipment_uniques shipment_uniques_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7290,7 +7290,7 @@ ALTER TABLE ONLY public.shipment_uniques
 
 
 --
--- TOC entry 4534 (class 2606 OID 88701)
+-- TOC entry 4536 (class 2606 OID 88701)
 -- Name: shipment_uniques shipment_uniques_shipment_id_unique_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7299,7 +7299,7 @@ ALTER TABLE ONLY public.shipment_uniques
 
 
 --
--- TOC entry 4522 (class 2606 OID 88679)
+-- TOC entry 4524 (class 2606 OID 88679)
 -- Name: shipments shipments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7308,7 +7308,7 @@ ALTER TABLE ONLY public.shipments
 
 
 --
--- TOC entry 4524 (class 2606 OID 88681)
+-- TOC entry 4526 (class 2606 OID 88681)
 -- Name: shipments shipments_shipment_no_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7326,7 +7326,7 @@ ALTER TABLE ONLY public.shop_distributors
 
 
 --
--- TOC entry 4469 (class 2606 OID 84319)
+-- TOC entry 4471 (class 2606 OID 84319)
 -- Name: shop_points_ledger shop_points_ledger_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7344,7 +7344,7 @@ ALTER TABLE ONLY public.shops
 
 
 --
--- TOC entry 4512 (class 2606 OID 88425)
+-- TOC entry 4514 (class 2606 OID 88425)
 -- Name: unique_codes unique_codes_code_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7353,7 +7353,7 @@ ALTER TABLE ONLY public.unique_codes
 
 
 --
--- TOC entry 4514 (class 2606 OID 88423)
+-- TOC entry 4516 (class 2606 OID 88423)
 -- Name: unique_codes unique_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7362,7 +7362,7 @@ ALTER TABLE ONLY public.unique_codes
 
 
 --
--- TOC entry 4463 (class 2606 OID 83012)
+-- TOC entry 4465 (class 2606 OID 83012)
 -- Name: master_daerah uq_daerah_per_negeri; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7380,7 +7380,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 4455 (class 2606 OID 82966)
+-- TOC entry 4457 (class 2606 OID 82966)
 -- Name: product_variants uq_variant_tuple; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7469,7 +7469,7 @@ CREATE UNIQUE INDEX distributors_name_ci_uidx ON public.distributors USING btree
 
 
 --
--- TOC entry 4473 (class 1259 OID 85983)
+-- TOC entry 4475 (class 1259 OID 85983)
 -- Name: idx_audit_log_entity_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7477,7 +7477,7 @@ CREATE INDEX idx_audit_log_entity_id ON public.audit_log USING btree (entity_id)
 
 
 --
--- TOC entry 4474 (class 1259 OID 85982)
+-- TOC entry 4476 (class 1259 OID 85982)
 -- Name: idx_audit_log_entity_type; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7485,7 +7485,7 @@ CREATE INDEX idx_audit_log_entity_type ON public.audit_log USING btree (entity_t
 
 
 --
--- TOC entry 4475 (class 1259 OID 85981)
+-- TOC entry 4477 (class 1259 OID 85981)
 -- Name: idx_audit_log_operation; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7493,7 +7493,7 @@ CREATE INDEX idx_audit_log_operation ON public.audit_log USING btree (operation)
 
 
 --
--- TOC entry 4476 (class 1259 OID 85985)
+-- TOC entry 4478 (class 1259 OID 85985)
 -- Name: idx_audit_log_performed_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7501,7 +7501,7 @@ CREATE INDEX idx_audit_log_performed_at ON public.audit_log USING btree (perform
 
 
 --
--- TOC entry 4477 (class 1259 OID 85984)
+-- TOC entry 4479 (class 1259 OID 85984)
 -- Name: idx_audit_log_performed_by; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7517,7 +7517,7 @@ CREATE INDEX idx_brands_category_id ON public.brands USING btree (category_id);
 
 
 --
--- TOC entry 4508 (class 1259 OID 88410)
+-- TOC entry 4510 (class 1259 OID 88410)
 -- Name: idx_cases_po_item_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7565,7 +7565,7 @@ CREATE INDEX idx_distributors_phone ON public.distributors USING btree (phone);
 
 
 --
--- TOC entry 4540 (class 1259 OID 88802)
+-- TOC entry 4542 (class 1259 OID 88802)
 -- Name: idx_ldc_status_dates; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7573,7 +7573,7 @@ CREATE INDEX idx_ldc_status_dates ON public.lucky_draw_campaigns USING btree (st
 
 
 --
--- TOC entry 4545 (class 1259 OID 88813)
+-- TOC entry 4547 (class 1259 OID 88813)
 -- Name: idx_ldp_campaign_time; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7605,7 +7605,7 @@ CREATE INDEX idx_manufacturers_status ON public.manufacturers USING btree (statu
 
 
 --
--- TOC entry 4535 (class 1259 OID 88714)
+-- TOC entry 4537 (class 1259 OID 88714)
 -- Name: idx_move_events_case; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7613,7 +7613,7 @@ CREATE INDEX idx_move_events_case ON public.movement_events USING btree (case_id
 
 
 --
--- TOC entry 4536 (class 1259 OID 88716)
+-- TOC entry 4538 (class 1259 OID 88716)
 -- Name: idx_move_events_ship; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7621,7 +7621,7 @@ CREATE INDEX idx_move_events_ship ON public.movement_events USING btree (shipmen
 
 
 --
--- TOC entry 4537 (class 1259 OID 88715)
+-- TOC entry 4539 (class 1259 OID 88715)
 -- Name: idx_move_events_unique; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7629,7 +7629,7 @@ CREATE INDEX idx_move_events_unique ON public.movement_events USING btree (uniqu
 
 
 --
--- TOC entry 4484 (class 1259 OID 88222)
+-- TOC entry 4486 (class 1259 OID 88222)
 -- Name: idx_order_items_order; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7637,7 +7637,7 @@ CREATE INDEX idx_order_items_order ON public.order_items USING btree (order_id);
 
 
 --
--- TOC entry 4485 (class 1259 OID 89326)
+-- TOC entry 4487 (class 1259 OID 89326)
 -- Name: idx_order_items_order_id_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7645,7 +7645,7 @@ CREATE INDEX idx_order_items_order_id_created_at ON public.order_items USING btr
 
 
 --
--- TOC entry 4478 (class 1259 OID 88221)
+-- TOC entry 4480 (class 1259 OID 88221)
 -- Name: idx_orders_mfr; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7653,7 +7653,7 @@ CREATE INDEX idx_orders_mfr ON public.orders USING btree (manufacturer_id);
 
 
 --
--- TOC entry 4479 (class 1259 OID 88220)
+-- TOC entry 4481 (class 1259 OID 88220)
 -- Name: idx_orders_status; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7661,7 +7661,7 @@ CREATE INDEX idx_orders_status ON public.orders USING btree (status);
 
 
 --
--- TOC entry 4556 (class 1259 OID 89238)
+-- TOC entry 4558 (class 1259 OID 89238)
 -- Name: idx_outbox_unprocessed; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7669,7 +7669,7 @@ CREATE INDEX idx_outbox_unprocessed ON public.notification_outbox USING btree (p
 
 
 --
--- TOC entry 4515 (class 1259 OID 88501)
+-- TOC entry 4517 (class 1259 OID 88501)
 -- Name: idx_pack_events_case; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7677,7 +7677,7 @@ CREATE INDEX idx_pack_events_case ON public.pack_events USING btree (case_id, cr
 
 
 --
--- TOC entry 4516 (class 1259 OID 88503)
+-- TOC entry 4518 (class 1259 OID 88503)
 -- Name: idx_pack_events_po_item; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7685,7 +7685,7 @@ CREATE INDEX idx_pack_events_po_item ON public.pack_events USING btree (po_item_
 
 
 --
--- TOC entry 4517 (class 1259 OID 88502)
+-- TOC entry 4519 (class 1259 OID 88502)
 -- Name: idx_pack_events_unique; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7693,7 +7693,7 @@ CREATE INDEX idx_pack_events_unique ON public.pack_events USING btree (unique_id
 
 
 --
--- TOC entry 4499 (class 1259 OID 88313)
+-- TOC entry 4501 (class 1259 OID 88313)
 -- Name: idx_po_status_hist_po; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7701,7 +7701,7 @@ CREATE INDEX idx_po_status_hist_po ON public.po_status_history USING btree (po_i
 
 
 --
--- TOC entry 4496 (class 1259 OID 88303)
+-- TOC entry 4498 (class 1259 OID 88303)
 -- Name: idx_poi_po_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7709,7 +7709,7 @@ CREATE INDEX idx_poi_po_id ON public.purchase_order_items USING btree (po_id);
 
 
 --
--- TOC entry 4466 (class 1259 OID 88951)
+-- TOC entry 4468 (class 1259 OID 88951)
 -- Name: idx_points_ledger_shop_time; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7733,7 +7733,7 @@ CREATE INDEX idx_profiles_shop ON public.profiles USING btree (shop_id);
 
 
 --
--- TOC entry 4489 (class 1259 OID 88287)
+-- TOC entry 4491 (class 1259 OID 88287)
 -- Name: idx_purchase_orders_mfr; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7741,7 +7741,7 @@ CREATE INDEX idx_purchase_orders_mfr ON public.purchase_orders USING btree (manu
 
 
 --
--- TOC entry 4490 (class 1259 OID 88288)
+-- TOC entry 4492 (class 1259 OID 88288)
 -- Name: idx_purchase_orders_order; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7749,7 +7749,7 @@ CREATE INDEX idx_purchase_orders_order ON public.purchase_orders USING btree (or
 
 
 --
--- TOC entry 4491 (class 1259 OID 88286)
+-- TOC entry 4493 (class 1259 OID 88286)
 -- Name: idx_purchase_orders_status; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7757,7 +7757,7 @@ CREATE INDEX idx_purchase_orders_status ON public.purchase_orders USING btree (s
 
 
 --
--- TOC entry 4520 (class 1259 OID 88682)
+-- TOC entry 4522 (class 1259 OID 88682)
 -- Name: idx_shipments_type_status; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7765,7 +7765,7 @@ CREATE INDEX idx_shipments_type_status ON public.shipments USING btree (type, st
 
 
 --
--- TOC entry 4467 (class 1259 OID 84320)
+-- TOC entry 4469 (class 1259 OID 84320)
 -- Name: idx_shop_points_ledger_shop_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7797,7 +7797,7 @@ CREATE INDEX idx_shops_distributor ON public.shops USING btree (distributor_id);
 
 
 --
--- TOC entry 4525 (class 1259 OID 88692)
+-- TOC entry 4527 (class 1259 OID 88692)
 -- Name: idx_shp_cases_shipment; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7805,7 +7805,7 @@ CREATE INDEX idx_shp_cases_shipment ON public.shipment_cases USING btree (shipme
 
 
 --
--- TOC entry 4530 (class 1259 OID 88702)
+-- TOC entry 4532 (class 1259 OID 88702)
 -- Name: idx_shp_uniques_shipment; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7813,7 +7813,7 @@ CREATE INDEX idx_shp_uniques_shipment ON public.shipment_uniques USING btree (sh
 
 
 --
--- TOC entry 4509 (class 1259 OID 88427)
+-- TOC entry 4511 (class 1259 OID 88427)
 -- Name: idx_unique_codes_case_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7821,7 +7821,7 @@ CREATE INDEX idx_unique_codes_case_id ON public.unique_codes USING btree (case_i
 
 
 --
--- TOC entry 4510 (class 1259 OID 88426)
+-- TOC entry 4512 (class 1259 OID 88426)
 -- Name: idx_unique_codes_po_item; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7837,7 +7837,7 @@ CREATE UNIQUE INDEX shops_distributor_name_ci_uidx ON public.shops USING btree (
 
 
 --
--- TOC entry 4548 (class 1259 OID 88812)
+-- TOC entry 4550 (class 1259 OID 88812)
 -- Name: uq_ld_participant_per_unique; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7845,7 +7845,7 @@ CREATE UNIQUE INDEX uq_ld_participant_per_unique ON public.lucky_draw_participan
 
 
 --
--- TOC entry 4488 (class 1259 OID 88219)
+-- TOC entry 4490 (class 1259 OID 88219)
 -- Name: uq_order_items_line; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7853,7 +7853,7 @@ CREATE UNIQUE INDEX uq_order_items_line ON public.order_items USING btree (order
 
 
 --
--- TOC entry 4470 (class 1259 OID 88952)
+-- TOC entry 4472 (class 1259 OID 88952)
 -- Name: uq_points_one_earn_per_unique; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7861,11 +7861,27 @@ CREATE UNIQUE INDEX uq_points_one_earn_per_unique ON public.shop_points_ledger U
 
 
 --
--- TOC entry 4551 (class 1259 OID 88824)
+-- TOC entry 4553 (class 1259 OID 88824)
 -- Name: uq_redeem_one_per_unique; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX uq_redeem_one_per_unique ON public.redeem_claims USING btree (unique_id);
+
+
+--
+-- TOC entry 4452 (class 1259 OID 89530)
+-- Name: ux_products_active_combo_is_active; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX ux_products_active_combo_is_active ON public.products USING btree (manufacturer_id, category_id, brand_id, group_id, sub_group_id) WHERE ((is_active = true) AND (manufacturer_id IS NOT NULL) AND (category_id IS NOT NULL) AND (brand_id IS NOT NULL) AND (group_id IS NOT NULL) AND (sub_group_id IS NOT NULL));
+
+
+--
+-- TOC entry 4453 (class 1259 OID 89531)
+-- Name: ux_products_active_combo_status; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX ux_products_active_combo_status ON public.products USING btree (manufacturer_id, category_id, brand_id, group_id, sub_group_id) WHERE ((status = 'active'::text) AND (manufacturer_id IS NOT NULL) AND (category_id IS NOT NULL) AND (brand_id IS NOT NULL) AND (group_id IS NOT NULL) AND (sub_group_id IS NOT NULL));
 
 
 --
@@ -7941,7 +7957,7 @@ CREATE UNIQUE INDEX objects_bucket_id_level_idx ON storage.objects USING btree (
 
 
 --
--- TOC entry 4662 (class 2620 OID 88457)
+-- TOC entry 4664 (class 2620 OID 88457)
 -- Name: cases cases_set_created_by; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -7949,7 +7965,7 @@ CREATE TRIGGER cases_set_created_by BEFORE INSERT ON public.cases FOR EACH ROW E
 
 
 --
--- TOC entry 4663 (class 2620 OID 88453)
+-- TOC entry 4665 (class 2620 OID 88453)
 -- Name: cases cases_set_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -7957,7 +7973,7 @@ CREATE TRIGGER cases_set_updated_at BEFORE UPDATE ON public.cases FOR EACH ROW E
 
 
 --
--- TOC entry 4664 (class 2620 OID 88455)
+-- TOC entry 4666 (class 2620 OID 88455)
 -- Name: cases cases_set_updated_by; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -7965,7 +7981,7 @@ CREATE TRIGGER cases_set_updated_by BEFORE UPDATE ON public.cases FOR EACH ROW E
 
 
 --
--- TOC entry 4650 (class 2620 OID 89303)
+-- TOC entry 4652 (class 2620 OID 89303)
 -- Name: order_items check_product_active_on_item_insupd; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -7973,7 +7989,7 @@ CREATE TRIGGER check_product_active_on_item_insupd BEFORE INSERT OR UPDATE OF pr
 
 
 --
--- TOC entry 4651 (class 2620 OID 89305)
+-- TOC entry 4653 (class 2620 OID 89305)
 -- Name: order_items enforce_same_manufacturer_on_item; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -7981,7 +7997,7 @@ CREATE TRIGGER enforce_same_manufacturer_on_item BEFORE INSERT OR UPDATE OF prod
 
 
 --
--- TOC entry 4670 (class 2620 OID 88842)
+-- TOC entry 4672 (class 2620 OID 88842)
 -- Name: lucky_draw_campaigns ldc_set_created_by; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -7989,7 +8005,7 @@ CREATE TRIGGER ldc_set_created_by BEFORE INSERT ON public.lucky_draw_campaigns F
 
 
 --
--- TOC entry 4671 (class 2620 OID 88840)
+-- TOC entry 4673 (class 2620 OID 88840)
 -- Name: lucky_draw_campaigns ldc_set_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -7997,7 +8013,7 @@ CREATE TRIGGER ldc_set_updated_at BEFORE UPDATE ON public.lucky_draw_campaigns F
 
 
 --
--- TOC entry 4672 (class 2620 OID 88841)
+-- TOC entry 4674 (class 2620 OID 88841)
 -- Name: lucky_draw_campaigns ldc_set_updated_by; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8005,7 +8021,7 @@ CREATE TRIGGER ldc_set_updated_by BEFORE UPDATE ON public.lucky_draw_campaigns F
 
 
 --
--- TOC entry 4652 (class 2620 OID 89110)
+-- TOC entry 4654 (class 2620 OID 89110)
 -- Name: order_items order_items_recalc_del; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8013,7 +8029,7 @@ CREATE TRIGGER order_items_recalc_del AFTER DELETE ON public.order_items REFEREN
 
 
 --
--- TOC entry 4653 (class 2620 OID 89106)
+-- TOC entry 4655 (class 2620 OID 89106)
 -- Name: order_items order_items_recalc_ins; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8021,7 +8037,7 @@ CREATE TRIGGER order_items_recalc_ins AFTER INSERT ON public.order_items REFEREN
 
 
 --
--- TOC entry 4654 (class 2620 OID 89108)
+-- TOC entry 4656 (class 2620 OID 89108)
 -- Name: order_items order_items_recalc_upd; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8029,7 +8045,7 @@ CREATE TRIGGER order_items_recalc_upd AFTER UPDATE ON public.order_items REFEREN
 
 
 --
--- TOC entry 4655 (class 2620 OID 88248)
+-- TOC entry 4657 (class 2620 OID 88248)
 -- Name: order_items order_items_set_created_by; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8037,7 +8053,7 @@ CREATE TRIGGER order_items_set_created_by BEFORE INSERT ON public.order_items FO
 
 
 --
--- TOC entry 4656 (class 2620 OID 88246)
+-- TOC entry 4658 (class 2620 OID 88246)
 -- Name: order_items order_items_set_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8045,7 +8061,7 @@ CREATE TRIGGER order_items_set_updated_at BEFORE UPDATE ON public.order_items FO
 
 
 --
--- TOC entry 4657 (class 2620 OID 88247)
+-- TOC entry 4659 (class 2620 OID 88247)
 -- Name: order_items order_items_set_updated_by; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8053,7 +8069,7 @@ CREATE TRIGGER order_items_set_updated_by BEFORE UPDATE ON public.order_items FO
 
 
 --
--- TOC entry 4647 (class 2620 OID 88245)
+-- TOC entry 4649 (class 2620 OID 88245)
 -- Name: orders orders_set_created_by; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8061,7 +8077,7 @@ CREATE TRIGGER orders_set_created_by BEFORE INSERT ON public.orders FOR EACH ROW
 
 
 --
--- TOC entry 4648 (class 2620 OID 88243)
+-- TOC entry 4650 (class 2620 OID 88243)
 -- Name: orders orders_set_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8069,7 +8085,7 @@ CREATE TRIGGER orders_set_updated_at BEFORE UPDATE ON public.orders FOR EACH ROW
 
 
 --
--- TOC entry 4649 (class 2620 OID 88244)
+-- TOC entry 4651 (class 2620 OID 88244)
 -- Name: orders orders_set_updated_by; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8077,7 +8093,7 @@ CREATE TRIGGER orders_set_updated_by BEFORE UPDATE ON public.orders FOR EACH ROW
 
 
 --
--- TOC entry 4658 (class 2620 OID 88351)
+-- TOC entry 4660 (class 2620 OID 88351)
 -- Name: purchase_orders po_set_created_by; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8085,7 +8101,7 @@ CREATE TRIGGER po_set_created_by BEFORE INSERT ON public.purchase_orders FOR EAC
 
 
 --
--- TOC entry 4659 (class 2620 OID 88349)
+-- TOC entry 4661 (class 2620 OID 88349)
 -- Name: purchase_orders po_set_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8093,7 +8109,7 @@ CREATE TRIGGER po_set_updated_at BEFORE UPDATE ON public.purchase_orders FOR EAC
 
 
 --
--- TOC entry 4660 (class 2620 OID 88350)
+-- TOC entry 4662 (class 2620 OID 88350)
 -- Name: purchase_orders po_set_updated_by; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8101,7 +8117,7 @@ CREATE TRIGGER po_set_updated_by BEFORE UPDATE ON public.purchase_orders FOR EAC
 
 
 --
--- TOC entry 4661 (class 2620 OID 88352)
+-- TOC entry 4663 (class 2620 OID 88352)
 -- Name: purchase_order_items poi_set_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8109,7 +8125,7 @@ CREATE TRIGGER poi_set_updated_at BEFORE UPDATE ON public.purchase_order_items F
 
 
 --
--- TOC entry 4669 (class 2620 OID 88747)
+-- TOC entry 4671 (class 2620 OID 88747)
 -- Name: shipments shipments_set_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8117,7 +8133,7 @@ CREATE TRIGGER shipments_set_updated_at BEFORE UPDATE ON public.shipments FOR EA
 
 
 --
--- TOC entry 4673 (class 2620 OID 89424)
+-- TOC entry 4675 (class 2620 OID 89424)
 -- Name: hq_info tg_hq_info_singleton; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8125,7 +8141,7 @@ CREATE TRIGGER tg_hq_info_singleton BEFORE INSERT ON public.hq_info FOR EACH ROW
 
 
 --
--- TOC entry 4674 (class 2620 OID 89422)
+-- TOC entry 4676 (class 2620 OID 89422)
 -- Name: hq_info tg_hq_info_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8133,7 +8149,7 @@ CREATE TRIGGER tg_hq_info_updated_at BEFORE UPDATE ON public.hq_info FOR EACH RO
 
 
 --
--- TOC entry 4646 (class 2620 OID 85988)
+-- TOC entry 4648 (class 2620 OID 85988)
 -- Name: audit_log trg_audit_log_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8141,7 +8157,7 @@ CREATE TRIGGER trg_audit_log_updated_at BEFORE UPDATE ON public.audit_log FOR EA
 
 
 --
--- TOC entry 4637 (class 2620 OID 82919)
+-- TOC entry 4639 (class 2620 OID 82919)
 -- Name: brands trg_brands_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8149,7 +8165,7 @@ CREATE TRIGGER trg_brands_updated_at BEFORE UPDATE ON public.brands FOR EACH ROW
 
 
 --
--- TOC entry 4636 (class 2620 OID 82918)
+-- TOC entry 4638 (class 2620 OID 82918)
 -- Name: categories trg_categories_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8157,7 +8173,7 @@ CREATE TRIGGER trg_categories_updated_at BEFORE UPDATE ON public.categories FOR 
 
 
 --
--- TOC entry 4641 (class 2620 OID 82923)
+-- TOC entry 4643 (class 2620 OID 82923)
 -- Name: distributors trg_distributors_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8165,7 +8181,7 @@ CREATE TRIGGER trg_distributors_updated_at BEFORE UPDATE ON public.distributors 
 
 
 --
--- TOC entry 4665 (class 2620 OID 88506)
+-- TOC entry 4667 (class 2620 OID 88506)
 -- Name: unique_codes trg_enforce_case_assignment; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8173,7 +8189,7 @@ CREATE TRIGGER trg_enforce_case_assignment BEFORE INSERT OR UPDATE OF case_id ON
 
 
 --
--- TOC entry 4638 (class 2620 OID 82920)
+-- TOC entry 4640 (class 2620 OID 82920)
 -- Name: product_groups trg_groups_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8181,7 +8197,7 @@ CREATE TRIGGER trg_groups_updated_at BEFORE UPDATE ON public.product_groups FOR 
 
 
 --
--- TOC entry 4640 (class 2620 OID 82922)
+-- TOC entry 4642 (class 2620 OID 82922)
 -- Name: manufacturers trg_manufacturers_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8189,7 +8205,7 @@ CREATE TRIGGER trg_manufacturers_updated_at BEFORE UPDATE ON public.manufacturer
 
 
 --
--- TOC entry 4644 (class 2620 OID 82967)
+-- TOC entry 4646 (class 2620 OID 82967)
 -- Name: product_variants trg_product_variants_assign_sku; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8197,7 +8213,7 @@ CREATE TRIGGER trg_product_variants_assign_sku BEFORE INSERT ON public.product_v
 
 
 --
--- TOC entry 4645 (class 2620 OID 82968)
+-- TOC entry 4647 (class 2620 OID 82968)
 -- Name: product_variants trg_product_variants_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8205,7 +8221,7 @@ CREATE TRIGGER trg_product_variants_updated_at BEFORE UPDATE ON public.product_v
 
 
 --
--- TOC entry 4643 (class 2620 OID 82925)
+-- TOC entry 4645 (class 2620 OID 82925)
 -- Name: products trg_products_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8213,7 +8229,7 @@ CREATE TRIGGER trg_products_updated_at BEFORE UPDATE ON public.products FOR EACH
 
 
 --
--- TOC entry 4634 (class 2620 OID 84459)
+-- TOC entry 4636 (class 2620 OID 84459)
 -- Name: profiles trg_profiles_parent; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8221,7 +8237,7 @@ CREATE TRIGGER trg_profiles_parent BEFORE INSERT OR UPDATE ON public.profiles FO
 
 
 --
--- TOC entry 4635 (class 2620 OID 82726)
+-- TOC entry 4637 (class 2620 OID 82726)
 -- Name: profiles trg_profiles_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8229,7 +8245,7 @@ CREATE TRIGGER trg_profiles_updated_at BEFORE UPDATE ON public.profiles FOR EACH
 
 
 --
--- TOC entry 4642 (class 2620 OID 82924)
+-- TOC entry 4644 (class 2620 OID 82924)
 -- Name: shops trg_shops_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8237,7 +8253,7 @@ CREATE TRIGGER trg_shops_updated_at BEFORE UPDATE ON public.shops FOR EACH ROW E
 
 
 --
--- TOC entry 4639 (class 2620 OID 82921)
+-- TOC entry 4641 (class 2620 OID 82921)
 -- Name: product_subgroups trg_subgroups_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8245,7 +8261,7 @@ CREATE TRIGGER trg_subgroups_updated_at BEFORE UPDATE ON public.product_subgroup
 
 
 --
--- TOC entry 4666 (class 2620 OID 88458)
+-- TOC entry 4668 (class 2620 OID 88458)
 -- Name: unique_codes unique_codes_set_created_by; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8253,7 +8269,7 @@ CREATE TRIGGER unique_codes_set_created_by BEFORE INSERT ON public.unique_codes 
 
 
 --
--- TOC entry 4667 (class 2620 OID 88454)
+-- TOC entry 4669 (class 2620 OID 88454)
 -- Name: unique_codes unique_codes_set_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8261,7 +8277,7 @@ CREATE TRIGGER unique_codes_set_updated_at BEFORE UPDATE ON public.unique_codes 
 
 
 --
--- TOC entry 4668 (class 2620 OID 88456)
+-- TOC entry 4670 (class 2620 OID 88456)
 -- Name: unique_codes unique_codes_set_updated_by; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -8269,7 +8285,7 @@ CREATE TRIGGER unique_codes_set_updated_by BEFORE UPDATE ON public.unique_codes 
 
 
 --
--- TOC entry 4627 (class 2620 OID 48029)
+-- TOC entry 4629 (class 2620 OID 48029)
 -- Name: buckets enforce_bucket_name_length_trigger; Type: TRIGGER; Schema: storage; Owner: -
 --
 
@@ -8277,7 +8293,7 @@ CREATE TRIGGER enforce_bucket_name_length_trigger BEFORE INSERT OR UPDATE OF nam
 
 
 --
--- TOC entry 4628 (class 2620 OID 82195)
+-- TOC entry 4630 (class 2620 OID 82195)
 -- Name: objects objects_delete_delete_prefix; Type: TRIGGER; Schema: storage; Owner: -
 --
 
@@ -8285,7 +8301,7 @@ CREATE TRIGGER objects_delete_delete_prefix AFTER DELETE ON storage.objects FOR 
 
 
 --
--- TOC entry 4629 (class 2620 OID 48015)
+-- TOC entry 4631 (class 2620 OID 48015)
 -- Name: objects objects_insert_create_prefix; Type: TRIGGER; Schema: storage; Owner: -
 --
 
@@ -8293,7 +8309,7 @@ CREATE TRIGGER objects_insert_create_prefix BEFORE INSERT ON storage.objects FOR
 
 
 --
--- TOC entry 4630 (class 2620 OID 82194)
+-- TOC entry 4632 (class 2620 OID 82194)
 -- Name: objects objects_update_create_prefix; Type: TRIGGER; Schema: storage; Owner: -
 --
 
@@ -8301,7 +8317,7 @@ CREATE TRIGGER objects_update_create_prefix BEFORE UPDATE ON storage.objects FOR
 
 
 --
--- TOC entry 4632 (class 2620 OID 48025)
+-- TOC entry 4634 (class 2620 OID 48025)
 -- Name: prefixes prefixes_create_hierarchy; Type: TRIGGER; Schema: storage; Owner: -
 --
 
@@ -8309,7 +8325,7 @@ CREATE TRIGGER prefixes_create_hierarchy BEFORE INSERT ON storage.prefixes FOR E
 
 
 --
--- TOC entry 4633 (class 2620 OID 82196)
+-- TOC entry 4635 (class 2620 OID 82196)
 -- Name: prefixes prefixes_delete_hierarchy; Type: TRIGGER; Schema: storage; Owner: -
 --
 
@@ -8317,7 +8333,7 @@ CREATE TRIGGER prefixes_delete_hierarchy AFTER DELETE ON storage.prefixes FOR EA
 
 
 --
--- TOC entry 4631 (class 2620 OID 17103)
+-- TOC entry 4633 (class 2620 OID 17103)
 -- Name: objects update_objects_updated_at; Type: TRIGGER; Schema: storage; Owner: -
 --
 
@@ -8325,7 +8341,7 @@ CREATE TRIGGER update_objects_updated_at BEFORE UPDATE ON storage.objects FOR EA
 
 
 --
--- TOC entry 4599 (class 2606 OID 85976)
+-- TOC entry 4601 (class 2606 OID 85976)
 -- Name: audit_log audit_log_performed_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8334,7 +8350,7 @@ ALTER TABLE ONLY public.audit_log
 
 
 --
--- TOC entry 4575 (class 2606 OID 85894)
+-- TOC entry 4577 (class 2606 OID 85894)
 -- Name: brands brands_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8343,7 +8359,7 @@ ALTER TABLE ONLY public.brands
 
 
 --
--- TOC entry 4611 (class 2606 OID 88428)
+-- TOC entry 4613 (class 2606 OID 88428)
 -- Name: cases cases_po_item_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8352,7 +8368,7 @@ ALTER TABLE ONLY public.cases
 
 
 --
--- TOC entry 4579 (class 2606 OID 87225)
+-- TOC entry 4581 (class 2606 OID 87225)
 -- Name: distributors distributors_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8361,7 +8377,7 @@ ALTER TABLE ONLY public.distributors
 
 
 --
--- TOC entry 4622 (class 2606 OID 88835)
+-- TOC entry 4624 (class 2606 OID 88835)
 -- Name: lucky_draw_participants ldp_campaign_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8370,7 +8386,7 @@ ALTER TABLE ONLY public.lucky_draw_participants
 
 
 --
--- TOC entry 4623 (class 2606 OID 88825)
+-- TOC entry 4625 (class 2606 OID 88825)
 -- Name: lucky_draw_participants ldp_unique_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8379,7 +8395,7 @@ ALTER TABLE ONLY public.lucky_draw_participants
 
 
 --
--- TOC entry 4583 (class 2606 OID 82854)
+-- TOC entry 4585 (class 2606 OID 82854)
 -- Name: manufacturer_users manufacturer_users_manufacturer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8388,7 +8404,7 @@ ALTER TABLE ONLY public.manufacturer_users
 
 
 --
--- TOC entry 4584 (class 2606 OID 82859)
+-- TOC entry 4586 (class 2606 OID 82859)
 -- Name: manufacturer_users manufacturer_users_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8397,7 +8413,7 @@ ALTER TABLE ONLY public.manufacturer_users
 
 
 --
--- TOC entry 4578 (class 2606 OID 86116)
+-- TOC entry 4580 (class 2606 OID 86116)
 -- Name: manufacturers manufacturers_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8406,7 +8422,7 @@ ALTER TABLE ONLY public.manufacturers
 
 
 --
--- TOC entry 4593 (class 2606 OID 83006)
+-- TOC entry 4595 (class 2606 OID 83006)
 -- Name: master_daerah master_daerah_negeri_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8415,7 +8431,7 @@ ALTER TABLE ONLY public.master_daerah
 
 
 --
--- TOC entry 4601 (class 2606 OID 88238)
+-- TOC entry 4603 (class 2606 OID 88238)
 -- Name: order_items order_items_order_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8424,7 +8440,7 @@ ALTER TABLE ONLY public.order_items
 
 
 --
--- TOC entry 4602 (class 2606 OID 88228)
+-- TOC entry 4604 (class 2606 OID 88228)
 -- Name: order_items order_items_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8433,7 +8449,7 @@ ALTER TABLE ONLY public.order_items
 
 
 --
--- TOC entry 4603 (class 2606 OID 88233)
+-- TOC entry 4605 (class 2606 OID 88233)
 -- Name: order_items order_items_variant_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8442,7 +8458,7 @@ ALTER TABLE ONLY public.order_items
 
 
 --
--- TOC entry 4600 (class 2606 OID 88223)
+-- TOC entry 4602 (class 2606 OID 88223)
 -- Name: orders orders_manufacturer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8451,7 +8467,7 @@ ALTER TABLE ONLY public.orders
 
 
 --
--- TOC entry 4610 (class 2606 OID 88329)
+-- TOC entry 4612 (class 2606 OID 88329)
 -- Name: po_status_history po_status_history_po_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8460,7 +8476,7 @@ ALTER TABLE ONLY public.po_status_history
 
 
 --
--- TOC entry 4606 (class 2606 OID 88334)
+-- TOC entry 4608 (class 2606 OID 88334)
 -- Name: purchase_order_items poi_order_item_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8469,7 +8485,7 @@ ALTER TABLE ONLY public.purchase_order_items
 
 
 --
--- TOC entry 4607 (class 2606 OID 88324)
+-- TOC entry 4609 (class 2606 OID 88324)
 -- Name: purchase_order_items poi_po_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8478,7 +8494,7 @@ ALTER TABLE ONLY public.purchase_order_items
 
 
 --
--- TOC entry 4608 (class 2606 OID 88339)
+-- TOC entry 4610 (class 2606 OID 88339)
 -- Name: purchase_order_items poi_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8487,7 +8503,7 @@ ALTER TABLE ONLY public.purchase_order_items
 
 
 --
--- TOC entry 4609 (class 2606 OID 88344)
+-- TOC entry 4611 (class 2606 OID 88344)
 -- Name: purchase_order_items poi_variant_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8496,7 +8512,7 @@ ALTER TABLE ONLY public.purchase_order_items
 
 
 --
--- TOC entry 4625 (class 2606 OID 88939)
+-- TOC entry 4627 (class 2606 OID 88939)
 -- Name: points_rules points_rules_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8505,7 +8521,7 @@ ALTER TABLE ONLY public.points_rules
 
 
 --
--- TOC entry 4626 (class 2606 OID 88944)
+-- TOC entry 4628 (class 2606 OID 88944)
 -- Name: points_rules points_rules_variant_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8514,7 +8530,7 @@ ALTER TABLE ONLY public.points_rules
 
 
 --
--- TOC entry 4576 (class 2606 OID 82787)
+-- TOC entry 4578 (class 2606 OID 82787)
 -- Name: product_groups product_groups_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8523,7 +8539,7 @@ ALTER TABLE ONLY public.product_groups
 
 
 --
--- TOC entry 4577 (class 2606 OID 82803)
+-- TOC entry 4579 (class 2606 OID 82803)
 -- Name: product_subgroups product_subgroups_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8532,7 +8548,7 @@ ALTER TABLE ONLY public.product_subgroups
 
 
 --
--- TOC entry 4592 (class 2606 OID 82960)
+-- TOC entry 4594 (class 2606 OID 82960)
 -- Name: product_variants product_variants_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8541,7 +8557,7 @@ ALTER TABLE ONLY public.product_variants
 
 
 --
--- TOC entry 4587 (class 2606 OID 82896)
+-- TOC entry 4589 (class 2606 OID 82896)
 -- Name: products products_brand_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8550,7 +8566,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 4588 (class 2606 OID 82891)
+-- TOC entry 4590 (class 2606 OID 82891)
 -- Name: products products_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8559,7 +8575,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 4589 (class 2606 OID 82901)
+-- TOC entry 4591 (class 2606 OID 82901)
 -- Name: products products_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8568,7 +8584,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 4590 (class 2606 OID 82911)
+-- TOC entry 4592 (class 2606 OID 82911)
 -- Name: products products_manufacturer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8577,7 +8593,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 4591 (class 2606 OID 82906)
+-- TOC entry 4593 (class 2606 OID 82906)
 -- Name: products products_sub_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8586,7 +8602,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 4572 (class 2606 OID 84446)
+-- TOC entry 4574 (class 2606 OID 84446)
 -- Name: profiles profiles_distributor_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8595,7 +8611,7 @@ ALTER TABLE ONLY public.profiles
 
 
 --
--- TOC entry 4573 (class 2606 OID 82721)
+-- TOC entry 4575 (class 2606 OID 82721)
 -- Name: profiles profiles_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8604,7 +8620,7 @@ ALTER TABLE ONLY public.profiles
 
 
 --
--- TOC entry 4574 (class 2606 OID 84451)
+-- TOC entry 4576 (class 2606 OID 84451)
 -- Name: profiles profiles_shop_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8613,7 +8629,7 @@ ALTER TABLE ONLY public.profiles
 
 
 --
--- TOC entry 4604 (class 2606 OID 88319)
+-- TOC entry 4606 (class 2606 OID 88319)
 -- Name: purchase_orders purchase_orders_manufacturer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8622,7 +8638,7 @@ ALTER TABLE ONLY public.purchase_orders
 
 
 --
--- TOC entry 4605 (class 2606 OID 88314)
+-- TOC entry 4607 (class 2606 OID 88314)
 -- Name: purchase_orders purchase_orders_order_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8631,7 +8647,7 @@ ALTER TABLE ONLY public.purchase_orders
 
 
 --
--- TOC entry 4624 (class 2606 OID 88830)
+-- TOC entry 4626 (class 2606 OID 88830)
 -- Name: redeem_claims redeem_unique_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8640,7 +8656,7 @@ ALTER TABLE ONLY public.redeem_claims
 
 
 --
--- TOC entry 4618 (class 2606 OID 88722)
+-- TOC entry 4620 (class 2606 OID 88722)
 -- Name: shipment_cases shipment_cases_case_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8649,7 +8665,7 @@ ALTER TABLE ONLY public.shipment_cases
 
 
 --
--- TOC entry 4619 (class 2606 OID 88727)
+-- TOC entry 4621 (class 2606 OID 88727)
 -- Name: shipment_cases shipment_cases_shipment_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8658,7 +8674,7 @@ ALTER TABLE ONLY public.shipment_cases
 
 
 --
--- TOC entry 4620 (class 2606 OID 88732)
+-- TOC entry 4622 (class 2606 OID 88732)
 -- Name: shipment_uniques shipment_uniques_shipment_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8667,7 +8683,7 @@ ALTER TABLE ONLY public.shipment_uniques
 
 
 --
--- TOC entry 4621 (class 2606 OID 88737)
+-- TOC entry 4623 (class 2606 OID 88737)
 -- Name: shipment_uniques shipment_uniques_unique_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8676,7 +8692,7 @@ ALTER TABLE ONLY public.shipment_uniques
 
 
 --
--- TOC entry 4616 (class 2606 OID 88717)
+-- TOC entry 4618 (class 2606 OID 88717)
 -- Name: shipments shipments_po_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8685,7 +8701,7 @@ ALTER TABLE ONLY public.shipments
 
 
 --
--- TOC entry 4617 (class 2606 OID 88742)
+-- TOC entry 4619 (class 2606 OID 88742)
 -- Name: shipments shipments_to_distributor_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8694,7 +8710,7 @@ ALTER TABLE ONLY public.shipments
 
 
 --
--- TOC entry 4585 (class 2606 OID 82874)
+-- TOC entry 4587 (class 2606 OID 82874)
 -- Name: shop_distributors shop_distributors_distributor_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8703,7 +8719,7 @@ ALTER TABLE ONLY public.shop_distributors
 
 
 --
--- TOC entry 4586 (class 2606 OID 82869)
+-- TOC entry 4588 (class 2606 OID 82869)
 -- Name: shop_distributors shop_distributors_shop_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8712,7 +8728,7 @@ ALTER TABLE ONLY public.shop_distributors
 
 
 --
--- TOC entry 4594 (class 2606 OID 84526)
+-- TOC entry 4596 (class 2606 OID 84526)
 -- Name: shop_points_ledger shop_points_ledger_shop_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8721,7 +8737,7 @@ ALTER TABLE ONLY public.shop_points_ledger
 
 
 --
--- TOC entry 4580 (class 2606 OID 87232)
+-- TOC entry 4582 (class 2606 OID 87232)
 -- Name: shops shops_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8730,7 +8746,7 @@ ALTER TABLE ONLY public.shops
 
 
 --
--- TOC entry 4581 (class 2606 OID 84411)
+-- TOC entry 4583 (class 2606 OID 84411)
 -- Name: shops shops_distributor_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8739,7 +8755,7 @@ ALTER TABLE ONLY public.shops
 
 
 --
--- TOC entry 4582 (class 2606 OID 82841)
+-- TOC entry 4584 (class 2606 OID 82841)
 -- Name: shops shops_distributor_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8748,7 +8764,7 @@ ALTER TABLE ONLY public.shops
 
 
 --
--- TOC entry 4595 (class 2606 OID 88958)
+-- TOC entry 4597 (class 2606 OID 88958)
 -- Name: shop_points_ledger spl_po_item_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8757,7 +8773,7 @@ ALTER TABLE ONLY public.shop_points_ledger
 
 
 --
--- TOC entry 4596 (class 2606 OID 88963)
+-- TOC entry 4598 (class 2606 OID 88963)
 -- Name: shop_points_ledger spl_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8766,7 +8782,7 @@ ALTER TABLE ONLY public.shop_points_ledger
 
 
 --
--- TOC entry 4597 (class 2606 OID 88953)
+-- TOC entry 4599 (class 2606 OID 88953)
 -- Name: shop_points_ledger spl_unique_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8775,7 +8791,7 @@ ALTER TABLE ONLY public.shop_points_ledger
 
 
 --
--- TOC entry 4598 (class 2606 OID 88968)
+-- TOC entry 4600 (class 2606 OID 88968)
 -- Name: shop_points_ledger spl_variant_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8784,7 +8800,7 @@ ALTER TABLE ONLY public.shop_points_ledger
 
 
 --
--- TOC entry 4612 (class 2606 OID 88438)
+-- TOC entry 4614 (class 2606 OID 88438)
 -- Name: unique_codes unique_codes_case_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8793,7 +8809,7 @@ ALTER TABLE ONLY public.unique_codes
 
 
 --
--- TOC entry 4613 (class 2606 OID 88433)
+-- TOC entry 4615 (class 2606 OID 88433)
 -- Name: unique_codes unique_codes_po_item_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8802,7 +8818,7 @@ ALTER TABLE ONLY public.unique_codes
 
 
 --
--- TOC entry 4614 (class 2606 OID 88443)
+-- TOC entry 4616 (class 2606 OID 88443)
 -- Name: unique_codes unique_codes_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8811,7 +8827,7 @@ ALTER TABLE ONLY public.unique_codes
 
 
 --
--- TOC entry 4615 (class 2606 OID 88448)
+-- TOC entry 4617 (class 2606 OID 88448)
 -- Name: unique_codes unique_codes_variant_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8820,7 +8836,7 @@ ALTER TABLE ONLY public.unique_codes
 
 
 --
--- TOC entry 4567 (class 2606 OID 16570)
+-- TOC entry 4569 (class 2606 OID 16570)
 -- Name: objects objects_bucketId_fkey; Type: FK CONSTRAINT; Schema: storage; Owner: -
 --
 
@@ -8829,7 +8845,7 @@ ALTER TABLE ONLY storage.objects
 
 
 --
--- TOC entry 4571 (class 2606 OID 48002)
+-- TOC entry 4573 (class 2606 OID 48002)
 -- Name: prefixes prefixes_bucketId_fkey; Type: FK CONSTRAINT; Schema: storage; Owner: -
 --
 
@@ -8838,7 +8854,7 @@ ALTER TABLE ONLY storage.prefixes
 
 
 --
--- TOC entry 4568 (class 2606 OID 17136)
+-- TOC entry 4570 (class 2606 OID 17136)
 -- Name: s3_multipart_uploads s3_multipart_uploads_bucket_id_fkey; Type: FK CONSTRAINT; Schema: storage; Owner: -
 --
 
@@ -8847,7 +8863,7 @@ ALTER TABLE ONLY storage.s3_multipart_uploads
 
 
 --
--- TOC entry 4569 (class 2606 OID 17156)
+-- TOC entry 4571 (class 2606 OID 17156)
 -- Name: s3_multipart_uploads_parts s3_multipart_uploads_parts_bucket_id_fkey; Type: FK CONSTRAINT; Schema: storage; Owner: -
 --
 
@@ -8856,7 +8872,7 @@ ALTER TABLE ONLY storage.s3_multipart_uploads_parts
 
 
 --
--- TOC entry 4570 (class 2606 OID 17151)
+-- TOC entry 4572 (class 2606 OID 17151)
 -- Name: s3_multipart_uploads_parts s3_multipart_uploads_parts_upload_id_fkey; Type: FK CONSTRAINT; Schema: storage; Owner: -
 --
 
@@ -8865,7 +8881,7 @@ ALTER TABLE ONLY storage.s3_multipart_uploads_parts
 
 
 --
--- TOC entry 4844 (class 0 OID 85967)
+-- TOC entry 4846 (class 0 OID 85967)
 -- Dependencies: 425
 -- Name: audit_log; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -8873,7 +8889,7 @@ ALTER TABLE ONLY storage.s3_multipart_uploads_parts
 ALTER TABLE public.audit_log ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4884 (class 3256 OID 85986)
+-- TOC entry 4886 (class 3256 OID 85986)
 -- Name: audit_log audit_log_admin_read; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -8881,7 +8897,7 @@ CREATE POLICY audit_log_admin_read ON public.audit_log FOR SELECT TO authenticat
 
 
 --
--- TOC entry 4885 (class 3256 OID 85987)
+-- TOC entry 4887 (class 3256 OID 85987)
 -- Name: audit_log audit_log_insert; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -8889,7 +8905,7 @@ CREATE POLICY audit_log_insert ON public.audit_log FOR INSERT TO authenticated W
 
 
 --
--- TOC entry 4850 (class 0 OID 88393)
+-- TOC entry 4852 (class 0 OID 88393)
 -- Dependencies: 433
 -- Name: cases; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -8897,7 +8913,7 @@ CREATE POLICY audit_log_insert ON public.audit_log FOR INSERT TO authenticated W
 ALTER TABLE public.cases ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4876 (class 3256 OID 84704)
+-- TOC entry 4878 (class 3256 OID 84704)
 -- Name: distributors dist_own_distributor; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -8909,7 +8925,7 @@ CREATE POLICY dist_own_distributor ON public.distributors USING ((id = ( SELECT 
 
 
 --
--- TOC entry 4877 (class 3256 OID 84706)
+-- TOC entry 4879 (class 3256 OID 84706)
 -- Name: shops dist_own_shops; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -8921,7 +8937,7 @@ CREATE POLICY dist_own_shops ON public.shops USING ((distributor_id = ( SELECT v
 
 
 --
--- TOC entry 4883 (class 3256 OID 84755)
+-- TOC entry 4885 (class 3256 OID 84755)
 -- Name: distributors distributors_admin_delete; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -8929,7 +8945,7 @@ CREATE POLICY distributors_admin_delete ON public.distributors FOR DELETE TO aut
 
 
 --
--- TOC entry 4881 (class 3256 OID 84753)
+-- TOC entry 4883 (class 3256 OID 84753)
 -- Name: distributors distributors_admin_insert; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -8937,7 +8953,7 @@ CREATE POLICY distributors_admin_insert ON public.distributors FOR INSERT TO aut
 
 
 --
--- TOC entry 4880 (class 3256 OID 84752)
+-- TOC entry 4882 (class 3256 OID 84752)
 -- Name: distributors distributors_admin_read_all; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -8945,7 +8961,7 @@ CREATE POLICY distributors_admin_read_all ON public.distributors FOR SELECT TO a
 
 
 --
--- TOC entry 4882 (class 3256 OID 84754)
+-- TOC entry 4884 (class 3256 OID 84754)
 -- Name: distributors distributors_admin_update; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -8953,7 +8969,7 @@ CREATE POLICY distributors_admin_update ON public.distributors FOR UPDATE TO aut
 
 
 --
--- TOC entry 4875 (class 3256 OID 84702)
+-- TOC entry 4877 (class 3256 OID 84702)
 -- Name: shop_points_ledger hq_all_points; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -8965,7 +8981,7 @@ CREATE POLICY hq_all_points ON public.shop_points_ledger USING ((EXISTS ( SELECT
 
 
 --
--- TOC entry 4874 (class 3256 OID 84700)
+-- TOC entry 4876 (class 3256 OID 84700)
 -- Name: profiles hq_all_profiles; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -8977,7 +8993,7 @@ CREATE POLICY hq_all_profiles ON public.profiles USING ((EXISTS ( SELECT 1
 
 
 --
--- TOC entry 4873 (class 3256 OID 84698)
+-- TOC entry 4875 (class 3256 OID 84698)
 -- Name: shops hq_all_shops; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -8989,7 +9005,7 @@ CREATE POLICY hq_all_shops ON public.shops USING ((EXISTS ( SELECT 1
 
 
 --
--- TOC entry 4856 (class 0 OID 88789)
+-- TOC entry 4858 (class 0 OID 88789)
 -- Dependencies: 442
 -- Name: lucky_draw_campaigns; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -8997,7 +9013,7 @@ CREATE POLICY hq_all_shops ON public.shops USING ((EXISTS ( SELECT 1
 ALTER TABLE public.lucky_draw_campaigns ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4857 (class 0 OID 88803)
+-- TOC entry 4859 (class 0 OID 88803)
 -- Dependencies: 443
 -- Name: lucky_draw_participants; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -9005,7 +9021,7 @@ ALTER TABLE public.lucky_draw_campaigns ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.lucky_draw_participants ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4855 (class 0 OID 88703)
+-- TOC entry 4857 (class 0 OID 88703)
 -- Dependencies: 441
 -- Name: movement_events; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -9013,7 +9029,7 @@ ALTER TABLE public.lucky_draw_participants ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.movement_events ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4846 (class 0 OID 88204)
+-- TOC entry 4848 (class 0 OID 88204)
 -- Dependencies: 427
 -- Name: order_items; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -9021,7 +9037,7 @@ ALTER TABLE public.movement_events ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.order_items ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4845 (class 0 OID 88191)
+-- TOC entry 4847 (class 0 OID 88191)
 -- Dependencies: 426
 -- Name: orders; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -9029,7 +9045,7 @@ ALTER TABLE public.order_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4849 (class 0 OID 88304)
+-- TOC entry 4851 (class 0 OID 88304)
 -- Dependencies: 430
 -- Name: po_status_history; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -9037,7 +9053,7 @@ ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.po_status_history ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4859 (class 0 OID 88921)
+-- TOC entry 4861 (class 0 OID 88921)
 -- Dependencies: 447
 -- Name: points_config; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -9045,7 +9061,7 @@ ALTER TABLE public.po_status_history ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.points_config ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4860 (class 0 OID 88929)
+-- TOC entry 4862 (class 0 OID 88929)
 -- Dependencies: 448
 -- Name: points_rules; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -9053,7 +9069,7 @@ ALTER TABLE public.points_config ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.points_rules ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4879 (class 3256 OID 84709)
+-- TOC entry 4881 (class 3256 OID 84709)
 -- Name: shop_points_ledger points_same_distributor; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -9064,7 +9080,7 @@ CREATE POLICY points_same_distributor ON public.shop_points_ledger USING ((EXIST
 
 
 --
--- TOC entry 4842 (class 0 OID 82712)
+-- TOC entry 4844 (class 0 OID 82712)
 -- Dependencies: 399
 -- Name: profiles; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -9072,7 +9088,7 @@ CREATE POLICY points_same_distributor ON public.shop_points_ledger USING ((EXIST
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4868 (class 3256 OID 82729)
+-- TOC entry 4870 (class 3256 OID 82729)
 -- Name: profiles profiles_admin_read_all; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -9080,7 +9096,7 @@ CREATE POLICY profiles_admin_read_all ON public.profiles FOR SELECT TO authentic
 
 
 --
--- TOC entry 4866 (class 3256 OID 82727)
+-- TOC entry 4868 (class 3256 OID 82727)
 -- Name: profiles profiles_self_select; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -9088,7 +9104,7 @@ CREATE POLICY profiles_self_select ON public.profiles FOR SELECT TO authenticate
 
 
 --
--- TOC entry 4867 (class 3256 OID 82728)
+-- TOC entry 4869 (class 3256 OID 82728)
 -- Name: profiles profiles_self_update; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -9096,7 +9112,7 @@ CREATE POLICY profiles_self_update ON public.profiles FOR UPDATE TO authenticate
 
 
 --
--- TOC entry 4848 (class 0 OID 88289)
+-- TOC entry 4850 (class 0 OID 88289)
 -- Dependencies: 429
 -- Name: purchase_order_items; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -9104,7 +9120,7 @@ CREATE POLICY profiles_self_update ON public.profiles FOR UPDATE TO authenticate
 ALTER TABLE public.purchase_order_items ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4847 (class 0 OID 88274)
+-- TOC entry 4849 (class 0 OID 88274)
 -- Dependencies: 428
 -- Name: purchase_orders; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -9112,7 +9128,7 @@ ALTER TABLE public.purchase_order_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.purchase_orders ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4858 (class 0 OID 88814)
+-- TOC entry 4860 (class 0 OID 88814)
 -- Dependencies: 444
 -- Name: redeem_claims; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -9120,7 +9136,7 @@ ALTER TABLE public.purchase_orders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.redeem_claims ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4878 (class 3256 OID 84708)
+-- TOC entry 4880 (class 3256 OID 84708)
 -- Name: profiles self_profile_rw; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -9128,7 +9144,7 @@ CREATE POLICY self_profile_rw ON public.profiles USING ((id = auth.uid())) WITH 
 
 
 --
--- TOC entry 4853 (class 0 OID 88683)
+-- TOC entry 4855 (class 0 OID 88683)
 -- Dependencies: 439
 -- Name: shipment_cases; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -9136,7 +9152,7 @@ CREATE POLICY self_profile_rw ON public.profiles USING ((id = auth.uid())) WITH 
 ALTER TABLE public.shipment_cases ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4854 (class 0 OID 88693)
+-- TOC entry 4856 (class 0 OID 88693)
 -- Dependencies: 440
 -- Name: shipment_uniques; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -9144,7 +9160,7 @@ ALTER TABLE public.shipment_cases ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.shipment_uniques ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4852 (class 0 OID 88669)
+-- TOC entry 4854 (class 0 OID 88669)
 -- Dependencies: 438
 -- Name: shipments; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -9152,7 +9168,7 @@ ALTER TABLE public.shipment_uniques ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.shipments ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4843 (class 0 OID 84311)
+-- TOC entry 4845 (class 0 OID 84311)
 -- Dependencies: 415
 -- Name: shop_points_ledger; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -9160,7 +9176,7 @@ ALTER TABLE public.shipments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.shop_points_ledger ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4851 (class 0 OID 88411)
+-- TOC entry 4853 (class 0 OID 88411)
 -- Dependencies: 434
 -- Name: unique_codes; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -9168,7 +9184,7 @@ ALTER TABLE public.shop_points_ledger ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.unique_codes ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4869 (class 3256 OID 49854)
+-- TOC entry 4871 (class 3256 OID 49854)
 -- Name: objects Allow anonymous uploads to product-images; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9176,7 +9192,7 @@ CREATE POLICY "Allow anonymous uploads to product-images" ON storage.objects FOR
 
 
 --
--- TOC entry 4870 (class 3256 OID 49855)
+-- TOC entry 4872 (class 3256 OID 49855)
 -- Name: objects Allow public access to product-images; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9184,7 +9200,7 @@ CREATE POLICY "Allow public access to product-images" ON storage.objects FOR SEL
 
 
 --
--- TOC entry 4835 (class 0 OID 16544)
+-- TOC entry 4837 (class 0 OID 16544)
 -- Dependencies: 361
 -- Name: buckets; Type: ROW SECURITY; Schema: storage; Owner: -
 --
@@ -9192,7 +9208,7 @@ CREATE POLICY "Allow public access to product-images" ON storage.objects FOR SEL
 ALTER TABLE storage.buckets ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4841 (class 0 OID 48036)
+-- TOC entry 4843 (class 0 OID 48036)
 -- Dependencies: 391
 -- Name: buckets_analytics; Type: ROW SECURITY; Schema: storage; Owner: -
 --
@@ -9200,7 +9216,7 @@ ALTER TABLE storage.buckets ENABLE ROW LEVEL SECURITY;
 ALTER TABLE storage.buckets_analytics ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4899 (class 3256 OID 70396)
+-- TOC entry 4901 (class 3256 OID 70396)
 -- Name: objects campaign_images_public_read; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9208,7 +9224,7 @@ CREATE POLICY campaign_images_public_read ON storage.objects FOR SELECT USING ((
 
 
 --
--- TOC entry 4902 (class 3256 OID 70420)
+-- TOC entry 4904 (class 3256 OID 70420)
 -- Name: objects campaign_images_write_delete; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9216,7 +9232,7 @@ CREATE POLICY campaign_images_write_delete ON storage.objects FOR DELETE TO auth
 
 
 --
--- TOC entry 4900 (class 3256 OID 70418)
+-- TOC entry 4902 (class 3256 OID 70418)
 -- Name: objects campaign_images_write_insert; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9224,7 +9240,7 @@ CREATE POLICY campaign_images_write_insert ON storage.objects FOR INSERT TO auth
 
 
 --
--- TOC entry 4901 (class 3256 OID 70419)
+-- TOC entry 4903 (class 3256 OID 70419)
 -- Name: objects campaign_images_write_update; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9232,7 +9248,7 @@ CREATE POLICY campaign_images_write_update ON storage.objects FOR UPDATE TO auth
 
 
 --
--- TOC entry 4837 (class 0 OID 16586)
+-- TOC entry 4839 (class 0 OID 16586)
 -- Dependencies: 363
 -- Name: migrations; Type: ROW SECURITY; Schema: storage; Owner: -
 --
@@ -9240,7 +9256,7 @@ CREATE POLICY campaign_images_write_update ON storage.objects FOR UPDATE TO auth
 ALTER TABLE storage.migrations ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4836 (class 0 OID 16559)
+-- TOC entry 4838 (class 0 OID 16559)
 -- Dependencies: 362
 -- Name: objects; Type: ROW SECURITY; Schema: storage; Owner: -
 --
@@ -9248,7 +9264,7 @@ ALTER TABLE storage.migrations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4840 (class 0 OID 47992)
+-- TOC entry 4842 (class 0 OID 47992)
 -- Dependencies: 390
 -- Name: prefixes; Type: ROW SECURITY; Schema: storage; Owner: -
 --
@@ -9256,7 +9272,7 @@ ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
 ALTER TABLE storage.prefixes ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4862 (class 3256 OID 67241)
+-- TOC entry 4864 (class 3256 OID 67241)
 -- Name: objects prizes delete; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9264,7 +9280,7 @@ CREATE POLICY "prizes delete" ON storage.objects FOR DELETE TO authenticated USI
 
 
 --
--- TOC entry 4886 (class 3256 OID 67238)
+-- TOC entry 4888 (class 3256 OID 67238)
 -- Name: objects prizes read; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9272,7 +9288,7 @@ CREATE POLICY "prizes read" ON storage.objects FOR SELECT USING ((bucket_id = 'p
 
 
 --
--- TOC entry 4888 (class 3256 OID 67240)
+-- TOC entry 4890 (class 3256 OID 67240)
 -- Name: objects prizes update; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9280,7 +9296,7 @@ CREATE POLICY "prizes update" ON storage.objects FOR UPDATE TO authenticated USI
 
 
 --
--- TOC entry 4887 (class 3256 OID 67239)
+-- TOC entry 4889 (class 3256 OID 67239)
 -- Name: objects prizes write; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9288,7 +9304,7 @@ CREATE POLICY "prizes write" ON storage.objects FOR INSERT TO authenticated WITH
 
 
 --
--- TOC entry 4865 (class 3256 OID 67392)
+-- TOC entry 4867 (class 3256 OID 67392)
 -- Name: objects prizes_delete_auth; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9296,7 +9312,7 @@ CREATE POLICY prizes_delete_auth ON storage.objects FOR DELETE TO authenticated 
 
 
 --
--- TOC entry 4863 (class 3256 OID 67390)
+-- TOC entry 4865 (class 3256 OID 67390)
 -- Name: objects prizes_insert_auth; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9304,7 +9320,7 @@ CREATE POLICY prizes_insert_auth ON storage.objects FOR INSERT TO authenticated 
 
 
 --
--- TOC entry 4889 (class 3256 OID 67388)
+-- TOC entry 4891 (class 3256 OID 67388)
 -- Name: objects prizes_read_anon; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9312,7 +9328,7 @@ CREATE POLICY prizes_read_anon ON storage.objects FOR SELECT TO anon USING ((buc
 
 
 --
--- TOC entry 4861 (class 3256 OID 67389)
+-- TOC entry 4863 (class 3256 OID 67389)
 -- Name: objects prizes_read_auth; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9320,7 +9336,7 @@ CREATE POLICY prizes_read_auth ON storage.objects FOR SELECT TO authenticated US
 
 
 --
--- TOC entry 4864 (class 3256 OID 67391)
+-- TOC entry 4866 (class 3256 OID 67391)
 -- Name: objects prizes_update_auth; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9328,7 +9344,7 @@ CREATE POLICY prizes_update_auth ON storage.objects FOR UPDATE TO authenticated 
 
 
 --
--- TOC entry 4871 (class 3256 OID 49879)
+-- TOC entry 4873 (class 3256 OID 49879)
 -- Name: objects product_images_authenticated_write; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9336,7 +9352,7 @@ CREATE POLICY product_images_authenticated_write ON storage.objects FOR INSERT T
 
 
 --
--- TOC entry 4898 (class 3256 OID 70190)
+-- TOC entry 4900 (class 3256 OID 70190)
 -- Name: objects product_images_authenticated_write_delete; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9344,7 +9360,7 @@ CREATE POLICY product_images_authenticated_write_delete ON storage.objects FOR D
 
 
 --
--- TOC entry 4896 (class 3256 OID 70188)
+-- TOC entry 4898 (class 3256 OID 70188)
 -- Name: objects product_images_authenticated_write_insert; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9352,7 +9368,7 @@ CREATE POLICY product_images_authenticated_write_insert ON storage.objects FOR I
 
 
 --
--- TOC entry 4897 (class 3256 OID 70189)
+-- TOC entry 4899 (class 3256 OID 70189)
 -- Name: objects product_images_authenticated_write_update; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9360,7 +9376,7 @@ CREATE POLICY product_images_authenticated_write_update ON storage.objects FOR U
 
 
 --
--- TOC entry 4895 (class 3256 OID 69976)
+-- TOC entry 4897 (class 3256 OID 69976)
 -- Name: objects product_images_hq_power_delete; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9368,7 +9384,7 @@ CREATE POLICY product_images_hq_power_delete ON storage.objects FOR DELETE TO au
 
 
 --
--- TOC entry 4893 (class 3256 OID 69974)
+-- TOC entry 4895 (class 3256 OID 69974)
 -- Name: objects product_images_hq_power_insert; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9376,7 +9392,7 @@ CREATE POLICY product_images_hq_power_insert ON storage.objects FOR INSERT TO au
 
 
 --
--- TOC entry 4894 (class 3256 OID 69975)
+-- TOC entry 4896 (class 3256 OID 69975)
 -- Name: objects product_images_hq_power_update; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9384,7 +9400,7 @@ CREATE POLICY product_images_hq_power_update ON storage.objects FOR UPDATE TO au
 
 
 --
--- TOC entry 4872 (class 3256 OID 49880)
+-- TOC entry 4874 (class 3256 OID 49880)
 -- Name: objects product_images_public_read; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9392,7 +9408,7 @@ CREATE POLICY product_images_public_read ON storage.objects FOR SELECT USING ((b
 
 
 --
--- TOC entry 4892 (class 3256 OID 69952)
+-- TOC entry 4894 (class 3256 OID 69952)
 -- Name: objects product_images_server_write_delete; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9400,7 +9416,7 @@ CREATE POLICY product_images_server_write_delete ON storage.objects FOR DELETE T
 
 
 --
--- TOC entry 4890 (class 3256 OID 69908)
+-- TOC entry 4892 (class 3256 OID 69908)
 -- Name: objects product_images_server_write_insert; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9408,7 +9424,7 @@ CREATE POLICY product_images_server_write_insert ON storage.objects FOR INSERT T
 
 
 --
--- TOC entry 4891 (class 3256 OID 69930)
+-- TOC entry 4893 (class 3256 OID 69930)
 -- Name: objects product_images_server_write_update; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -9416,7 +9432,7 @@ CREATE POLICY product_images_server_write_update ON storage.objects FOR UPDATE T
 
 
 --
--- TOC entry 4838 (class 0 OID 17126)
+-- TOC entry 4840 (class 0 OID 17126)
 -- Dependencies: 384
 -- Name: s3_multipart_uploads; Type: ROW SECURITY; Schema: storage; Owner: -
 --
@@ -9424,18 +9440,18 @@ CREATE POLICY product_images_server_write_update ON storage.objects FOR UPDATE T
 ALTER TABLE storage.s3_multipart_uploads ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 4839 (class 0 OID 17141)
+-- TOC entry 4841 (class 0 OID 17141)
 -- Dependencies: 385
 -- Name: s3_multipart_uploads_parts; Type: ROW SECURITY; Schema: storage; Owner: -
 --
 
 ALTER TABLE storage.s3_multipart_uploads_parts ENABLE ROW LEVEL SECURITY;
 
--- Completed on 2025-09-28 21:57:59 +08
+-- Completed on 2025-09-29 08:20:32 +08
 
 --
 -- PostgreSQL database dump complete
 --
 
-\unrestrict SgTdZxUapFcpeuijmN6DP5WVmeLBu4Sqee7OCWspt21tntgT7vFR1gm4IdObLXJ
+\unrestrict SxxrzlKFWGyJvJdQa9cIRiiaTlNCRQ5eDVXABhbl9LCcz338FTsbB0Mpt72wFbC
 

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,9 +10,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { EmptyState } from "@/components/ui/empty-state";
 import { FormDialog } from "@/components/ui/form-dialog";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Edit, Trash2, Tag, Package, Layers, Layers3, Box, Building2, Users } from "lucide-react";
+import { Plus, Edit, Trash2, Tag, Package, Layers, Layers3, Box } from "lucide-react";
 import { toast } from "sonner";
-import ManufacturerFormModal from "./ManufacturerFormModal";
 import {
   getCategories,
   createCategory,
@@ -30,7 +29,6 @@ import {
   createProductSubGroup,
   updateProductSubGroup,
   deleteProductSubGroup,
-  getManufacturers,
   getProducts,
   getProductVariants,
   createProductVariant,
@@ -42,7 +40,6 @@ import {
   BrandWithCategory,
   ProductGroupWithCategory,
   ProductSubGroupWithGroup,
-  Manufacturer,
   Product,
   ProductVariantWithProduct,
   TabKey,
@@ -55,8 +52,6 @@ import {
 
 export function MasterDataTabs({ onCreateProduct }: { onCreateProduct?: () => void }) {
   const [activeTab, setActiveTab] = useState<TabKey>("categories");
-  const [showManufacturerModal, setShowManufacturerModal] = useState(false);
-  const [editingManufacturer, setEditingManufacturer] = useState<Manufacturer | null>(null);
 
   // Categories state
   const [categories, setCategories] = useState<Category[]>([]);
@@ -84,9 +79,6 @@ export function MasterDataTabs({ onCreateProduct }: { onCreateProduct?: () => vo
   const [editingSubGroup, setEditingSubGroup] = useState<ProductSubGroupWithGroup | null>(null);
   const [subGroupForm, setSubGroupForm] = useState<ProductSubGroupForm>({ name: "", group_id: "" });
   const [isSubGroupSubmitting, setIsSubGroupSubmitting] = useState(false);
-
-  // Manufacturers state
-  const [manufacturers, setManufacturers] = useState<Manufacturer[]>([]);
 
   // Variants state
   const [products, setProducts] = useState<Product[]>([]);
@@ -116,7 +108,6 @@ export function MasterDataTabs({ onCreateProduct }: { onCreateProduct?: () => vo
         brandsData,
         groupsData,
         subGroupsData,
-        manufacturersData,
         productsData,
         variantsData
       ] = await Promise.all([
@@ -124,7 +115,6 @@ export function MasterDataTabs({ onCreateProduct }: { onCreateProduct?: () => vo
         getBrands(),
         getProductGroups(),
         getProductSubGroups(),
-        getManufacturers(),
         getProducts(),
         getProductVariants()
       ]);
@@ -143,7 +133,6 @@ export function MasterDataTabs({ onCreateProduct }: { onCreateProduct?: () => vo
         group: Array.isArray(subGroup.group) ? subGroup.group[0] : subGroup.group,
       }));
       setProductSubGroups(transformedSubGroups);
-      setManufacturers(manufacturersData || []);
       // Transform products data
       const transformedProducts = (productsData || []).map(product => ({
         ...product,
@@ -167,7 +156,6 @@ export function MasterDataTabs({ onCreateProduct }: { onCreateProduct?: () => vo
       setBrands([]);
       setProductGroups([]);
       setProductSubGroups([]);
-      setManufacturers([]);
       setProducts([]);
       setProductVariants([]);
     }
@@ -482,30 +470,19 @@ export function MasterDataTabs({ onCreateProduct }: { onCreateProduct?: () => vo
     }
   };
 
-  const handleCreateManufacturer = () => {
-    setEditingManufacturer(null);
-    setShowManufacturerModal(true);
-  };
-
-  const handleManufacturerSuccess = () => {
-    setShowManufacturerModal(false);
-    setEditingManufacturer(null);
-    // Refresh data would happen here
-  };
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-xl font-semibold">Master Data Management</h2>
           <p className="text-sm text-gray-500">
-            Manage categories, brands, groups, manufacturers, and other master data
+            Manage categories, brands, groups, and other master data
           </p>
         </div>
       </div>
 
       <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as TabKey)}>
-        <TabsList className="grid w-full grid-cols-7">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="categories" className="flex items-center gap-2">
             <Tag className="h-4 w-4" />
             Categories
@@ -525,14 +502,6 @@ export function MasterDataTabs({ onCreateProduct }: { onCreateProduct?: () => vo
           <TabsTrigger value="variants" className="flex items-center gap-2">
             <Box className="h-4 w-4" />
             Variants
-          </TabsTrigger>
-          <TabsTrigger value="manufacturers" className="flex items-center gap-2">
-            <Building2 className="h-4 w-4" />
-            Manufacturers
-          </TabsTrigger>
-          <TabsTrigger value="distributors" className="flex items-center gap-2">
-            <Users className="h-4 w-4" />
-            Distributors
           </TabsTrigger>
         </TabsList>
 
@@ -761,80 +730,6 @@ export function MasterDataTabs({ onCreateProduct }: { onCreateProduct?: () => vo
               ))}
             </div>
           )}
-        </TabsContent>
-
-        <TabsContent value="manufacturers" className="space-y-4">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-            <h2 className="text-2xl font-bold">Manufacturers</h2>
-            <Button onClick={handleCreateManufacturer} variant="primary" className="w-full sm:w-auto" size="sm" data-testid="cta-create-manufacturer">
-              <Plus className="w-4 h-4 mr-2" />
-              Add Manufacturer
-            </Button>
-          </div>
-          {manufacturers.length === 0 ? (
-            <EmptyState
-              icon={Building2}
-              title="No manufacturers found"
-              body="Get started by creating your first manufacturer."
-              primaryCta={{
-                label: "Add Manufacturer",
-                onClick: handleCreateManufacturer
-              }}
-            />
-          ) : (
-            <div className="grid gap-4">
-              {manufacturers.map((manufacturer) => (
-                <Card key={manufacturer.id}>
-                  <CardContent className="p-4">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <h3 className="font-semibold">{manufacturer.name}</h3>
-                        <p className="text-sm text-muted-foreground">
-                          {manufacturer.contact_person && `Contact: ${manufacturer.contact_person}`}
-                          {manufacturer.phone && ` | Phone: ${manufacturer.phone}`}
-                          {manufacturer.email && ` | Email: ${manufacturer.email}`}
-                        </p>
-                      </div>
-                      <div className="flex gap-2">
-                        <Button variant="outline" size="sm" onClick={() => {
-                          setEditingManufacturer(manufacturer);
-                          setShowManufacturerModal(true);
-                        }}>
-                          <Edit className="w-4 h-4" />
-                        </Button>
-                        <Button variant="outline" size="sm" onClick={() => {
-                          // TODO: Implement delete manufacturer
-                          alert("Delete manufacturer functionality coming soon");
-                        }}>
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          )}
-        </TabsContent>
-
-        <TabsContent value="distributors" className="space-y-4">
-          <Card>
-            <CardHeader className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-              <CardTitle>Distributors</CardTitle>
-              <Button variant="primary" className="w-full sm:w-auto">
-                <Plus className="h-4 w-4 mr-2" />
-                Add Distributor
-              </Button>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-gray-500">
-                Manage distributor information and relationships.
-              </p>
-              <div className="mt-4 text-center text-gray-500">
-                Distributors management coming soon...
-              </div>
-            </CardContent>
-          </Card>
         </TabsContent>
       </Tabs>
 
@@ -1067,14 +962,6 @@ export function MasterDataTabs({ onCreateProduct }: { onCreateProduct?: () => vo
           />
         </div>
       </FormDialog>
-
-      <ManufacturerFormModal
-        open={showManufacturerModal}
-        onOpenChange={setShowManufacturerModal}
-        onSuccess={handleManufacturerSuccess}
-        manufacturer={editingManufacturer || undefined}
-        categories={categories}
-      />
     </div>
   );
 }
